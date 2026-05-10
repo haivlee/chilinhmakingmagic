@@ -1,16 +1,59 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const display = Bebas_Neue({
-  variable: "--font-bebas",
-  subsets: ["latin"],
-  weight: "400",
+const neueMachina = localFont({
+  src: [
+    {
+      path: "../fonts/neue-machina/NeueMachina-Light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/neue-machina/NeueMachina-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/neue-machina/NeueMachina-Ultrabold.otf",
+      weight: "800",
+      style: "normal",
+    },
+  ],
+  variable: "--font-neue-machina",
+  display: "swap",
 });
 
-const sans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
+const poppins = localFont({
+  src: [
+    {
+      path: "../fonts/poppins/Poppins-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../fonts/poppins/Poppins-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../fonts/poppins/Poppins-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../fonts/poppins/Poppins-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/poppins/Poppins-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-poppins",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -46,9 +89,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${sans.variable} h-full scroll-smooth antialiased`}
+      className={`${neueMachina.variable} ${poppins.variable} h-full scroll-smooth antialiased`}
     >
-      <body className="min-h-full bg-[var(--color-bg)] text-[var(--color-fg)]">
+      <body
+        className="min-h-full bg-[var(--color-bg)] text-[var(--color-fg)]"
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>
