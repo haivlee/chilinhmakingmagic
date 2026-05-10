@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #f5f4f0;
+  --color-bg: #ffffff;
   --color-fg: #0a0a0a;
   --color-muted: #888888;
   --color-border: #d0cfc9;
@@ -78,9 +78,28 @@ body {
   }
 }
 
+.works-side-marquee-y {
+  animation: works-side-marquee-y 48s linear infinite;
+  will-change: transform;
+}
+
+@keyframes works-side-marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    /* 8 identical segments — scroll exactly one segment per loop (no seam, no gap) */
+    transform: translateY(calc(-100% / 8)); /* keep divisor == SIDE_MARQUEE_SEGMENTS in WorksGrid.tsx */
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .works-side-marquee-y {
+    animation: none;
   }
 
   *,

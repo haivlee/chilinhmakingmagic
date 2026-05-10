@@ -27,6 +27,11 @@ const neueMachina = localFont({
 const poppins = localFont({
   src: [
     {
+      path: "../fonts/poppins/Poppins-ExtraLight.ttf",
+      weight: "200",
+      style: "normal",
+    },
+    {
       path: "../fonts/poppins/Poppins-Light.ttf",
       weight: "300",
       style: "normal",

@@ -4,8 +4,12 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 import WorksGrid from "@/components/WorksGrid";
+import { resolveBottomWorks, resolveWorkRows } from "@/data/works";
+import { getArtworkSrcs } from "@/lib/artworks";
 
 export default function Home() {
+  const artworkSrcs = getArtworkSrcs();
+
   return (
     <>
       <Nav />
@@ -13,7 +17,10 @@ export default function Home() {
         <Hero />
         <FeaturedProjects />
         <About />
-        <WorksGrid />
+        <WorksGrid
+          workRows={resolveWorkRows(artworkSrcs)}
+          bottomWorks={resolveBottomWorks(artworkSrcs)}
+        />
         <Contact />
       </main>
     </>

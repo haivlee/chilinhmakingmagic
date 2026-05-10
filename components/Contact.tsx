@@ -2,51 +2,61 @@ const socials = ["Facebook", "LinkedIn", "Artstation", "IMDb"];
 
 export default function Contact() {
   return (
-    <footer
-      id="contact"
-      className="border-y border-[var(--color-fg)] bg-[var(--color-bg)] px-6 py-16 md:px-12 md:py-24"
-    >
-      <div className="mx-auto max-w-[1180px]">
-        <h2 className="border-b-4 border-[var(--color-fg)] pb-4 font-display text-[clamp(4rem,8vw,8rem)] uppercase leading-[0.85] tracking-normal">
+    <footer id="contact" className="bg-[var(--color-bg)] px-6 py-20 md:px-20">
+      <div className="mx-auto max-w-[1560px]">
+        <h4 className="font-display text-[clamp(4rem,7vw,7.25rem)] font-extrabold uppercase leading-none tracking-normal">
           Let&apos;s Chat !
-        </h2>
+        </h4>
 
-        <div className="grid gap-12 py-12 md:grid-cols-[170px_1fr_1fr]">
-          <p className="font-display text-3xl uppercase leading-none tracking-normal">
+        <div className="relative mt-7 h-[34px]">
+          <div className="h-1.5 w-full bg-[var(--color-fg)]" />
+          <div className="absolute right-0 top-[18px] h-0 w-0 border-b-[18px] border-l-[18px] border-b-[var(--color-fg)] border-l-transparent" />
+        </div>
+
+        <div className="grid gap-10 pt-8 md:grid-cols-[180px_1fr_360px] md:gap-16">
+          <p className="font-display text-[32px] font-extrabold uppercase leading-none tracking-normal">
             Connect
           </p>
 
-          <ul className="space-y-4">
+          <ul className="space-y-6">
             {socials.map((social) => (
               <li key={social}>
                 <a
                   href={social === "IMDb" ? "https://www.imdb.com" : "#"}
                   target={social === "IMDb" ? "_blank" : undefined}
                   rel={social === "IMDb" ? "noreferrer" : undefined}
-                  className="inline-block text-2xl font-bold text-[var(--color-muted)] transition-transform hover:translate-x-1 hover:text-[var(--color-fg)] hover:underline"
+                  className="group inline-flex items-start gap-2 font-sans text-[28px] font-bold leading-none tracking-normal text-[#777777] transition-colors hover:text-[var(--color-fg)]"
                 >
+                  <span className="mt-1 h-0 w-0 border-l-[8px] border-t-[8px] border-l-transparent border-t-[#777777] transition-colors group-hover:border-t-[var(--color-fg)]" />
                   {social}
                 </a>
               </li>
             ))}
           </ul>
 
-          <div className="text-sm leading-7 md:justify-self-end">
+          <div className="pt-1 font-sans text-[16px] leading-[1.45] tracking-normal md:justify-self-end">
             <a
               href="mailto:chilinh2708@gmail.com"
-              className="block hover:underline"
+              className="flex items-baseline gap-2 hover:underline"
             >
-              Email: chilinh2708@gmail.com
+              <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8]" />
+              <span>
+                <strong className="font-bold text-[#777777]">Email:</strong>{" "}
+                chilinh2708@gmail.com
+              </span>
             </a>
-            <a href="tel:+84904905047" className="block hover:underline">
-              Phone: (+84) 904 905 047
+            <a
+              href="tel:+84904905047"
+              className="mt-3 flex items-baseline gap-2 hover:underline"
+            >
+              <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8] rotate-0" />
+              <span>
+                <strong className="font-bold text-[#777777]">Phone:</strong>{" "}
+                (+84) 904 905 047
+              </span>
             </a>
           </div>
         </div>
-
-        <p className="border-t border-[var(--color-border)] pt-3 text-center text-xs text-[var(--color-muted)]">
-          Chi-Linh@202x
-        </p>
       </div>
     </footer>
   );

@@ -1,83 +1,90 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+
+import { contentShellClass } from "@/lib/contentShell";
 
 const items = [
   {
-    id: "about",
+    id: "about-me",
     title: "About Me",
-    text: "I was born and raised in Hanoi, Vietnam. Young as I am, I have great aspirations with arts which have motivated me to make strenuous efforts everyday.",
+    text: "I was born and raised in Hanoi, Vietnam.  Young as I am, I have great aspirations with arts which have motivated me to make strenuous efforts everyday.",
   },
   {
     id: "background",
     title: "My Background",
-    text: "I started as a graphic designer and caricature artist for a local newspaper. The more I work, the more I get immersed into visual effects, ever since I learned and grown with making digital magic.",
+    text: "I started as a graphic designer, besides I also known as a caricature artist for a local newspaper. The more I work, the more I get.  I jumped into Visual effects in 2018, and ever since I learned and grown with making digital magic.",
   },
 ];
 
-export default function About() {
-  const [open, setOpen] = useState("about");
-  const reduce = useReducedMotion();
+const AVATAR_W = 351;
+const AVATAR_H = 484;
+/** Fraction of avatar height that sits in the grey band (~60% / ~40% on white per design). */
+const AVATAR_OVERLAP_IN_GREY = 0.6;
+const avatarOverlapPx = Math.round(AVATAR_H * AVATAR_OVERLAP_IN_GREY);
 
+export default function About() {
   return (
-    <section id="about" className="py-16 md:py-24">
-      <div className="mx-auto max-w-[1180px] px-6 md:px-12">
-        <div className="mb-8 grid items-end gap-6 md:grid-cols-[360px_1fr]">
-          <div className="relative mx-auto aspect-square w-56 overflow-hidden rounded-full border border-[var(--color-fg)] bg-[#d9d9d9] md:mx-0 md:w-72">
-            <Image
-              src="https://i.pravatar.cc/420?img=12"
-              alt="Chi-Linh Tran portrait placeholder"
-              fill
-              sizes="(min-width: 768px) 288px, 224px"
-              className="object-cover"
-            />
+    <section
+      id="about"
+      className="overflow-x-clip border-[var(--color-border)]"
+    >
+      <div className={`bg-[var(--color-bg)] pt-20 md:pt-28 ${contentShellClass} pb-0`}>
+        <div className="grid items-end justify-items-start gap-10 md:grid-cols-[351px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
+          <div
+            className="relative z-20 w-[351px] max-w-full shrink-0 justify-self-start -translate-y-9 motion-reduce:translate-y-0 md:-translate-y-11 md:[margin-bottom:calc(-1*var(--avatar-overlap))]"
+            style={{ ["--avatar-overlap" as string]: `${avatarOverlapPx}px` }}
+          >
+            <div
+              className="relative overflow-hidden rounded-[167.5px] border border-[var(--color-fg)] bg-[#d9d9d9]"
+              style={{ width: AVATAR_W, height: AVATAR_H }}
+            >
+              <Image
+                src="/images/about-avatar.png"
+                alt="Chi-Linh Tran"
+                fill
+                sizes={`${AVATAR_W}px`}
+                quality={92}
+                className="object-cover scale-x-[-1]"
+                priority
+              />
+            </div>
           </div>
-          <div className="pb-4 text-center md:text-left">
-            <p className="text-xl font-light text-[var(--color-muted)]">
+          <div className="pb-4 text-center md:pb-10 md:text-left">
+            <p className="font-sans text-[36px] leading-[24px] font-[250] tracking-normal text-[var(--color-muted)]">
               I&apos;m
             </p>
-            <h2 className="font-display text-5xl uppercase leading-none tracking-normal">
-              Chi-Linh
+            <h2 className="mt-3 font-display text-[42px] leading-[24px] tracking-normal text-[var(--color-fg)]">
+              Chí-Linh
             </h2>
           </div>
         </div>
       </div>
 
-      <div className="border-y border-[var(--color-fg)] bg-[#e2e2e0]">
-        <div className="mx-auto grid max-w-[1180px] gap-10 px-6 py-12 md:grid-cols-[360px_1fr] md:px-12">
-          <div className="hidden md:block" />
-          <div className="grid gap-5 md:grid-cols-[270px_1fr] md:gap-12">
-            <div className="space-y-4">
-              {items.map((item) => {
-                const isOpen = open === item.id;
-
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setOpen(isOpen ? "" : item.id)}
-                    className="flex w-full items-center gap-3 text-left font-display text-3xl uppercase leading-none tracking-normal"
-                    aria-expanded={isOpen}
-                  >
-                    <motion.span
-                      animate={{ rotate: isOpen && !reduce ? 90 : 0 }}
-                      className="h-4 w-4 rounded-full bg-[#bfbfbd]"
-                    />
-                    {item.title}
-                  </button>
-                );
-              })}
-            </div>
-
-            <div className="min-h-36 text-sm leading-7 md:text-base">
+      <div className="relative z-0 border-y border-[var(--color-fg)] bg-[#e7e7e5]">
+        <div className={`py-12 md:py-16 ${contentShellClass}`}>
+          <div className="grid md:grid-cols-[351px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
+            <div className="hidden min-h-0 md:block" aria-hidden />
+            <div className="flex flex-col gap-5 md:gap-6">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className={open === item.id ? "block" : "hidden"}
+                  className="grid gap-3 md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:items-start md:gap-x-8 lg:gap-x-10"
                 >
-                  <p>{item.text}</p>
+                  <h3 className="flex items-center gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:text-[28px]">
+                    <span
+                      className="h-3 w-3 shrink-0 rounded-full bg-[#bfbfbd]"
+                      aria-hidden
+                    />
+                    <span
+                      className={
+                        item.id === "background" ? "md:whitespace-nowrap" : ""
+                      }
+                    >
+                      {item.title}
+                    </span>
+                  </h3>
+                  <p className="font-sans text-[16px] font-light leading-relaxed tracking-normal text-[var(--color-fg)]">
+                    {item.text}
+                  </p>
                 </div>
               ))}
             </div>

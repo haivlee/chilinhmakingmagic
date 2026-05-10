@@ -10,28 +10,47 @@ export type WorkRow =
   | { type: "third"; images: [WorkImage, WorkImage, WorkImage] }
   | { type: "caption"; text: string };
 
-const work = (seed: string, alt: string): WorkImage => ({
-  src: `https://picsum.photos/seed/${seed}/1920/1080`,
-  alt,
-});
+/** One image slot: index into sorted files from `public/data/img/artworks`. */
+export type WorkSlot = {
+  slot: number;
+  alt: string;
+};
 
-export const workRows: WorkRow[] = [
+export type WorkRowSpec =
+  | { type: "full"; image: WorkSlot }
+  | { type: "half"; images: [WorkSlot, WorkSlot] }
+  | { type: "third"; images: [WorkSlot, WorkSlot, WorkSlot] }
+  | { type: "caption"; text: string };
+
+const PLACEHOLDER_SRC = "/file.svg";
+
+/** Pick artwork by sorted folder index. */
+export function w(slot: number, alt: string): WorkSlot {
+  return { slot, alt };
+}
+
+function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
+  return { src: artworkSrcs[s.slot] ?? PLACEHOLDER_SRC, alt: s.alt };
+}
+
+/** Manually arrange rows; only `slot` selects the file—layout and alts live here. */
+export const workRows: WorkRowSpec[] = [
   {
     type: "half",
     images: [
-      work("work-01", "Atmospheric valley with a distant fantasy tower"),
-      work("work-02", "Dense futuristic city environment from above"),
+      w(0, "Atmospheric valley with a distant fantasy tower"),
+      w(1, "Dense futuristic city environment from above"),
     ],
   },
   {
     type: "full",
-    image: work("work-03", "Wide desert canyon environment matte painting"),
+    image: w(2, "Wide desert canyon environment matte painting"),
   },
   {
     type: "half",
     images: [
-      work("work-04", "High-rise city corridor in soft morning light"),
-      work("work-05", "Top-down view of a compact urban megastructure"),
+      w(3, "High-rise city corridor in soft morning light"),
+      w(4, "Top-down view of a compact urban megastructure"),
     ],
   },
   {
@@ -40,36 +59,36 @@ export const workRows: WorkRow[] = [
   },
   {
     type: "full",
-    image: work("work-06", "Overgrown forest structure with cinematic haze"),
+    image: w(5, "Overgrown forest structure with cinematic haze"),
   },
   {
     type: "half",
     images: [
-      work("work-07", "Snowy mountain range under heavy cloud cover"),
-      work("work-08", "Neon future city in violet rain and mist"),
+      w(6, "Snowy mountain range under heavy cloud cover"),
+      w(7, "Neon future city in violet rain and mist"),
     ],
   },
   {
     type: "full",
-    image: work("work-09", "Green coastal mountain island under bright sky"),
+    image: w(8, "Green coastal mountain island under bright sky"),
   },
   {
     type: "half",
     images: [
-      work("work-10", "Retro futuristic skyline in warm sunset haze"),
-      work("work-11", "Pastel science fiction metropolis with flying craft"),
+      w(9, "Retro futuristic skyline in warm sunset haze"),
+      w(10, "Pastel science fiction metropolis with flying craft"),
     ],
   },
   {
     type: "half",
     images: [
-      work("work-12", "Stylized night city with warm windows"),
-      work("work-13", "Misty rural environment with trees and water"),
+      w(11, "Stylized night city with warm windows"),
+      w(12, "Misty rural environment with trees and water"),
     ],
   },
   {
     type: "full",
-    image: work("work-14", "Massive ocean wave curling across a pale horizon"),
+    image: w(13, "Massive ocean wave curling across a pale horizon"),
   },
   {
     type: "caption",
@@ -78,41 +97,72 @@ export const workRows: WorkRow[] = [
   {
     type: "half",
     images: [
-      work("work-15", "Large creatures crossing a fiery prehistoric battlefield"),
-      work("work-16", "Dinosaur silhouette beneath a burning sky"),
+      w(14, "Large creatures crossing a fiery prehistoric battlefield"),
+      w(15, "Dinosaur silhouette beneath a burning sky"),
     ],
   },
   {
     type: "full",
-    image: work("work-17", "Dry desert settlement stretching into a bright horizon"),
+    image: w(16, "Dry desert settlement stretching into a bright horizon"),
   },
   {
     type: "half",
     images: [
-      work("work-18", "Narrow urban alley after rain"),
-      work("work-19", "Street corner with sunlit shopfronts"),
+      w(17, "Narrow urban alley after rain"),
+      w(18, "Street corner with sunlit shopfronts"),
     ],
   },
   {
     type: "half",
     images: [
-      work("work-20", "Vietnamese city block in daylight"),
-      work("work-21", "Portrait close-up against a stormy mountain backdrop"),
+      w(19, "Vietnamese city block in daylight"),
+      w(20, "Portrait close-up against a stormy mountain backdrop"),
     ],
   },
   {
     type: "full",
-    image: work("work-22", "Two figures overlooking an amber city sunset"),
+    image: w(21, "Two figures overlooking an amber city sunset"),
   },
 ];
 
-export const bottomWorks: WorkImage[] = [
-  work("work-23", "Creature concept sculpt in grey material"),
-  work("work-24", "Dark biomechanical chamber with a central figure"),
-  work("work-25", "Cliffside industrial facility beside open water"),
-  work("work-26", "Foggy village environment surrounded by forest"),
-  work("work-27", "Forest road leading to a hidden structure"),
-  work("work-28", "Sunlit courtyard beneath heavy vines"),
-  work("work-29", "Clockwork machinery and luminous gears"),
-  work("work-30", "Night city skyline with sharp tower silhouette"),
+/** Bottom strip slots (indices into the same sorted artwork list). */
+export const bottomWorkSlots: WorkSlot[] = [
+  w(22, "Creature concept sculpt in grey material"),
+  w(23, "Dark biomechanical chamber with a central figure"),
+  w(24, "Cliffside industrial facility beside open water"),
+  w(25, "Foggy village environment surrounded by forest"),
+  w(26, "Forest road leading to a hidden structure"),
+  w(27, "Sunlit courtyard beneath heavy vines"),
+  w(28, "Clockwork machinery and luminous gears"),
+  w(29, "Night city skyline with sharp tower silhouette"),
 ];
+
+export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
+  return workRows.map((row) => {
+    if (row.type === "caption") return row;
+    if (row.type === "full") {
+      return { type: "full", image: resolveSlot(artworkSrcs, row.image) };
+    }
+    if (row.type === "half") {
+      return {
+        type: "half",
+        images: [
+          resolveSlot(artworkSrcs, row.images[0]),
+          resolveSlot(artworkSrcs, row.images[1]),
+        ],
+      };
+    }
+    return {
+      type: "third",
+      images: [
+        resolveSlot(artworkSrcs, row.images[0]),
+        resolveSlot(artworkSrcs, row.images[1]),
+        resolveSlot(artworkSrcs, row.images[2]),
+      ],
+    };
+  });
+}
+
+export function resolveBottomWorks(artworkSrcs: readonly string[]): WorkImage[] {
+  return bottomWorkSlots.map((s) => resolveSlot(artworkSrcs, s));
+}
