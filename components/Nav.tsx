@@ -141,13 +141,13 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
       >
       <a
         href="#top"
-        className="font-display flex h-[93px] w-fit min-w-[33px] shrink-0 items-center justify-center bg-[var(--color-fg)] px-2 text-[24px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)]"
+        className="font-display font-ultrabold font-[800] flex h-[93px] w-fit min-w-[33px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-2 pb-2 text-[24px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)]"
         aria-label="Chi-Linh Tran home"
       >
         CL
       </a>
 
-      <div className="relative pt-4 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)]">
+      <div className="relative pt-14 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)]">
         <div className="hidden gap-3 md:flex md:flex-col md:items-end md:gap-2">
           {links.map((link) => {
             const selected = link.href === selectedHref;

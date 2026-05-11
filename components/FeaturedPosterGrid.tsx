@@ -13,8 +13,8 @@ const PAGE_EASE = [0.4, 0, 0.2, 1] as const;
 const PAGE_DURATION = 0.28;
 
 /** Grid dimensions — `PAGE_SIZE` and column count follow these only. */
-const COLS = 5;
-const ROWS = 3;
+const COLS = 8;
+const ROWS = 5;
 const PAGE_SIZE = COLS * ROWS;
 
 const gridStyle = {
@@ -99,30 +99,25 @@ export function FeaturedPosterGrid({ posters }: Props) {
               />
             </div>
           ))}
+          {pageCount > 1 ? (
+            <nav
+              className="flex items-center gap-3 self-center pl-3"
+              aria-label="Poster pages"
+            >
+              {Array.from({ length: pageCount }, (_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Page ${i + 1} of ${pageCount}`}
+                  aria-current={i === activePage ? "page" : undefined}
+                  onClick={() => setPage(i)}
+                  className="h-6 w-6 rounded-full bg-[#d9d9d9] transition-colors hover:bg-[var(--color-muted)]"
+                />
+              ))}
+            </nav>
+          ) : null}
         </motion.div>
       </AnimatePresence>
-
-      {pageCount > 1 ? (
-        <nav
-          className="mt-5 flex justify-center gap-2.5 md:mt-6"
-          aria-label="Poster pages"
-        >
-          {Array.from({ length: pageCount }, (_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Page ${i + 1} of ${pageCount}`}
-              aria-current={i === activePage ? "page" : undefined}
-              onClick={() => setPage(i)}
-              className={
-                i === activePage
-                  ? "h-2.5 w-2.5 rounded-full bg-[var(--color-fg)] transition-transform"
-                  : "h-2 w-2 rounded-full bg-[var(--color-border)] transition-colors hover:bg-[var(--color-muted)]"
-              }
-            />
-          ))}
-        </nav>
-      ) : null}
     </div>
   );
 }

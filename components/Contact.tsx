@@ -2,8 +2,8 @@ const socials = ["Facebook", "LinkedIn", "Artstation", "IMDb"];
 
 export default function Contact() {
   return (
-    <footer id="contact" className="bg-[var(--color-bg)] px-6 py-20 md:px-20">
-      <div className="mx-auto max-w-[1560px]">
+    <footer id="contact" className="bg-[var(--color-bg)] pt-20">
+      <div className="mx-auto max-w-[1560px] px-6 md:px-20">
         <h4 className="font-display text-[clamp(4rem,7vw,7.25rem)] font-extrabold uppercase leading-none tracking-normal">
           Let&apos;s Chat !
         </h4>
@@ -58,6 +58,9 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      <p className="mt-16 border-t border-[var(--color-fg)] px-6 py-2 text-center font-sans text-[20px] font-extralight leading-none tracking-normal md:px-20">
+        Chi-Linh@202x
+      </p>
     </footer>
   );
 }

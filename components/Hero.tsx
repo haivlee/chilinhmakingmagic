@@ -19,12 +19,12 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen flex-col justify-center pt-24"
+      className="relative flex min-h-[calc(100svh-115px)] flex-col justify-start"
     >
       <div
-        className={`flex flex-1 flex-col justify-center ${contentShellClass} pb-16 pt-12 md:pb-20 md:pt-20`}
+        className={`flex flex-1 flex-col justify-center ${contentShellClass} py-6 md:py-8`}
       >
-        <div className="mb-10 md:mb-14">
+        <div>
           {roles.map((role, index) => (
             <motion.p
               key={role}
@@ -32,7 +32,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.18 * index }}
-              className="font-sans text-[clamp(1.25rem,3.8vw,2.5rem)] font-extralight uppercase leading-[1.05] tracking-normal text-[var(--color-muted)]"
+              className="font-sans text-[clamp(1.25rem,3.8vw,2.5rem)] font-[250] uppercase leading-none tracking-normal text-black"
             >
               {role}
             </motion.p>
@@ -65,34 +65,42 @@ export default function Hero() {
       </motion.div>
 
       <div
-        className={`flex w-full flex-1 justify-between gap-y-6 ${contentShellClass} py-10 text-[var(--color-fg)] md:py-12`}
+        className={`flex w-full flex-1 justify-between gap-y-6 ${contentShellClass} py-6 text-[var(--color-fg)] md:py-8`}
       >
         <MonogramCL className="self-start" />
         <div className="flex flex-col items-end gap-2 md:gap-2.5">
           <a
             className="font-sans flex items-center gap-2 text-[20px] font-bold leading-[100%] tracking-normal text-[var(--color-bg)] uppercase bg-[var(--color-fg)] px-2 py-0.5"
-            href="https://www.artstation.com"
+            href="https://chilinhtran.artstation.com/"
             target="_blank"
             rel="noreferrer"
           >
-            <LinkCaret className="text-[var(--color-bg)]" />
-            Artstation
+            <span className="inline-flex items-center bg-[var(--color-fg)] px-2 py-0.5 text-[12px] font-bold uppercase text-[var(--color-bg)]">
+              <LinkCaret className="text-[var(--color-bg)]" />
+              Artstation
+            </span>
           </a>
           <a
             className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal uppercase text-[var(--color-fg)] hover:underline"
-            href="#featured"
-          >
-            <LinkCaret className="text-[var(--color-fg)] transition-transform group-hover:translate-y-px" />
-            Portfolio
-          </a>
-          <a
-            className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal uppercase text-[var(--color-fg)] hover:underline"
-            href="https://www.imdb.com"
+            href="#https://vimeo.com/899392906"
             target="_blank"
             rel="noreferrer"
           >
-            <LinkCaret className="text-[var(--color-fg)] transition-transform group-hover:translate-y-px" />
-            IMDb
+            <span className="inline-flex items-center gap-1 uppercase">
+              <LinkCaret className="text-[var(--color-fg)] transition-transform group-hover:translate-y-px" />
+              Portfolio
+            </span>
+          </a>
+          <a
+            className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal uppercase text-[var(--color-fg)] hover:underline"
+            href="https://www.imdb.com/name/nm14247434/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="inline-flex items-center gap-1 uppercase">
+              <LinkCaret className="text-[var(--color-fg)] transition-transform group-hover:translate-y-px" />
+              IMDb
+            </span>
           </a>
         </div>
       </div>
@@ -131,7 +139,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="flex w-full flex-col gap-[30px]" aria-hidden>
+      <div className="flex w-full flex-col gap-5" aria-hidden>
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
       </div>
