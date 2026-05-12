@@ -14,7 +14,7 @@ const links = [
 
 export type NavSelectedHref = (typeof links)[number]["href"];
 
-const NAV_FALLBACK = 100;
+const NAV_FALLBACK = 100 ;
 
 type NavProps = {
   /**
