@@ -66,7 +66,7 @@ body {
 }
 
 .credit-marquee {
-  animation: credit-marquee 24s linear infinite;
+  animation: credit-marquee 80s linear infinite;
 }
 
 @keyframes credit-marquee {
@@ -79,7 +79,7 @@ body {
 }
 
 .works-side-marquee-y {
-  animation: works-side-marquee-y 48s linear infinite;
+  animation: works-side-marquee-y 160s linear infinite;
   will-change: transform;
 }
 

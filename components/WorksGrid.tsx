@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { WorkImage, WorkRow } from "@/data/works";
-import { contentShellClass } from "@/lib/contentShell";
+import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
 
 const sideLabelParts = [
   "Environment",
@@ -15,13 +15,12 @@ const sideLabelParts = [
   "Concept Art",
 ] as const;
 
-const sideLabelPhrase = sideLabelParts.join(" · ").replace(/ /g, "\u00A0");
-
 /** Per-strip repeats; 8 strips tile seamlessly with translateY(calc(-100% / 8)). */
 const SIDE_LABEL_REPEATS = 14;
-const sideLabelTrack = Array.from({ length: SIDE_LABEL_REPEATS }, () => sideLabelPhrase).join(
-  " · ",
-);
+const sideLabelTrackParts = Array.from(
+  { length: SIDE_LABEL_REPEATS },
+  () => sideLabelParts,
+).flat();
 
 const SIDE_MARQUEE_SEGMENTS = 8;
 
@@ -43,9 +42,31 @@ type WorkTileLayout = keyof typeof WORK_IMAGE_SIZES;
 /** Fixed strip height so full-row and half-row tiles match (aspect-ratio scales height with width). */
 const WORK_MAIN_TILE_HEIGHT = "h-[clamp(192px,24vw,304px)] w-full";
 
+function SideLabelDot() {
+  return (
+    <span
+      className="inline-block h-[7px] w-[7px] shrink-0 rotate-0 rounded-full bg-[var(--color-muted)] opacity-100 [margin-inline:0.65em]"
+      aria-hidden
+    />
+  );
+}
+
+function SideLabelTrackSegment() {
+  return (
+    <span className="shrink-0 whitespace-nowrap">
+      {sideLabelTrackParts.map((part, index) => (
+        <span key={`${part}-${index}`}>
+          {part.replace(/ /g, "\u00A0")}
+          <SideLabelDot />
+        </span>
+      ))}
+    </span>
+  );
+}
+
 function SideLabelMarquee({ flip }: { flip: boolean }) {
   const trackClass =
-    "works-side-marquee-y flex flex-row gap-0 whitespace-nowrap [font-family:var(--font-display)] text-[16px] font-light uppercase leading-[100%] tracking-normal text-[var(--color-muted)] [writing-mode:vertical-rl]";
+    "works-side-marquee-y flex flex-row gap-0 whitespace-nowrap [font-family:var(--font-display)] text-[16px] font-light uppercase leading-[100%] tracking-normal text-[var(--color-fg)] [writing-mode:vertical-rl]";
 
   return (
     <div
@@ -60,9 +81,7 @@ function SideLabelMarquee({ flip }: { flip: boolean }) {
           >
             <div className={trackClass}>
               {Array.from({ length: SIDE_MARQUEE_SEGMENTS }, (_, i) => (
-                <span key={i} className="shrink-0 whitespace-nowrap">
-                  {sideLabelTrack}
-                </span>
+                <SideLabelTrackSegment key={i} />
               ))}
             </div>
           </div>
@@ -337,12 +356,12 @@ export default function WorksGrid({ workRows, bottomWorks }: WorksGridProps) {
   const reduce = useReducedMotion();
 
   return (
-    <section id="works" className="pb-20 pt-10 md:pb-28">
+    <section id="works" className={sectionPaddingClass}>
       <div className="border-b border-[var(--color-border)] pb-4 text-center">
         <h2 className="font-display text-center text-[clamp(4rem,6vw,6rem)] uppercase leading-[1.5] tracking-normal text-[var(--color-fg)]">
           My Works
         </h2>
-        <p className="mt-5 border-t border-[var(--color-border)] pt-4 text-center font-sans text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-muted)]">
+        <p className="mt-5 border-t border-[var(--color-border)] pt-4 text-center font-sans font-extralight text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-fg)]">
           Frames that tell more than just a story.
         </p>
       </div>

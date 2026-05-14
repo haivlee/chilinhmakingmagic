@@ -223,7 +223,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="flex w-full flex-col gap-6" aria-hidden>
+      <div className="mt-[60px] flex w-full flex-col gap-6" aria-hidden>
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
       </div>

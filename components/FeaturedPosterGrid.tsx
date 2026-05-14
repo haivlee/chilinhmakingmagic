@@ -2,8 +2,9 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 
+import { MonogramCL } from "@/components/MonogramCL";
 import type { PosterItem } from "@/lib/posters";
 
 /** One shared timing curve for enter + exit — avoids uneven “fast out / slow in” feel. */
@@ -12,21 +13,20 @@ const PAGE_EASE = [0.4, 0, 0.2, 1] as const;
 /** Same duration for both directions so pagination always reads the same. */
 const PAGE_DURATION = 0.28;
 
-/** Grid dimensions — `PAGE_SIZE` and column count follow these only. */
-const COLS = 8;
-const ROWS = 5;
-const PAGE_SIZE = COLS * ROWS;
-
-const gridStyle = {
-  gridTemplateColumns: `repeat(${COLS}, minmax(0, 1fr))`,
-} as const;
+/** Mobile rows auto-flow; desktop reserves the final row cells for dots + C___L. */
+const MOBILE_COLS = 4;
+const DESKTOP_COLS = 8;
+const DESKTOP_ROWS = 5;
+const RESERVED_CONTROL_CELLS = 3;
+const PAGE_SIZE = DESKTOP_COLS * DESKTOP_ROWS - RESERVED_CONTROL_CELLS;
+const MIN_DOT_COUNT = 2;
 
 /**
  * Featured posters sit in the main column (~5-across), not full viewport width.
  * Fixed `px` hints on md+ avoid undersizing vs `vw` of the whole window.
  */
 const POSTER_IMAGE_SIZES =
-  "(min-width: 1280px) 280px, (min-width: 1024px) 240px, (min-width: 768px) 24vw, 50vw";
+  "(min-width: 1280px) 320px, (min-width: 1024px) 280px, (min-width: 768px) 28vw, 56vw";
 
 type Props = {
   posters: PosterItem[];
@@ -64,9 +64,23 @@ export function FeaturedPosterGrid({ posters }: Props) {
         transition: pageTransition,
       };
 
+  const lastDesktopRowPosterCount =
+    pageItems.length % DESKTOP_COLS || DESKTOP_COLS;
+  const desktopControlRow = Math.ceil(pageItems.length / DESKTOP_COLS);
+  const controlGridVars = {
+    "--poster-mobile-cols": String(MOBILE_COLS),
+    "--poster-desktop-cols": String(DESKTOP_COLS),
+    "--poster-dots-column": `${Math.min(
+      lastDesktopRowPosterCount + 1,
+      DESKTOP_COLS - 2,
+    )} / span 2`,
+    "--poster-monogram-column": `${DESKTOP_COLS} / span 1`,
+    "--poster-control-row": String(desktopControlRow),
+  } as CSSProperties;
+
   if (posters.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-black/[0.03] px-6 py-16 text-center text-sm text-[var(--color-muted)]">
+      <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-black/[0.03] px-6 py-16 text-center text-sm text-[var(--color-fg)]">
         Add poster images to{" "}
         <span className="font-mono text-[var(--color-fg)]">
           public/data/img/posters
@@ -80,8 +94,8 @@ export function FeaturedPosterGrid({ posters }: Props) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={activePage}
-          className="grid gap-1.5 md:gap-2"
-          style={gridStyle}
+          className="grid gap-1.5 [grid-template-columns:repeat(var(--poster-mobile-cols),minmax(0,1fr))] md:gap-2 md:[grid-template-columns:repeat(var(--poster-desktop-cols),minmax(0,1fr))]"
+          style={controlGridVars}
           {...pageMotion}
         >
           {pageItems.map((p) => (
@@ -101,7 +115,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
           ))}
           {pageCount > 1 ? (
             <nav
-              className="flex items-center gap-3 self-center pl-3"
+              className="col-span-2 flex items-center gap-3 self-end pl-3 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
               aria-label="Poster pages"
             >
               {Array.from({ length: pageCount }, (_, i) => (
@@ -111,11 +125,26 @@ export function FeaturedPosterGrid({ posters }: Props) {
                   aria-label={`Page ${i + 1} of ${pageCount}`}
                   aria-current={i === activePage ? "page" : undefined}
                   onClick={() => setPage(i)}
-                  className="h-6 w-6 rounded-full bg-[#d9d9d9] transition-colors hover:bg-[var(--color-muted)]"
+                  className="h-6 w-6 shrink-0 rounded-full bg-[#d9d9d9] transition-colors hover:bg-[var(--color-muted)]"
                 />
               ))}
             </nav>
-          ) : null}
+          ) : (
+            <div
+              className="col-span-2 flex items-center gap-3 self-end pl-3 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
+              aria-hidden
+            >
+              {Array.from({ length: MIN_DOT_COUNT }, (_, i) => (
+                <span
+                  key={i}
+                  className="h-6 w-6 shrink-0 rounded-full bg-[#d9d9d9]"
+                />
+              ))}
+            </div>
+          )}
+          <div className="self-end justify-self-end md:[grid-column:var(--poster-monogram-column)] md:[grid-row:var(--poster-control-row)]">
+            <MonogramCL />
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

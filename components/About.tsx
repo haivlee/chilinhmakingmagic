@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { contentShellClass } from "@/lib/contentShell";
+import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
 
 const items = [
   {
@@ -15,24 +15,27 @@ const items = [
   },
 ];
 
-const AVATAR_W = 351;
-const AVATAR_H = 484;
-/** Fraction of avatar height that sits in the grey band (~60% / ~40% on white per design). */
-const AVATAR_OVERLAP_IN_GREY = 0.6;
-const avatarOverlapPx = Math.round(AVATAR_H * AVATAR_OVERLAP_IN_GREY);
+const AVATAR_W = 279;
+const AVATAR_H = 385;
+const GREY_BAND_OFFSET_PX = 36;
+const avatarRowHeightPx = Math.round(AVATAR_H / 3);
+const avatarOverlapPx = AVATAR_H - avatarRowHeightPx;
+const greyBandHeightPx = avatarOverlapPx + GREY_BAND_OFFSET_PX;
 
 export default function About() {
   return (
     <section
       id="about"
-      className="overflow-x-clip border-[var(--color-border)]"
+      className={`overflow-x-clip border-[var(--color-border)] ${sectionPaddingClass}`}
+      style={{
+        ["--avatar-overlap" as string]: `${avatarOverlapPx}px`,
+        ["--avatar-row-height" as string]: `${avatarRowHeightPx}px`,
+        ["--grey-band-height" as string]: `${greyBandHeightPx}px`,
+      }}
     >
-      <div className={`bg-[var(--color-bg)] pt-20 md:pt-28 ${contentShellClass} pb-0`}>
-        <div className="grid items-end justify-items-start gap-10 md:grid-cols-[351px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
-          <div
-            className="relative z-20 w-[351px] max-w-full shrink-0 justify-self-start -translate-y-9 motion-reduce:translate-y-0 md:-translate-y-11 md:[margin-bottom:calc(-1*var(--avatar-overlap))]"
-            style={{ ["--avatar-overlap" as string]: `${avatarOverlapPx}px` }}
-          >
+      <div className={`bg-[var(--color-bg)] ${contentShellClass}`}>
+        <div className="grid items-start justify-items-start gap-10 md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 md:[height:var(--avatar-row-height)] lg:gap-x-16">
+          <div className="relative z-20 w-[279px] max-w-full shrink-0 justify-self-start md:[margin-bottom:calc(-1*var(--avatar-overlap))]">
             <div
               className="relative overflow-hidden rounded-[167.5px] border border-[var(--color-fg)] bg-[#d9d9d9]"
               style={{ width: AVATAR_W, height: AVATAR_H }}
@@ -59,19 +62,19 @@ export default function About() {
         </div>
       </div>
 
-      <div className="relative z-0 border-y border-[var(--color-fg)] bg-[#e7e7e5]">
-        <div className={`py-12 md:py-16 ${contentShellClass}`}>
-          <div className="grid md:grid-cols-[351px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
+      <div className="relative z-0 -mt-4 border-y border-[var(--color-fg)] bg-[#e7e7e5]">
+        <div className={`py-10 md:py-0 md:[height:var(--grey-band-height)] ${contentShellClass}`}>
+          <div className="grid md:h-full md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
             <div className="hidden min-h-0 md:block" aria-hidden />
-            <div className="flex flex-col gap-5 md:gap-6">
+            <div className="flex flex-col gap-5 md:grid md:h-full md:grid-rows-2 md:gap-0">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="grid gap-3 md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:items-start md:gap-x-8 lg:gap-x-10"
+                  className="grid gap-3 md:h-full md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-8 lg:gap-x-10"
                 >
-                  <h3 className="flex items-center gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:text-[28px]">
+                  <h3 className="flex items-end gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-end md:text-[28px]">
                     <span
-                      className="h-3 w-3 shrink-0 rounded-full bg-[#bfbfbd]"
+                      className="h-3 w-3 shrink-0 self-center rounded-full bg-[#bfbfbd]"
                       aria-hidden
                     />
                     <span
@@ -82,7 +85,7 @@ export default function About() {
                       {item.title}
                     </span>
                   </h3>
-                  <p className="font-sans text-[16px] font-light leading-relaxed tracking-normal text-[var(--color-fg)]">
+                  <p className="font-sans text-[16px] font-light leading-relaxed tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-center">
                     {item.text}
                   </p>
                 </div>
