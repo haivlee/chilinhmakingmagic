@@ -80,7 +80,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
 
   if (posters.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-black/[0.03] px-6 py-16 text-center text-sm text-[var(--color-fg)]">
+      <div className="rounded-xl border border-dashed border-[var(--color-border)] bg-black/[0.03] px-6 py-16 text-center text-sm text-[var(--color-muted)]">
         Add poster images to{" "}
         <span className="font-mono text-[var(--color-fg)]">
           public/data/img/posters

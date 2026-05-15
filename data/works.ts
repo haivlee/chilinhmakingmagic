@@ -125,17 +125,36 @@ export const workRows: WorkRowSpec[] = [
   },
 ];
 
-/** Bottom strip slots (indices into the same sorted artwork list). */
-export const bottomWorkSlots: WorkSlot[] = [
+/** Four static images shown in `WorksBottomImageRow`. Edit these slots manually. */
+export const bottomRowWorkSlots: [WorkSlot, WorkSlot, WorkSlot, WorkSlot] = [
   w(22, "Creature concept sculpt in grey material"),
   w(23, "Dark biomechanical chamber with a central figure"),
   w(24, "Cliffside industrial facility beside open water"),
   w(25, "Foggy village environment surrounded by forest"),
-  w(26, "Forest road leading to a hidden structure"),
-  w(27, "Sunlit courtyard beneath heavy vines"),
-  w(28, "Clockwork machinery and luminous gears"),
-  w(29, "Night city skyline with sharp tower silhouette"),
 ];
+
+/** Manually selected bottom row slots, kept for callers that still inspect slots. */
+export const bottomWorkSlots: WorkSlot[] = [...bottomRowWorkSlots];
+
+function getWorkRowSlots(row: WorkRowSpec): WorkSlot[] {
+  if (row.type === "caption") return [];
+  if (row.type === "full") return [row.image];
+  return [...row.images];
+}
+
+function getUsedArtworkSlots(): Set<number> {
+  return new Set([
+    ...workRows.flatMap((row) => getWorkRowSlots(row).map((slot) => slot.slot)),
+    ...bottomRowWorkSlots.map((slot) => slot.slot),
+  ]);
+}
+
+function getArtworkAltFromSrc(src: string, slot: number): string {
+  const fileName = src.split("/").pop()?.replace(/\.[^.]+$/, "");
+  const label = fileName?.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
+
+  return label ? `Artwork ${slot + 1}: ${label}` : `Artwork ${slot + 1}`;
+}
 
 export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
   return workRows.map((row) => {
@@ -164,5 +183,31 @@ export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
 }
 
 export function resolveBottomWorks(artworkSrcs: readonly string[]): WorkImage[] {
-  return bottomWorkSlots.map((s) => resolveSlot(artworkSrcs, s));
+  return [
+    ...resolveBottomRowWorks(artworkSrcs),
+    ...resolveBottomSliderWorks(artworkSrcs),
+  ];
+}
+
+export function resolveBottomRowWorks(
+  artworkSrcs: readonly string[],
+): WorkImage[] {
+  return bottomRowWorkSlots.map((s) => resolveSlot(artworkSrcs, s));
+}
+
+export function resolveBottomSliderWorks(
+  artworkSrcs: readonly string[],
+): WorkImage[] {
+  const usedSlots = getUsedArtworkSlots();
+
+  return artworkSrcs.reduce<WorkImage[]>((works, src, slot) => {
+    if (!usedSlots.has(slot)) {
+      works.push({
+        src,
+        alt: getArtworkAltFromSrc(src, slot),
+      });
+    }
+
+    return works;
+  }, []);
 }

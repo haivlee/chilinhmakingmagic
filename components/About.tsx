@@ -18,6 +18,7 @@ const items = [
 const AVATAR_W = 279;
 const AVATAR_H = 385;
 const GREY_BAND_OFFSET_PX = 36;
+const ABOUT_XL_SIDE_GAP_PX = 139;
 const avatarRowHeightPx = Math.round(AVATAR_H / 3);
 const avatarOverlapPx = AVATAR_H - avatarRowHeightPx;
 const greyBandHeightPx = avatarOverlapPx + GREY_BAND_OFFSET_PX;
@@ -31,10 +32,11 @@ export default function About() {
         ["--avatar-overlap" as string]: `${avatarOverlapPx}px`,
         ["--avatar-row-height" as string]: `${avatarRowHeightPx}px`,
         ["--grey-band-height" as string]: `${greyBandHeightPx}px`,
+        ["--about-xl-side-gap" as string]: `${ABOUT_XL_SIDE_GAP_PX}px`,
       }}
     >
       <div className={`bg-[var(--color-bg)] ${contentShellClass}`}>
-        <div className="grid items-start justify-items-start gap-10 md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 md:[height:var(--avatar-row-height)] lg:gap-x-16">
+        <div className="grid items-start justify-items-start gap-10 md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 md:[height:var(--avatar-row-height)] lg:gap-x-16 xl:gap-x-[var(--about-xl-side-gap)]">
           <div className="relative z-20 w-[279px] max-w-full shrink-0 justify-self-start md:[margin-bottom:calc(-1*var(--avatar-overlap))]">
             <div
               className="relative overflow-hidden rounded-[167.5px] border border-[var(--color-fg)] bg-[#d9d9d9]"
@@ -64,13 +66,15 @@ export default function About() {
 
       <div className="relative z-0 -mt-4 border-y border-[var(--color-fg)] bg-[#e7e7e5]">
         <div className={`py-10 md:py-0 md:[height:var(--grey-band-height)] ${contentShellClass}`}>
-          <div className="grid md:h-full md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16">
+          <div className="grid md:h-full md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16 xl:gap-x-[var(--about-xl-side-gap)]">
             <div className="hidden min-h-0 md:block" aria-hidden />
             <div className="flex flex-col gap-5 md:grid md:h-full md:grid-rows-2 md:gap-0">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className="grid gap-3 md:h-full md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-8 lg:gap-x-10"
+                  className={`grid gap-10 md:h-full md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-12 lg:gap-x-14 ${
+                    item.id === "background" ? "md:-translate-y-18" : "md:-translate-y-4"
+                  }`}
                 >
                   <h3 className="flex items-end gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-end md:text-[28px]">
                     <span

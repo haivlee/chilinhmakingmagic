@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { WorkImage, WorkRow } from "@/data/works";
 import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
@@ -41,6 +41,9 @@ type WorkTileLayout = keyof typeof WORK_IMAGE_SIZES;
 
 /** Fixed strip height so full-row and half-row tiles match (aspect-ratio scales height with width). */
 const WORK_MAIN_TILE_HEIGHT = "h-[clamp(192px,24vw,304px)] w-full";
+const WORK_BOTTOM_TILE_WIDTH =
+  "min-w-[260px] w-[min(92vw,440px)] sm:min-w-[300px] md:w-[400px] lg:w-[440px]";
+const WORK_BOTTOM_LOOP_COPIES = 3;
 
 function SideLabelDot() {
   return (
@@ -95,10 +98,11 @@ function WorkTile(props: {
   image: WorkImage;
   layout: WorkTileLayout;
   priority?: boolean;
+  onSelect?: (image: WorkImage) => void;
   /** Extra classes on `<figure>` (e.g. fixed width for horizontal strip). */
   figureClassName?: string;
 }) {
-  const { image, layout, priority = false, figureClassName } = props;
+  const { image, layout, priority = false, onSelect, figureClassName } = props;
 
   const isMainStrip = layout === "full" || layout === "half";
   const frameClass = isMainStrip
@@ -111,6 +115,12 @@ function WorkTile(props: {
     <figure
       className={`group relative overflow-hidden rounded-[16px] border border-black/10 bg-black/5 ${frameClass} ${figureClassName ?? ""}`}
     >
+      <button
+        type="button"
+        aria-label={`Open ${image.alt}`}
+        onClick={() => onSelect?.(image)}
+        className="absolute inset-0 z-10 cursor-zoom-in touch-pan-x focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+      />
       <Image
         src={image.src}
         alt={image.alt}
@@ -136,13 +146,28 @@ function CaptionRow({ text }: { text: string }) {
   );
 }
 
-function WorkRowRenderer({ row, index }: { row: WorkRow; index: number }) {
+function WorkRowRenderer({
+  row,
+  index,
+  onSelectImage,
+}: {
+  row: WorkRow;
+  index: number;
+  onSelectImage: (image: WorkImage) => void;
+}) {
   if (row.type === "caption") {
     return <CaptionRow text={row.text} />;
   }
 
   if (row.type === "full") {
-    return <WorkTile image={row.image} layout="full" priority={index < 2} />;
+    return (
+      <WorkTile
+        image={row.image}
+        layout="full"
+        priority={index < 2}
+        onSelect={onSelectImage}
+      />
+    );
   }
 
   if (row.type === "half") {
@@ -154,6 +179,7 @@ function WorkRowRenderer({ row, index }: { row: WorkRow; index: number }) {
             image={image}
             layout="half"
             priority={index < 2}
+            onSelect={onSelectImage}
           />
         ))}
       </div>
@@ -163,59 +189,100 @@ function WorkRowRenderer({ row, index }: { row: WorkRow; index: number }) {
   return (
     <div className="grid gap-2 md:grid-cols-3">
       {row.images.map((image, i) => (
-        <WorkTile key={`${image.src}-${i}`} image={image} layout="third" />
+        <WorkTile
+          key={`${image.src}-${i}`}
+          image={image}
+          layout="third"
+          onSelect={onSelectImage}
+        />
       ))}
     </div>
   );
 }
 
-function WorksBottomDragStrip({ bottomWorks }: { bottomWorks: WorkImage[] }) {
+function WorksBottomDragStrip({
+  bottomWorks,
+  onSelectImage,
+}: {
+  bottomWorks: WorkImage[];
+  onSelectImage: (image: WorkImage) => void;
+}) {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({ active: false, startX: 0, startScroll: 0 });
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(true);
-  const stripCardClass =
-    "min-w-[260px] w-[min(92vw,440px)] sm:min-w-[300px] md:w-[400px] lg:w-[440px]";
+  const loopGroupRef = useRef<HTMLDivElement>(null);
+  const loopWidthRef = useRef(0);
+  const mouseDragRef = useRef({
+    active: false,
+    moved: false,
+    startX: 0,
+    startScroll: 0,
+    lastX: 0,
+    lastTime: 0,
+    velocity: 0,
+  });
+  const momentumFrameRef = useRef<number | null>(null);
+  const pendingMouseSelectRef = useRef<WorkImage | null>(null);
 
-  const updateScrollEdges = useCallback(() => {
+  const normalizeScrollLoop = useCallback(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    if (max <= 1) {
-      setAtStart(true);
-      setAtEnd(true);
-      return;
+    const loopWidth = loopWidthRef.current;
+    if (loopWidth <= 0) return;
+
+    let shift = 0;
+    if (el.scrollLeft < loopWidth * 0.5) {
+      shift = loopWidth;
+    } else if (el.scrollLeft > loopWidth * 1.5) {
+      shift = -loopWidth;
     }
-    const sl = el.scrollLeft;
-    setAtStart(sl <= 2);
-    setAtEnd(sl >= max - 2);
+
+    if (shift !== 0) {
+      el.scrollLeft += shift;
+      if (mouseDragRef.current.active) {
+        mouseDragRef.current.startScroll += shift;
+      }
+    }
   }, []);
 
-  const getScrollStepPx = useCallback(() => {
-    const track = trackRef.current;
-    const first = track?.firstElementChild as HTMLElement | undefined;
-    if (!first) return 420;
-    const gap =
-      typeof window !== "undefined" &&
-      window.matchMedia("(min-width: 768px)").matches
-        ? 16
-        : 12;
-    return Math.round(first.getBoundingClientRect().width + gap);
+  const stopMomentum = useCallback(() => {
+    if (momentumFrameRef.current == null) return;
+    cancelAnimationFrame(momentumFrameRef.current);
+    momentumFrameRef.current = null;
   }, []);
 
-  const scrollStrip = useCallback(
-    (direction: -1 | 1) => {
+  const startMomentum = useCallback(
+    (initialVelocity: number) => {
       const el = scrollerRef.current;
-      if (!el) return;
-      const step = getScrollStepPx();
-      el.scrollBy({
-        left: direction * step,
-        behavior: "auto",
-      });
-      requestAnimationFrame(updateScrollEdges);
+      let velocity = Math.max(-3.2, Math.min(3.2, initialVelocity * 1.18));
+      let previousTime = performance.now();
+
+      if (!el || Math.abs(velocity) < 0.02) return;
+      stopMomentum();
+
+      const step = (time: number) => {
+        const scroller = scrollerRef.current;
+        if (!scroller) {
+          momentumFrameRef.current = null;
+          return;
+        }
+
+        const deltaTime = Math.min(time - previousTime, 32);
+        previousTime = time;
+        scroller.scrollLeft += velocity * deltaTime;
+        normalizeScrollLoop();
+
+        velocity *= Math.pow(0.94, deltaTime / 16.67);
+        if (Math.abs(velocity) < 0.02) {
+          momentumFrameRef.current = null;
+          return;
+        }
+
+        momentumFrameRef.current = requestAnimationFrame(step);
+      };
+
+      momentumFrameRef.current = requestAnimationFrame(step);
     },
-    [getScrollStepPx, updateScrollEdges],
+    [normalizeScrollLoop, stopMomentum],
   );
 
   useLayoutEffect(() => {
@@ -223,43 +290,98 @@ function WorksBottomDragStrip({ bottomWorks }: { bottomWorks: WorkImage[] }) {
     const track = trackRef.current;
     if (!el || !track) return;
 
-    el.scrollLeft = 0;
+    const syncLoopMetrics = () => {
+      const loopWidth = loopGroupRef.current?.getBoundingClientRect().width ?? 0;
+      loopWidthRef.current = loopWidth;
+
+      if (loopWidth > 0) {
+        el.scrollLeft = loopWidth;
+      }
+    };
 
     const ro = new ResizeObserver(() => {
-      updateScrollEdges();
+      syncLoopMetrics();
     });
     ro.observe(el);
     ro.observe(track);
 
-    requestAnimationFrame(updateScrollEdges);
+    requestAnimationFrame(syncLoopMetrics);
 
     return () => ro.disconnect();
-  }, [bottomWorks, updateScrollEdges]);
+  }, [bottomWorks]);
 
-  const onPointerDown = (e: React.PointerEvent) => {
-    if (e.pointerType === "mouse" && e.button !== 0) return;
+  useEffect(() => stopMomentum, [stopMomentum]);
+
+  const onPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
     const el = scrollerRef.current;
     if (!el) return;
-    dragRef.current = {
+    stopMomentum();
+
+    const target = event.target instanceof HTMLElement ? event.target : null;
+    const imageIndex = target
+      ?.closest("[data-slider-image-index]")
+      ?.getAttribute("data-slider-image-index");
+
+    pendingMouseSelectRef.current =
+      imageIndex == null ? null : bottomWorks[Number(imageIndex)] ?? null;
+    mouseDragRef.current = {
       active: true,
-      startX: e.clientX,
+      moved: false,
+      startX: event.clientX,
       startScroll: el.scrollLeft,
+      lastX: event.clientX,
+      lastTime: performance.now(),
+      velocity: 0,
     };
-    el.setPointerCapture(e.pointerId);
+    el.setPointerCapture(event.pointerId);
   };
 
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!dragRef.current.active) return;
+  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!mouseDragRef.current.active) return;
     const el = scrollerRef.current;
     if (!el) return;
-    el.scrollLeft = dragRef.current.startScroll - (e.clientX - dragRef.current.startX);
+
+    const deltaX = event.clientX - mouseDragRef.current.startX;
+    if (Math.abs(deltaX) > 6) {
+      mouseDragRef.current.moved = true;
+    }
+
+    el.scrollLeft = mouseDragRef.current.startScroll - deltaX;
+    const now = performance.now();
+    const timeDelta = Math.max(now - mouseDragRef.current.lastTime, 1);
+    mouseDragRef.current.velocity =
+      -(event.clientX - mouseDragRef.current.lastX) / timeDelta;
+    mouseDragRef.current.lastX = event.clientX;
+    mouseDragRef.current.lastTime = now;
+    normalizeScrollLoop();
   };
 
-  const endDrag = (e: React.PointerEvent) => {
-    if (!dragRef.current.active) return;
-    dragRef.current.active = false;
-    scrollerRef.current?.releasePointerCapture(e.pointerId);
-    requestAnimationFrame(updateScrollEdges);
+  const onPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!mouseDragRef.current.active) return;
+    const pendingImage = pendingMouseSelectRef.current;
+    const shouldSelect = !mouseDragRef.current.moved;
+
+    mouseDragRef.current.active = false;
+    pendingMouseSelectRef.current = null;
+    scrollerRef.current?.releasePointerCapture(event.pointerId);
+
+    if (pendingImage && shouldSelect) {
+      onSelectImage(pendingImage);
+    } else if (mouseDragRef.current.moved) {
+      startMomentum(mouseDragRef.current.velocity);
+    }
+
+    requestAnimationFrame(normalizeScrollLoop);
+  };
+
+  const onPointerCancel = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!mouseDragRef.current.active) return;
+    mouseDragRef.current.active = false;
+    pendingMouseSelectRef.current = null;
+    scrollerRef.current?.releasePointerCapture(event.pointerId);
+    stopMomentum();
+    requestAnimationFrame(normalizeScrollLoop);
   };
 
   if (bottomWorks.length === 0) return null;
@@ -267,81 +389,153 @@ function WorksBottomDragStrip({ bottomWorks }: { bottomWorks: WorkImage[] }) {
   return (
     <div
       role="region"
-      aria-label="More works — use arrows or drag sideways to scroll"
-      className="relative -mx-6 select-none md:-mx-[100px]"
+      aria-label="More works - drag sideways to scroll"
+      className="relative left-1/2 w-screen -translate-x-1/2 select-none"
     >
       <div
         ref={scrollerRef}
-        onScroll={updateScrollEdges}
+        onScroll={normalizeScrollLoop}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
-        onPointerUp={endDrag}
-        onPointerCancel={endDrag}
-        className="cursor-grab touch-pan-x overflow-x-auto overflow-y-hidden py-1 active:cursor-grabbing [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[var(--color-border)]"
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerCancel}
+        className="cursor-grab touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain px-6 py-1 active:cursor-grabbing [-webkit-overflow-scrolling:touch] [scrollbar-width:none] md:px-[100px] [&::-webkit-scrollbar]:hidden"
       >
-        <div ref={trackRef} className="flex w-max shrink-0 gap-3 pr-3 md:gap-4 md:pr-4">
-          {bottomWorks.map((image, i) => (
-            <WorkTile
-              key={`${image.src}-${i}`}
-              image={image}
-              layout="bottom"
-              figureClassName={stripCardClass}
-            />
+        <div
+          ref={trackRef}
+          className="flex w-max shrink-0 pr-6 md:pr-[100px]"
+        >
+          {Array.from({ length: WORK_BOTTOM_LOOP_COPIES }, (_, copyIndex) => (
+            <div
+              key={copyIndex}
+              ref={copyIndex === 0 ? loopGroupRef : undefined}
+              className="flex shrink-0 gap-1 pr-1 md:gap-2 md:pr-2"
+            >
+              {bottomWorks.map((image, i) => (
+                <div
+                  key={`${copyIndex}-${image.src}-${i}`}
+                  data-slider-image-index={i}
+                  className="shrink-0"
+                >
+                  <WorkTile
+                    image={image}
+                    layout="bottom"
+                    onSelect={onSelectImage}
+                    figureClassName={WORK_BOTTOM_TILE_WIDTH}
+                  />
+                </div>
+              ))}
+            </div>
           ))}
         </div>
       </div>
+    </div>
+  );
+}
 
-      <div className="pointer-events-none absolute inset-0 z-10 hidden md:block">
+function WorksBottomImageRow({
+  images,
+  onSelectImage,
+}: {
+  images: WorkImage[];
+  onSelectImage: (image: WorkImage) => void;
+}) {
+  if (images.length === 0) return null;
+
+  return (
+    <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex w-max shrink-0 gap-1 md:gap-2 lg:mx-auto">
+        {images.map((image, i) => (
+          <WorkTile
+            key={`${image.src}-${i}`}
+            image={image}
+            layout="bottom"
+            onSelect={onSelectImage}
+            figureClassName={WORK_BOTTOM_TILE_WIDTH}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function WorksImageLightbox({
+  image,
+  onClose,
+}: {
+  image: WorkImage | null;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    if (!image) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    const previousOverflow = document.body.style.overflow;
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [image, onClose]);
+
+  if (!image) return null;
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={image.alt}
+      onClick={onClose}
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4 py-10 md:px-12"
+    >
+      <div
+        className="relative h-[min(72vh,760px)] w-[min(88vw,1280px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes="(min-width: 1280px) 1280px, 88vw"
+          quality={92}
+          className="object-cover"
+        />
+
         <button
           type="button"
-          aria-label="Scroll works left"
-          aria-disabled={atStart}
-          disabled={atStart}
-          onClick={(e) => {
-            e.stopPropagation();
-            scrollStrip(-1);
-          }}
-          className="pointer-events-auto absolute left-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/[0.08] bg-white/35 text-[var(--color-fg)] shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-md transition-[transform,background-color,box-shadow] hover:bg-white/55 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] active:scale-[0.96] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-fg)] disabled:pointer-events-none disabled:opacity-35 lg:left-4 lg:h-12 lg:w-12"
+          aria-label="Close image"
+          onClick={onClose}
+          className="absolute right-3 top-3 z-10 flex h-9 w-9 cursor-pointer items-center justify-center text-white/90 transition-colors hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           <svg
-            width="20"
-            height="20"
+            width="28"
+            height="28"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="1.5"
+            strokeWidth="1.25"
             strokeLinecap="round"
             strokeLinejoin="round"
-            aria-hidden
+            aria-hidden="true"
           >
-            <path d="M15 18l-6-6 6-6" />
+            <path d="M18 6 6 18" />
+            <path d="M6 6l12 12" />
           </svg>
         </button>
-        <button
-          type="button"
-          aria-label="Scroll works right"
-          aria-disabled={atEnd}
-          disabled={atEnd}
-          onClick={(e) => {
-            e.stopPropagation();
-            scrollStrip(1);
-          }}
-          className="pointer-events-auto absolute right-2 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-black/[0.08] bg-white/35 text-[var(--color-fg)] shadow-[0_8px_32px_rgba(0,0,0,0.08)] backdrop-blur-md transition-[transform,background-color,box-shadow] hover:bg-white/55 hover:shadow-[0_12px_40px_rgba(0,0,0,0.1)] active:scale-[0.96] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-fg)] disabled:pointer-events-none disabled:opacity-35 lg:right-4 lg:h-12 lg:w-12"
-        >
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        </button>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 px-4 pb-4 pt-14 text-white md:px-6 md:pb-5">
+          <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
+            Personal Project
+          </p>
+          <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
+            all aspect
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -349,11 +543,21 @@ function WorksBottomDragStrip({ bottomWorks }: { bottomWorks: WorkImage[] }) {
 
 type WorksGridProps = {
   workRows: WorkRow[];
-  bottomWorks: WorkImage[];
+  bottomRowWorks: WorkImage[];
+  bottomSliderWorks: WorkImage[];
 };
 
-export default function WorksGrid({ workRows, bottomWorks }: WorksGridProps) {
+export default function WorksGrid({
+  workRows,
+  bottomRowWorks,
+  bottomSliderWorks,
+}: WorksGridProps) {
   const reduce = useReducedMotion();
+  const [selectedImage, setSelectedImage] = useState<WorkImage | null>(null);
+
+  const closeLightbox = useCallback(() => {
+    setSelectedImage(null);
+  }, []);
 
   return (
     <section id="works" className={sectionPaddingClass}>
@@ -378,7 +582,11 @@ export default function WorksGrid({ workRows, bottomWorks }: WorksGridProps) {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6 }}
               >
-                <WorkRowRenderer row={row} index={index} />
+                <WorkRowRenderer
+                  row={row}
+                  index={index}
+                  onSelectImage={setSelectedImage}
+                />
               </motion.div>
             ))}
           </div>
@@ -386,9 +594,21 @@ export default function WorksGrid({ workRows, bottomWorks }: WorksGridProps) {
         </div>
       </div>
 
-      <div className={`mt-16 ${contentShellClass}`}>
-        <WorksBottomDragStrip bottomWorks={bottomWorks} />
+      <div className="mt-16">
+        <WorksBottomImageRow
+          images={bottomRowWorks}
+          onSelectImage={setSelectedImage}
+        />
       </div>
+
+      <div className="mt-3">
+        <WorksBottomDragStrip
+          bottomWorks={bottomSliderWorks}
+          onSelectImage={setSelectedImage}
+        />
+      </div>
+
+      <WorksImageLightbox image={selectedImage} onClose={closeLightbox} />
     </section>
   );
 }

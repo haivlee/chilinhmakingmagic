@@ -4,7 +4,11 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import Hero from "@/components/Hero";
 import Nav from "@/components/Nav";
 import WorksGrid from "@/components/WorksGrid";
-import { resolveBottomWorks, resolveWorkRows } from "@/data/works";
+import {
+  resolveBottomRowWorks,
+  resolveBottomSliderWorks,
+  resolveWorkRows,
+} from "@/data/works";
 import { getArtworkSrcs } from "@/lib/artworks";
 
 export default function Home() {
@@ -19,7 +23,8 @@ export default function Home() {
         <About />
         <WorksGrid
           workRows={resolveWorkRows(artworkSrcs)}
-          bottomWorks={resolveBottomWorks(artworkSrcs)}
+          bottomRowWorks={resolveBottomRowWorks(artworkSrcs)}
+          bottomSliderWorks={resolveBottomSliderWorks(artworkSrcs)}
         />
         <Contact />
       </main>
