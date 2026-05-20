@@ -1,8 +1,13 @@
+export type WorkImageLightboxText = {
+  lightboxLeftText?: string;
+  lightboxRightText?: string;
+};
+
 export type WorkImage = {
   src: string;
   alt: string;
   caption?: string;
-};
+} & WorkImageLightboxText;
 
 export type WorkRow =
   | { type: "full"; image: WorkImage }
@@ -14,7 +19,7 @@ export type WorkRow =
 export type WorkSlot = {
   slot: number;
   alt: string;
-};
+} & WorkImageLightboxText;
 
 export type WorkRowSpec =
   | { type: "full"; image: WorkSlot }
@@ -23,14 +28,29 @@ export type WorkRowSpec =
   | { type: "caption"; text: string };
 
 const PLACEHOLDER_SRC = "/file.svg";
+const DEFAULT_LIGHTBOX_TEXT: Required<WorkImageLightboxText> = {
+  lightboxLeftText: "Personal Project",
+  lightboxRightText: "all aspect",
+};
 
-/** Pick artwork by sorted folder index. */
-export function w(slot: number, alt: string): WorkSlot {
-  return { slot, alt };
+/** Pick artwork by sorted folder index. Optional third argument customizes lightbox labels. */
+export function w(
+  slot: number,
+  alt: string,
+  lightboxText: WorkImageLightboxText = {},
+): WorkSlot {
+  return { slot, alt, ...lightboxText };
 }
 
 function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
-  return { src: artworkSrcs[s.slot] ?? PLACEHOLDER_SRC, alt: s.alt };
+  return {
+    src: artworkSrcs[s.slot] ?? PLACEHOLDER_SRC,
+    alt: s.alt,
+    lightboxLeftText:
+      s.lightboxLeftText ?? DEFAULT_LIGHTBOX_TEXT.lightboxLeftText,
+    lightboxRightText:
+      s.lightboxRightText ?? DEFAULT_LIGHTBOX_TEXT.lightboxRightText,
+  };
 }
 
 /** Manually arrange rows; only `slot` selects the file—layout and alts live here. */
@@ -82,13 +102,19 @@ export const workRows: WorkRowSpec[] = [
   {
     type: "half",
     images: [
-      w(11, "Stylized night city with warm windows"),
+      w(11, "Stylized night city with warm windows", {
+        lightboxLeftText: "Silver and the book of dreams (2023)",
+        lightboxRightText: "city concept",
+      }),
       w(12, "Misty rural environment with trees and water"),
     ],
   },
   {
     type: "full",
-    image: w(13, "Massive ocean wave curling across a pale horizon"),
+    image: w(13, "Massive ocean wave curling across a pale horizon", {
+      lightboxLeftText: "Silver and the book of dreams (2023)",
+      lightboxRightText: "concept & matte painting",
+    }),
   },
   {
     type: "caption",
@@ -97,31 +123,52 @@ export const workRows: WorkRowSpec[] = [
   {
     type: "half",
     images: [
-      w(14, "Large creatures crossing a fiery prehistoric battlefield"),
+      w(14, "Large creatures crossing a fiery prehistoric battlefield", {
+        lightboxLeftText: "Goodbye Earth (2024)",
+        lightboxRightText: "matte painting & compositing",
+      }),
       w(15, "Dinosaur silhouette beneath a burning sky"),
     ],
   },
   {
     type: "full",
-    image: w(16, "Dry desert settlement stretching into a bright horizon"),
+    image: w(16, "Dry desert settlement stretching into a bright horizon", {
+      lightboxLeftText: "In search of lost time (2022)",
+      lightboxRightText: "matte painting",
+    }),
   },
   {
     type: "half",
     images: [
-      w(17, "Narrow urban alley after rain"),
-      w(18, "Street corner with sunlit shopfronts"),
+      w(17, "Narrow urban alley after rain", {
+        lightboxLeftText: "Helgoland 513 (2024)",
+        lightboxRightText: "abandoned city matte painting",
+      }),
+      w(18, "Street corner with sunlit shopfronts", {
+        lightboxLeftText: "Em va Trinh 2022",
+        lightboxRightText: "street matte painting",
+      }),
     ],
   },
   {
     type: "half",
     images: [
-      w(19, "Vietnamese city block in daylight"),
-      w(20, "Portrait close-up against a stormy mountain backdrop"),
+      w(19, "Vietnamese city block in daylight", {
+        lightboxLeftText: "Em va Trinh 2022",
+        lightboxRightText: "street matte painting",
+      }),
+      w(20, "Portrait close-up against a stormy mountain backdrop", {
+        lightboxLeftText: "Silver and the book of dreams (2023)",
+        lightboxRightText: "mountain matte painting",
+      }),
     ],
   },
   {
     type: "full",
-    image: w(21, "Two figures overlooking an amber city sunset"),
+    image: w(21, "Two figures overlooking an amber city sunset", {
+      lightboxLeftText: "Mat Troi Khoc MV",
+      lightboxRightText: "city matte painting",
+    }),
   },
 ];
 
@@ -150,7 +197,10 @@ function getUsedArtworkSlots(): Set<number> {
 }
 
 function getArtworkAltFromSrc(src: string, slot: number): string {
-  const fileName = src.split("/").pop()?.replace(/\.[^.]+$/, "");
+  const fileName = src
+    .split("/")
+    .pop()
+    ?.replace(/\.[^.]+$/, "");
   const label = fileName?.replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
 
   return label ? `Artwork ${slot + 1}: ${label}` : `Artwork ${slot + 1}`;
@@ -182,7 +232,9 @@ export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
   });
 }
 
-export function resolveBottomWorks(artworkSrcs: readonly string[]): WorkImage[] {
+export function resolveBottomWorks(
+  artworkSrcs: readonly string[],
+): WorkImage[] {
   return [
     ...resolveBottomRowWorks(artworkSrcs),
     ...resolveBottomSliderWorks(artworkSrcs),
@@ -205,6 +257,7 @@ export function resolveBottomSliderWorks(
       works.push({
         src,
         alt: getArtworkAltFromSrc(src, slot),
+        ...DEFAULT_LIGHTBOX_TEXT,
       });
     }
 

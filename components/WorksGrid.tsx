@@ -485,23 +485,26 @@ function WorksImageLightbox({
 
   if (!image) return null;
 
+  const lightboxLeftText = image.lightboxLeftText ?? "Personal Project";
+  const lightboxRightText = image.lightboxRightText ?? "all aspect";
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-label={image.alt}
       onClick={onClose}
-      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4 py-10 md:px-12"
+      className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4 py-10"
     >
       <div
-        className="relative h-[min(72vh,760px)] w-[min(88vw,1280px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+        className="relative h-[min(72vh,760px)] w-[min(calc(100vw-3rem),1450px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
         onClick={(event) => event.stopPropagation()}
       >
         <Image
           src={image.src}
           alt={image.alt}
           fill
-          sizes="(min-width: 1280px) 1280px, 88vw"
+          sizes="(min-width: 1450px) 1450px, calc(100vw - 3rem)"
           quality={92}
           className="object-cover"
         />
@@ -530,10 +533,10 @@ function WorksImageLightbox({
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 px-4 pb-4 pt-14 text-white md:px-6 md:pb-5">
           <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
-            Personal Project
+            {lightboxLeftText}
           </p>
           <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
-            all aspect
+            {lightboxRightText}
           </p>
         </div>
       </div>
