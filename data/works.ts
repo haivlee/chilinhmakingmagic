@@ -1,6 +1,8 @@
 export type WorkImageLightboxText = {
   lightboxLeftText?: string;
   lightboxRightText?: string;
+  lightboxLeftTextColor?: "white" | "black";
+  lightboxRightTextColor?: "white" | "black";
 };
 
 export type WorkImage = {
@@ -31,6 +33,8 @@ const PLACEHOLDER_SRC = "/file.svg";
 const DEFAULT_LIGHTBOX_TEXT: Required<WorkImageLightboxText> = {
   lightboxLeftText: "Personal Project",
   lightboxRightText: "all aspect",
+  lightboxLeftTextColor: "white",
+  lightboxRightTextColor: "white",
 };
 
 /** Pick artwork by sorted folder index. Optional third argument customizes lightbox labels. */
@@ -50,6 +54,10 @@ function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
       s.lightboxLeftText ?? DEFAULT_LIGHTBOX_TEXT.lightboxLeftText,
     lightboxRightText:
       s.lightboxRightText ?? DEFAULT_LIGHTBOX_TEXT.lightboxRightText,
+    lightboxLeftTextColor:
+      s.lightboxLeftTextColor ?? DEFAULT_LIGHTBOX_TEXT.lightboxLeftTextColor,
+    lightboxRightTextColor:
+      s.lightboxRightTextColor ?? DEFAULT_LIGHTBOX_TEXT.lightboxRightTextColor,
   };
 }
 
@@ -127,7 +135,12 @@ export const workRows: WorkRowSpec[] = [
         lightboxLeftText: "Goodbye Earth (2024)",
         lightboxRightText: "matte painting & compositing",
       }),
-      w(15, "Dinosaur silhouette beneath a burning sky"),
+      w(15, "Dinosaur silhouette beneath a burning sky", {
+        lightboxLeftText: "Turbulence (2025)",
+        lightboxRightText: "cloudscape matte painting",
+        lightboxLeftTextColor: "black",
+        lightboxRightTextColor: "black",
+      }),
     ],
   },
   {

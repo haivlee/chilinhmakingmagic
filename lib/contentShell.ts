@@ -6,4 +6,4 @@ export const contentShellClass =
   "mx-auto w-full max-w-[1500px] px-6 md:px-[100px]";
 
 /** Standard vertical spacing for main page sections below the hero. */
-export const sectionPaddingClass = "py-20 md:py-28";
+export const sectionPaddingClass = "py-10 md:py-20 lg:py-28";

@@ -26,7 +26,7 @@ const MIN_DOT_COUNT = 2;
  * Fixed `px` hints on md+ avoid undersizing vs `vw` of the whole window.
  */
 const POSTER_IMAGE_SIZES =
-  "(min-width: 1280px) 320px, (min-width: 1024px) 280px, (min-width: 768px) 28vw, 56vw";
+  "(min-width: 1280px) 320px, (min-width: 1024px) 280px, (min-width: 768px) 28vw, 24vw";
 
 type Props = {
   posters: PosterItem[];
@@ -101,7 +101,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
           {pageItems.map((p) => (
             <div
               key={p.id}
-              className="group relative z-0 aspect-[2/3] overflow-hidden rounded-[20px] border border-black/10 bg-black/5 shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-sm"
+              className="group relative z-0 aspect-[2/3] overflow-hidden rounded-[10px] border border-black/10 bg-black/5 shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-sm md:rounded-[20px]"
             >
               <Image
                 src={p.src}
@@ -125,7 +125,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
                   aria-label={`Page ${i + 1} of ${pageCount}`}
                   aria-current={i === activePage ? "page" : undefined}
                   onClick={() => setPage(i)}
-                  className="h-6 w-6 shrink-0 rounded-full bg-[#d9d9d9] transition-colors hover:bg-[var(--color-muted)]"
+                  className="h-4 w-4 shrink-0 rounded-full bg-[#d9d9d9] transition-colors hover:bg-[var(--color-muted)] md:h-6 md:w-6"
                 />
               ))}
             </nav>
@@ -137,7 +137,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
               {Array.from({ length: MIN_DOT_COUNT }, (_, i) => (
                 <span
                   key={i}
-                  className="h-6 w-6 shrink-0 rounded-full bg-[#d9d9d9]"
+                  className="h-4 w-4 shrink-0 rounded-full bg-[#d9d9d9] md:h-6 md:w-6"
                 />
               ))}
             </div>

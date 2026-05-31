@@ -9,11 +9,10 @@ import {
 } from "react";
 
 import LinkCaret from "@/components/LinkCaret";
-import { MonogramCL } from "@/components/MonogramCL";
 import { contentShellClass, pageEdgeClass } from "@/lib/contentShell";
 
 const roles = ["VFX Artist", "Digital Matte Painter", "Environment Generalist"];
-const heroNameLabel = "CHI\u2013LINH (KRIST) TRAN";
+const heroNameLabel = "CHI-LINH (KRIST) TRAN";
 const heroNameMeasureSize = 100;
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -21,7 +20,7 @@ const useIsomorphicLayoutEffect =
 function HeroNameText() {
   return (
     <>
-      {"CHI\u2013LINH (KR"}
+      {"CHI-LINH (KR"}
       <span className="relative inline-block align-baseline leading-none text-inherit">
         <span
           className="pointer-events-none absolute left-1/2 top-[0.04em] h-[clamp(7px,0.22em,24px)] w-[clamp(7px,0.22em,24px)] -translate-x-1/2 -translate-y-full rounded-full bg-[#777777]"
@@ -92,7 +91,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[calc(100svh-115px)] flex-col justify-start"
+      className="relative flex min-h-[calc(100svh-76px)] flex-col justify-start md:min-h-[calc(100svh-115px)]"
     >
       <div
         className={`flex flex-col justify-center ${contentShellClass} pt-0 pb-4`}
@@ -105,7 +104,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.18 * index }}
-              className="font-sans text-[clamp(1.25rem,3.8vw,2.5rem)] font-extralight font-[250] uppercase leading-none tracking-normal text-[var(--color-muted)"
+              className="font-sans text-[clamp(1rem,4.5vw,2.5rem)] font-extralight font-[250] uppercase leading-none tracking-normal text-[var(--color-muted)]"
             >
               {role}
             </motion.p>
@@ -133,28 +132,35 @@ export default function Hero() {
           >
             <span
               ref={heroNameMeasureRef}
-              className="pointer-events-none absolute left-0 top-0 inline-block whitespace-nowrap font-display text-[100px] uppercase leading-[1.05] tracking-normal opacity-0 md:leading-[1.25]"
+              className="pointer-events-none absolute left-0 top-0 hidden whitespace-nowrap font-display text-[100px] uppercase leading-[1.05] tracking-normal opacity-0 md:inline-block md:leading-[1.25]"
               aria-hidden
             >
               <HeroNameText />
             </span>
             <h1
-              className="inline-block min-w-0 whitespace-nowrap text-center font-display text-[length:var(--hero-name-size)] uppercase leading-[1.05] tracking-normal md:leading-[1.25]"
+              className="mx-auto inline-block min-w-0 max-w-[10.5ch] whitespace-normal text-center font-display text-[clamp(2rem,11vw,3.6rem)] uppercase leading-[0.98] tracking-normal md:max-w-none md:whitespace-nowrap md:text-[length:var(--hero-name-size)] md:leading-[1.25]"
               aria-label={heroNameLabel}
             >
-              <HeroNameText />
+              <span className="md:hidden">CHI-LINH (KRIST) TRAN</span>
+              <span className="hidden md:inline">
+                <HeroNameText />
+              </span>
             </h1>
           </div>
         </div>
       </motion.div>
 
       <div
-        className={`flex w-full justify-between gap-y-6 ${contentShellClass} mt-6 text-[var(--color-fg)]`}
+        className={`mt-6 flex w-full flex-col gap-5 text-[var(--color-fg)] md:flex-row md:justify-between md:gap-y-6 ${contentShellClass}`}
       >
-        <MonogramCL className="self-start" />
-        <div className="flex flex-col items-end gap-2 md:gap-2.5">
+        <p className="min-w-0 w-full max-w-[62ch] self-start font-sans text-[16px] font-[300] leading-[150%] tracking-normal text-[#444444]">
+          3D Artist &amp; VFX Artist specializing in cinematic environments,
+          concept art, digital matte painting, compositing and photoreal CG for
+          films, commercials, and game cinematics.
+        </p>
+        <div className="flex flex-col items-start gap-2 md:items-end md:gap-2.5">
           <a
-            className="group font-sans flex w-full items-center justify-end gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)]"
+            className="group font-sans flex w-full items-center justify-start gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)] md:justify-end"
             href="https://chilinhtran.artstation.com/"
             target="_blank"
             rel="noreferrer"
@@ -194,11 +200,11 @@ export default function Hero() {
       >
         <a
           href="mailto:chilinh2708@gmail.com"
-          className="text-[var(--color-fg)] transition-opacity hover:opacity-70"
+          className="group relative inline-flex text-[var(--color-fg)]"
           aria-label="Email Chi-Linh Tran"
         >
           <svg
-            className="h-5 w-6"
+            className="h-5 w-6 transition-opacity group-hover:opacity-70 group-focus-visible:opacity-70"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -209,6 +215,24 @@ export default function Hero() {
             <rect x="3" y="5" width="18" height="14" rx="1" />
             <path d="M3 7l9 6 9-6" />
           </svg>
+          <span className="pointer-events-none absolute top-full left-1/2 mt-2 hidden -translate-x-1/2 items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[16px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 md:inline-flex">
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <rect x="3" y="5" width="18" height="14" rx="1" />
+              <path d="M3 7l9 6 9-6" />
+            </svg>
+            chilinh2708@gmail.com
+          </span>
+          <span className="pointer-events-none absolute top-full left-1/2 mt-2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-focus-visible:opacity-100 active:opacity-100 md:hidden">
+            chilinh2708@gmail.com
+          </span>
         </a>
         <p
           className="flex items-center gap-2 [font-family:var(--font-display)] text-[16px] font-light uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:[writing-mode:vertical-rl]"

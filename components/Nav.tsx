@@ -137,17 +137,17 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
       }`}
     >
       <div
-        className={`flex items-start justify-between gap-3 pb-4 pt-0 ${pageEdgeClass}`}
+        className={`flex items-start justify-between gap-3 pb-4 pt-0 md:pb-4 ${pageEdgeClass}`}
       >
-      <a
-        href="#top"
-        className="font-display font-ultrabold font-[800] flex h-[93px] w-fit min-w-[33px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-2 pb-2 text-[24px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)]"
-        aria-label="Chi-Linh Tran home"
-      >
-        CL
-      </a>
+        <a
+          href="#top"
+          className="font-display font-ultrabold font-[800] flex h-[72px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-1.5 pb-1.5 text-[28px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)] md:h-[93px] md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
+          aria-label="Chi-Linh Tran home"
+        >
+          CL
+        </a>
 
-      <div className="relative pt-14 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)]">
+      <div className="relative pt-4 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)] md:pt-14">
         <div className="hidden gap-3 md:flex md:flex-col md:items-end md:gap-2">
           {links.map((link) => {
             const selected = link.href === selectedHref;
@@ -170,7 +170,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
 
         <button
           type="button"
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-sm border border-[var(--color-fg)] text-[var(--color-fg)] md:hidden"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-sm text-[#9a9a9a] md:hidden"
           aria-expanded={mobileOpen}
           aria-controls="nav-mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -181,7 +181,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
+            strokeWidth="1.5"
             strokeLinecap="round"
             aria-hidden
           >

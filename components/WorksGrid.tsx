@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { WorkImage, WorkRow } from "@/data/works";
 import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
@@ -42,7 +49,7 @@ type WorkTileLayout = keyof typeof WORK_IMAGE_SIZES;
 /** Fixed strip height so full-row and half-row tiles match (aspect-ratio scales height with width). */
 const WORK_MAIN_TILE_HEIGHT = "h-[clamp(192px,24vw,304px)] w-full";
 const WORK_BOTTOM_TILE_WIDTH =
-  "min-w-[260px] w-[min(92vw,440px)] sm:min-w-[300px] md:w-[400px] lg:w-[440px]";
+  "w-full md:min-w-[260px] md:w-[min(92vw,440px)] lg:w-[440px]";
 const WORK_BOTTOM_LOOP_COPIES = 3;
 
 function SideLabelDot() {
@@ -443,8 +450,8 @@ function WorksBottomImageRow({
   if (images.length === 0) return null;
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2 overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div className="flex w-max shrink-0 gap-1 md:gap-2 lg:mx-auto">
+    <div className="relative left-1/2 w-screen -translate-x-1/2 px-6 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden">
+      <div className="grid grid-cols-3 gap-1 md:flex md:w-max md:shrink-0 md:gap-2 lg:mx-auto">
         {images.map((image, i) => (
           <WorkTile
             key={`${image.src}-${i}`}
@@ -487,6 +494,10 @@ function WorksImageLightbox({
 
   const lightboxLeftText = image.lightboxLeftText ?? "Personal Project";
   const lightboxRightText = image.lightboxRightText ?? "all aspect";
+  const lightboxLeftTextClass =
+    image.lightboxLeftTextColor === "black" ? "text-black" : "text-white";
+  const lightboxRightTextClass =
+    image.lightboxRightTextColor === "black" ? "text-black" : "text-white";
 
   return (
     <div
@@ -532,10 +543,14 @@ function WorksImageLightbox({
         </button>
 
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 px-4 pb-4 pt-14 text-white md:px-6 md:pb-5">
-          <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
+          <p
+            className={`font-sans text-[12px] font-regular font-[400] leading-none tracking-normal ${lightboxLeftTextClass}`}
+          >
             {lightboxLeftText}
           </p>
-          <p className="font-sans text-[12px] font-regular font-[400] leading-none tracking-normal">
+          <p
+            className={`font-sans text-[12px] font-regular font-[400] leading-none tracking-normal ${lightboxRightTextClass}`}
+          >
             {lightboxRightText}
           </p>
         </div>
@@ -557,6 +572,10 @@ export default function WorksGrid({
 }: WorksGridProps) {
   const reduce = useReducedMotion();
   const [selectedImage, setSelectedImage] = useState<WorkImage | null>(null);
+  const mobileBottomWorks = useMemo(
+    () => [...bottomRowWorks, ...bottomSliderWorks],
+    [bottomRowWorks, bottomSliderWorks],
+  );
 
   const closeLightbox = useCallback(() => {
     setSelectedImage(null);
@@ -565,16 +584,16 @@ export default function WorksGrid({
   return (
     <section id="works" className={sectionPaddingClass}>
       <div className="border-b border-[var(--color-border)] pb-4 text-center">
-        <h2 className="font-display text-center text-[clamp(4rem,6vw,6rem)] uppercase leading-[1.5] tracking-normal text-[var(--color-fg)]">
+        <h2 className="font-display text-center text-[clamp(2.3rem,12vw,6rem)] uppercase leading-[1.1] tracking-normal text-[var(--color-fg)] md:leading-[1.5]">
           My Works
         </h2>
-        <p className="mt-5 border-t border-[var(--color-border)] pt-4 text-center font-sans font-extralight text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-fg)]">
+        <p className="mt-3 border-t border-[var(--color-border)] pt-3 text-center font-sans font-extralight text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-fg)] md:mt-5 md:pt-4">
           Frames that tell more than just a story.
         </p>
       </div>
 
-      <div className={`mt-16 ${contentShellClass}`}>
-        <div className="grid items-stretch gap-4 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-6 lg:gap-8">
+      <div className={`mt-10 md:mt-16 ${contentShellClass}`}>
+        <div className="grid items-stretch gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-6 lg:gap-8">
           <SideLabelMarquee flip />
           <div className="min-w-0 space-y-2">
             {workRows.map((row, index) => (
@@ -597,16 +616,23 @@ export default function WorksGrid({
         </div>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-10 hidden md:block md:mt-16">
         <WorksBottomImageRow
           images={bottomRowWorks}
           onSelectImage={setSelectedImage}
         />
       </div>
 
-      <div className="mt-3">
+      <div className="mt-3 hidden md:block">
         <WorksBottomDragStrip
           bottomWorks={bottomSliderWorks}
+          onSelectImage={setSelectedImage}
+        />
+      </div>
+
+      <div className="mt-8 md:hidden">
+        <WorksBottomImageRow
+          images={mobileBottomWorks}
           onSelectImage={setSelectedImage}
         />
       </div>
