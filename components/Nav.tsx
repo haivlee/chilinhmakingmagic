@@ -141,7 +141,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
       >
         <a
           href="#top"
-          className="font-display font-ultrabold font-[800] flex h-[72px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-1.5 pb-1.5 text-[28px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)] md:h-[93px] md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
+          className="font-display font-ultrabold font-[800] flex h-[93px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-1.5 pb-1.5 text-[28px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)] md:h-[93px] md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
           aria-label="Chi-Linh Tran home"
         >
           CL
@@ -170,14 +170,14 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
 
         <button
           type="button"
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-sm text-[#9a9a9a] md:hidden"
+          className="flex min-h-14 min-w-14 items-center justify-center rounded-sm text-[#9a9a9a] md:hidden"
           aria-expanded={mobileOpen}
           aria-controls="nav-mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileOpen((o) => !o)}
         >
           <svg
-            className="h-5 w-5"
+            className="h-8 w-8"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

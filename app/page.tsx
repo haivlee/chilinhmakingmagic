@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main className="overflow-x-hidden">
+      <main className="mt-10 md:mt-0 overflow-x-hidden">
         <Hero />
         <FeaturedProjects />
         <About />

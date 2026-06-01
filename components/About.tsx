@@ -81,7 +81,7 @@ export default function About() {
                 <div
                   key={item.id}
                   className={`grid gap-3 md:h-full md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-8 lg:gap-x-10 ${
-                    item.id === "background" ? "md:-translate-y-18" : "md:-translate-y-4"
+                    item.id === "background" ? "md:-translate-y-8  " : "md:translate-y-4"
                   }`}
                 >
                   <h3 className="flex items-end gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-end md:text-[28px]">

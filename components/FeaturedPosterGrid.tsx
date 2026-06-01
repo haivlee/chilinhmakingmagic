@@ -94,14 +94,14 @@ export function FeaturedPosterGrid({ posters }: Props) {
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={activePage}
-          className="grid gap-1.5 [grid-template-columns:repeat(var(--poster-mobile-cols),minmax(0,1fr))] md:gap-2 md:[grid-template-columns:repeat(var(--poster-desktop-cols),minmax(0,1fr))]"
+          className="grid gap-1 [grid-template-columns:repeat(var(--poster-mobile-cols),minmax(0,1fr))] md:gap-2 md:[grid-template-columns:repeat(var(--poster-desktop-cols),minmax(0,1fr))]"
           style={controlGridVars}
           {...pageMotion}
         >
           {pageItems.map((p) => (
             <div
               key={p.id}
-              className="group relative z-0 aspect-[2/3] overflow-hidden rounded-[10px] border border-black/10 bg-black/5 shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-sm md:rounded-[20px]"
+              className="group relative z-0 aspect-[2/3] overflow-hidden rounded-[14px] border border-black/10 bg-black/5 shadow-sm transition-[transform,box-shadow] duration-300 ease-out hover:z-10 hover:scale-[1.06] hover:shadow-xl motion-reduce:transition-none motion-reduce:hover:scale-100 motion-reduce:hover:shadow-sm md:rounded-[20px]"
             >
               <Image
                 src={p.src}
@@ -115,7 +115,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
           ))}
           {pageCount > 1 ? (
             <nav
-              className="col-span-2 flex items-center gap-3 self-end pl-3 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
+              className="col-span-2 flex items-center gap-3 self-end pl-3 max-md:col-span-full max-md:justify-center max-md:pl-0 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
               aria-label="Poster pages"
             >
               {Array.from({ length: pageCount }, (_, i) => (
@@ -131,7 +131,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
             </nav>
           ) : (
             <div
-              className="col-span-2 flex items-center gap-3 self-end pl-3 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
+              className="col-span-2 flex items-center gap-3 self-end pl-3 max-md:col-span-full max-md:justify-center max-md:pl-0 md:[grid-column:var(--poster-dots-column)] md:[grid-row:var(--poster-control-row)]"
               aria-hidden
             >
               {Array.from({ length: MIN_DOT_COUNT }, (_, i) => (
@@ -142,7 +142,7 @@ export function FeaturedPosterGrid({ posters }: Props) {
               ))}
             </div>
           )}
-          <div className="self-end justify-self-end md:[grid-column:var(--poster-monogram-column)] md:[grid-row:var(--poster-control-row)]">
+          <div className="hidden md:block md:self-end md:justify-self-end md:[grid-column:var(--poster-monogram-column)] md:[grid-row:var(--poster-control-row)]">
             <MonogramCL />
           </div>
         </motion.div>

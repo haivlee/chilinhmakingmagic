@@ -104,7 +104,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.18 * index }}
-              className="font-sans text-[clamp(1rem,4.5vw,2.5rem)] font-extralight font-[250] uppercase leading-none tracking-normal text-[var(--color-muted)]"
+              className="font-sans text-[clamp(2rem,7vw,2.5rem)] font-extralight font-[250] uppercase leading-none tracking-normal text-[var(--color-muted)]"
             >
               {role}
             </motion.p>
@@ -116,10 +116,10 @@ export default function Hero() {
         initial={{ opacity: 0, y: reduce ? 0 : 42 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.6 }}
-        className="min-w-0 w-full border-y border-[var(--color-fg)] bg-[#e7e7e5]"
+        className="flex min-h-[190px] min-w-0 w-full items-center border-y border-[var(--color-fg)] bg-[#e7e7e5] md:min-h-0 md:block"
       >
         <div
-          className={`@container min-w-0 w-full ${contentShellClass} py-5 md:py-6`}
+          className={`@container min-w-0 w-full ${contentShellClass} py-2 md:py-6`}
         >
           <div
             ref={heroNameShellRef}
@@ -138,10 +138,17 @@ export default function Hero() {
               <HeroNameText />
             </span>
             <h1
-              className="mx-auto inline-block min-w-0 max-w-[10.5ch] whitespace-normal text-center font-display text-[clamp(2rem,11vw,3.6rem)] uppercase leading-[0.98] tracking-normal md:max-w-none md:whitespace-nowrap md:text-[length:var(--hero-name-size)] md:leading-[1.25]"
+              className="mx-auto block w-full min-w-0 whitespace-normal text-center font-display uppercase leading-[0.98] tracking-normal md:inline-block md:w-auto md:max-w-none md:whitespace-nowrap md:text-[length:var(--hero-name-size)] md:leading-[1.25]"
               aria-label={heroNameLabel}
             >
-              <span className="md:hidden">CHI-LINH (KRIST) TRAN</span>
+              <span className="md:hidden">
+                <span className="block whitespace-nowrap text-[min(18cqw,6rem)] leading-[1.25]">
+                  CHI-LINH
+                </span>
+                <span className="block whitespace-nowrap text-[min(13.5cqw,4rem)] leading-[1.25]">
+                  (KRIST) TRAN
+                </span>
+              </span>
               <span className="hidden md:inline">
                 <HeroNameText />
               </span>
@@ -158,14 +165,14 @@ export default function Hero() {
           concept art, digital matte painting, compositing and photoreal CG for
           films, commercials, and game cinematics.
         </p>
-        <div className="flex flex-col items-start gap-2 md:items-end md:gap-2.5">
+        <div className="flex flex-col items-start gap-4 md:items-end md:gap-2.5">
           <a
             className="group font-sans flex w-full items-center justify-start gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)] md:justify-end"
             href="https://chilinhtran.artstation.com/"
             target="_blank"
             rel="noreferrer"
           >
-            <span className="inline-flex items-center gap-1 px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
+            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
               <LinkCaret className="transition-transform group-hover:translate-y-px" />
               Artstation
             </span>
@@ -176,7 +183,7 @@ export default function Hero() {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="inline-flex items-center gap-1 px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
+            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
               <LinkCaret className="transition-transform group-hover:translate-y-px" />
               Portfolio
             </span>
@@ -187,7 +194,7 @@ export default function Hero() {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="inline-flex items-center gap-1 px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
+            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
               <LinkCaret className="transition-transform group-hover:translate-y-px" />
               IMDb
             </span>
@@ -196,7 +203,7 @@ export default function Hero() {
       </div>
 
       <div
-        className={`flex items-center justify-between border-[var(--color-fg)] ${pageEdgeClass} pt-2 pb-3`}
+        className={`mt-9 flex items-end justify-between border-[var(--color-fg)] ${pageEdgeClass} pt-2 pb-3`}
       >
         <a
           href="mailto:chilinh2708@gmail.com"
@@ -215,7 +222,7 @@ export default function Hero() {
             <rect x="3" y="5" width="18" height="14" rx="1" />
             <path d="M3 7l9 6 9-6" />
           </svg>
-          <span className="pointer-events-none absolute top-full left-1/2 mt-2 hidden -translate-x-1/2 items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[16px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 md:inline-flex">
+          <span className="pointer-events-none absolute top-full left-0 mt-2 hidden items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[16px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 md:inline-flex">
             <svg
               className="h-4 w-4"
               viewBox="0 0 24 24"
@@ -230,7 +237,7 @@ export default function Hero() {
             </svg>
             chilinh2708@gmail.com
           </span>
-          <span className="pointer-events-none absolute top-full left-1/2 mt-2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-focus-visible:opacity-100 active:opacity-100 md:hidden">
+          <span className="pointer-events-none absolute top-full left-0 mt-2 inline-flex items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-focus-visible:opacity-100 active:opacity-100 md:hidden">
             chilinh2708@gmail.com
           </span>
         </a>
@@ -247,7 +254,7 @@ export default function Hero() {
         </p>
       </div>
 
-      <div className="mt-[60px] flex w-full flex-col gap-6" aria-hidden>
+      <div className="mt-[20px] md:mt-[60px] flex w-full flex-col gap-6" aria-hidden>
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
       </div>

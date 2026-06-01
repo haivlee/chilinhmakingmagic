@@ -21,7 +21,7 @@ export default async function FeaturedProjects() {
               <br />
               Projects
             </h2>
-            <p className="mt-2 whitespace-nowrap font-sans font-extralight font-[275] text-sm text-black md:text-[18px]">
+            <p className="mt-2 whitespace-nowrap font-sans font-extralight font-[275] text-[20px] text-black md:text-[18px]">
               Crafted pixels. Cinematic moments.
             </p>
             <a
