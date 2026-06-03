@@ -94,7 +94,7 @@ export default function Hero() {
       className="relative flex min-h-[calc(100svh-76px)] flex-col justify-start md:min-h-[calc(100svh-115px)]"
     >
       <div
-        className={`flex flex-col justify-center ${contentShellClass} pt-0 pb-4`}
+        className={`flex flex-col justify-center ${contentShellClass} pt-0 pb-8`}
       >
         <div className="flex flex-col gap-6">
           {roles.map((role, index) => (
@@ -104,7 +104,7 @@ export default function Hero() {
               initial="hidden"
               animate="visible"
               transition={{ duration: 0.55, delay: 0.18 * index }}
-              className="font-sans text-[clamp(2rem,7vw,2.5rem)] font-extralight font-[250] uppercase leading-none tracking-normal text-[var(--color-muted)]"
+              className="font-sans text-[clamp(2rem,7vw,2.5rem)] font-thin uppercase leading-none tracking-normal text-[var(--color-fg)]"
             >
               {role}
             </motion.p>

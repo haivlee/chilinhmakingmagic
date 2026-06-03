@@ -32,6 +32,11 @@ const poppins = localFont({
       style: "normal",
     },
     {
+      path: "../fonts/poppins/Poppins-Thin.ttf",
+      weight: "100",
+      style: "normal",
+    },
+    {
       path: "../fonts/poppins/Poppins-Light.ttf",
       weight: "300",
       style: "normal",

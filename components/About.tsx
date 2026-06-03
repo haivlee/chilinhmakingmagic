@@ -76,12 +76,12 @@ export default function About() {
         <div className={`py-8 md:py-0 md:[height:var(--grey-band-height)] ${contentShellClass}`}>
           <div className="grid md:h-full md:grid-cols-[279px_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16 xl:gap-x-[var(--about-xl-side-gap)]">
             <div className="hidden min-h-0 md:block" aria-hidden />
-            <div className="flex flex-col gap-7 md:grid md:h-full md:grid-rows-2 md:gap-0">
+            <div className="flex flex-col gap-7 md:grid md:h-full md:grid-rows-2 md:gap-10">
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className={`grid gap-3 md:h-full md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-8 lg:gap-x-10 ${
-                    item.id === "background" ? "md:-translate-y-8  " : "md:translate-y-4"
+                  className={`grid gap-4 md:h-full md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-10 lg:gap-x-12 ${
+                    item.id === "background" ? "md:-translate-y-8  " : "md:translate-y-7Add"
                   }`}
                 >
                   <h3 className="flex items-end gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-end md:text-[28px]">
