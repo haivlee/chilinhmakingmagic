@@ -1,5 +1,4 @@
 import About from "@/components/About";
-import BackToTopButton from "@/components/BackToTopButton";
 import Contact from "@/components/Contact";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import Hero from "@/components/Hero";
@@ -29,7 +28,6 @@ export default function Home() {
         />
         <Contact />
       </main>
-      <BackToTopButton />
     </>
   );
 }

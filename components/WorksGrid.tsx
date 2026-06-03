@@ -616,6 +616,8 @@ export default function WorksGrid({
         </div>
       </div>
 
+      <div id="works-sticky-stop" className="h-px w-full" aria-hidden />
+
       <div className="mt-10 hidden md:block md:mt-16">
         <WorksBottomImageRow
           images={bottomRowWorks}

@@ -15,6 +15,9 @@ const links = [
 export type NavSelectedHref = (typeof links)[number]["href"];
 
 const NAV_FALLBACK = 100 ;
+const STICKY_STOP_MARKER_ID = "works-sticky-stop";
+const STICKY_STOP_VIEWPORT_OFFSET_PX = 48;
+const STICKY_STOP_HYSTERESIS_PX = 12;
 
 type NavProps = {
   /**
@@ -27,6 +30,7 @@ type NavProps = {
 export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
   const navRef = useRef<HTMLElement | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [stickyEnabled, setStickyEnabled] = useState(true);
   const [activeFromScroll, setActiveFromScroll] = useState<NavSelectedHref>();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -124,17 +128,49 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
     return () => window.removeEventListener("scroll", onScroll);
   }, [scrollSpyEnabled]);
 
+  useEffect(() => {
+    let raf = 0;
+
+    const updateStickyEnabled = () => {
+      const marker = document.getElementById(STICKY_STOP_MARKER_ID);
+      if (!marker) {
+        setStickyEnabled(true);
+        return;
+      }
+
+      const markerTop = marker.getBoundingClientRect().top;
+      const stopLine = window.innerHeight - STICKY_STOP_VIEWPORT_OFFSET_PX;
+
+      setStickyEnabled((previouslySticky) => {
+        if (previouslySticky) {
+          return markerTop > stopLine - STICKY_STOP_HYSTERESIS_PX;
+        }
+
+        return markerTop > stopLine + STICKY_STOP_HYSTERESIS_PX;
+      });
+    };
+
+    const onScrollOrResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateStickyEnabled);
+    };
+
+    updateStickyEnabled();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, []);
+
   return (
     <nav
       ref={navRef}
       aria-label="Primary navigation"
-      className={`relative z-10 w-full transition-colors duration-300 ${
-        scrolled
-          ? `border-b border-[var(--color-border)] bg-[var(--color-bg)]/80 ${
-              mobileOpen ? "" : "backdrop-blur-sm"
-            }`
-          : "border-b border-transparent bg-transparent"
-      }`}
+      className={`${stickyEnabled ? "sticky top-0" : "relative"} z-50 w-full border-none bg-transparent`}
     >
       <div
         className={`flex items-start justify-between gap-3 pb-4 pt-0 md:pb-4 ${pageEdgeClass}`}

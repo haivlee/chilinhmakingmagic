@@ -17,6 +17,9 @@ const roles = ["VFX Artist", "Digital Matte Painter", "Environment Generalist"];
 const emailAddress = "chilinh2708@gmail.com";
 const heroNameLabel = "CHI-LINH (KRIST) TRAN";
 const heroNameMeasureSize = 100;
+const STICKY_STOP_MARKER_ID = "works-sticky-stop";
+const STICKY_STOP_VIEWPORT_OFFSET_PX = 48;
+const STICKY_STOP_HYSTERESIS_PX = 12;
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -39,6 +42,7 @@ function HeroNameText() {
 export default function Hero() {
   const reduce = useReducedMotion();
   const [isEmailCopied, setIsEmailCopied] = useState(false);
+  const [stickyEnabled, setStickyEnabled] = useState(true);
   const heroNameShellRef = useRef<HTMLDivElement>(null);
   const heroNameMeasureRef = useRef<HTMLSpanElement>(null);
 
@@ -116,6 +120,105 @@ export default function Hero() {
       window.location.href = `mailto:${emailAddress}`;
     }
   };
+
+  useEffect(() => {
+    let raf = 0;
+
+    const updateStickyEnabled = () => {
+      const marker = document.getElementById(STICKY_STOP_MARKER_ID);
+      if (!marker) {
+        setStickyEnabled(true);
+        return;
+      }
+
+      const markerTop = marker.getBoundingClientRect().top;
+      const stopLine = window.innerHeight - STICKY_STOP_VIEWPORT_OFFSET_PX;
+
+      setStickyEnabled((previouslySticky) => {
+        if (previouslySticky) {
+          return markerTop > stopLine - STICKY_STOP_HYSTERESIS_PX;
+        }
+
+        return markerTop > stopLine + STICKY_STOP_HYSTERESIS_PX;
+      });
+    };
+
+    const onScrollOrResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateStickyEnabled);
+    };
+
+    updateStickyEnabled();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScrollOrResize);
+      window.removeEventListener("resize", onScrollOrResize);
+    };
+  }, []);
+
+  const stickyFooterTransition = reduce
+    ? { duration: 0 }
+    : { duration: 0.24, ease: "easeOut" as const };
+
+  const stickyFooterVariants = {
+    hidden: { opacity: 0, y: reduce ? 0 : 8 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const heroStickyFooterContent = (
+    <>
+      <a
+        href={`mailto:${emailAddress}`}
+        className="group relative inline-flex items-center text-[var(--color-fg)]"
+        aria-label="Email Chi-Linh Tran"
+        onClick={handleEmailClick}
+      >
+        <span className="inline-flex group-hover:hidden group-focus-visible:hidden group-active:hidden">
+          <svg
+            className="h-5 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.25"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <rect x="3" y="5" width="18" height="14" rx="1" />
+            <path d="M3 7l9 6 9-6" />
+          </svg>
+        </span>
+        <span className="hidden items-center gap-1.5 bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white md:text-[16px] group-hover:inline-flex group-focus-visible:inline-flex group-active:inline-flex">
+          <svg
+            className="h-4 w-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <rect x="3" y="5" width="18" height="14" rx="1" />
+            <path d="M3 7l9 6 9-6" />
+          </svg>
+          <span>{isEmailCopied ? "Copied to clipboard" : emailAddress}</span>
+        </span>
+      </a>
+      <p
+        className="flex items-center gap-2 [font-family:var(--font-display)] text-[16px] font-light uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:[writing-mode:vertical-rl]"
+        aria-label="© 20 — 2X"
+      >
+        <span>©20</span>
+        <span
+          className="inline-block h-0 w-[33px] shrink-0 self-center border-t border-[var(--color-fg)] md:h-[33px] md:w-0 md:border-l md:border-t-0"
+          aria-hidden
+        />
+        <span>2x</span>
+      </p>
+    </>
+  );
 
   return (
     <section
@@ -231,59 +334,30 @@ export default function Hero() {
         </div>
       </div>
 
-      <div
-        className={`mt-9 flex items-end justify-between border-[var(--color-fg)] ${pageEdgeClass} pt-2 pb-3`}
+      <motion.div
+        initial={false}
+        animate={{ opacity: stickyEnabled ? 0 : 1, y: stickyEnabled && !reduce ? 4 : 0 }}
+        transition={stickyFooterTransition}
+        className={`mt-9 flex items-end justify-between ${pageEdgeClass} pt-2 pb-3 ${stickyEnabled ? "pointer-events-none" : ""}`}
+        aria-hidden={stickyEnabled}
       >
-        <a
-          href={`mailto:${emailAddress}`}
-          className="group relative inline-flex items-center text-[var(--color-fg)]"
-          aria-label="Email Chi-Linh Tran"
-          onClick={handleEmailClick}
-        >
-          <span className="inline-flex group-hover:hidden group-focus-visible:hidden group-active:hidden">
-            <svg
-              className="h-5 w-6"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              <rect x="3" y="5" width="18" height="14" rx="1" />
-              <path d="M3 7l9 6 9-6" />
-            </svg>
-          </span>
-          <span className="hidden items-center gap-1.5 bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white md:text-[16px] group-hover:inline-flex group-focus-visible:inline-flex group-active:inline-flex">
-            <svg
-              className="h-4 w-4"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinejoin="round"
-              aria-hidden
-            >
-              <rect x="3" y="5" width="18" height="14" rx="1" />
-              <path d="M3 7l9 6 9-6" />
-            </svg>
-            <span>{isEmailCopied ? "Copied to clipboard" : emailAddress}</span>
-          </span>
-        </a>
-        <p
-          className="flex items-center gap-2 [font-family:var(--font-display)] text-[16px] font-light uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:[writing-mode:vertical-rl]"
-          aria-label="© 20 — 2X"
-        >
-          <span>©20</span>
-          <span
-            className="inline-block h-0 w-[33px] shrink-0 self-center border-t border-[var(--color-fg)] md:h-[33px] md:w-0 md:border-l md:border-t-0"
-            aria-hidden
-          />
-          <span>2x</span>
-        </p>
-      </div>
+        {heroStickyFooterContent}
+      </motion.div>
 
-      <div className="mt-[20px] md:mt-[60px] flex w-full flex-col gap-6" aria-hidden>
+      {stickyEnabled ? (
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          exit="hidden"
+          variants={stickyFooterVariants}
+          transition={stickyFooterTransition}
+          className={`fixed inset-x-0 bottom-3 z-40 flex items-end justify-between ${pageEdgeClass} pt-2 pb-3`}
+        >
+          {heroStickyFooterContent}
+        </motion.div>
+      ) : null}
+
+      <div className="mt-[20px] md:mt-[230px] flex w-full flex-col gap-6" aria-hidden>
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
         <div className="h-px w-full shrink-0 bg-[var(--color-fg)]" />
       </div>

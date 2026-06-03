@@ -1,8 +1,17 @@
+"use client";
+
+import type { MouseEvent } from "react";
+import { useEffect, useState } from "react";
+
 import {
   contentShellClass,
   pageEdgeClass,
   sectionPaddingClass,
 } from "@/lib/contentShell";
+
+const emailAddress = "chilinh2708@gmail.com";
+const phoneHref = "+84904905047";
+type CopiedField = "email" | "phone" | null;
 
 const socials = [
   { label: "Facebook", href: "https://www.facebook.com/CL.of.yesterday/" },
@@ -15,6 +24,38 @@ const socials = [
 ];
 
 export default function Contact() {
+  const [copiedField, setCopiedField] = useState<CopiedField>(null);
+
+  useEffect(() => {
+    if (!copiedField) {
+      return;
+    }
+
+    const resetCopiedTimer = window.setTimeout(() => {
+      setCopiedField(null);
+    }, 1400);
+
+    return () => {
+      window.clearTimeout(resetCopiedTimer);
+    };
+  }, [copiedField]);
+
+  const handleCopyClick = async (
+    event: MouseEvent<HTMLAnchorElement>,
+    valueToCopy: string,
+    fallbackHref: string,
+    field: Exclude<CopiedField, null>,
+  ) => {
+    event.preventDefault();
+
+    try {
+      await navigator.clipboard.writeText(valueToCopy);
+      setCopiedField(field);
+    } catch {
+      window.location.href = fallbackHref;
+    }
+  };
+
   return (
     <footer id="contact" className="bg-[var(--color-bg)]">
       <div className={`${contentShellClass} ${sectionPaddingClass}`}>
@@ -50,23 +91,45 @@ export default function Contact() {
 
           <div className="col-span-2 pt-1 font-sans text-[16px] leading-[1.45] tracking-normal md:col-span-1 md:justify-self-end">
             <a
-              href="mailto:chilinh2708@gmail.com"
+              href={`mailto:${emailAddress}`}
               className="flex items-baseline gap-2 hover:underline"
+              onClick={(event) =>
+                handleCopyClick(event, emailAddress, `mailto:${emailAddress}`, "email")
+              }
             >
               <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8]" />
               <span>
                 <strong className="font-bold text-[#777777]">Email:</strong>{" "}
-                chilinh2708@gmail.com
+                {emailAddress}
+              </span>
+              <span
+                className={`rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
+                  copiedField === "email" ? "opacity-100" : "opacity-0"
+                }`}
+                aria-live="polite"
+              >
+                Copied
               </span>
             </a>
             <a
-              href="tel:+84904905047"
+              href={`tel:${phoneHref}`}
               className="mt-3 flex items-baseline gap-2 hover:underline"
+              onClick={(event) =>
+                handleCopyClick(event, phoneHref, `tel:${phoneHref}`, "phone")
+              }
             >
               <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8] rotate-0" />
               <span>
                 <strong className="font-bold text-[#777777]">Phone:</strong>{" "}
                 (+84) 904 905 047
+              </span>
+              <span
+                className={`rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
+                  copiedField === "phone" ? "opacity-100" : "opacity-0"
+                }`}
+                aria-live="polite"
+              >
+                Copied
               </span>
             </a>
           </div>
