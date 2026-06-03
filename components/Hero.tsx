@@ -3,15 +3,18 @@
 import { motion, useReducedMotion } from "framer-motion";
 import {
   type CSSProperties,
+  type MouseEvent,
   useEffect,
   useLayoutEffect,
   useRef,
+  useState,
 } from "react";
 
 import LinkCaret from "@/components/LinkCaret";
 import { contentShellClass, pageEdgeClass } from "@/lib/contentShell";
 
 const roles = ["VFX Artist", "Digital Matte Painter", "Environment Generalist"];
+const emailAddress = "chilinh2708@gmail.com";
 const heroNameLabel = "CHI-LINH (KRIST) TRAN";
 const heroNameMeasureSize = 100;
 const useIsomorphicLayoutEffect =
@@ -35,6 +38,7 @@ function HeroNameText() {
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  const [isEmailCopied, setIsEmailCopied] = useState(false);
   const heroNameShellRef = useRef<HTMLDivElement>(null);
   const heroNameMeasureRef = useRef<HTMLSpanElement>(null);
 
@@ -87,6 +91,31 @@ export default function Hero() {
       resizeObserver.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isEmailCopied) {
+      return;
+    }
+
+    const resetCopyStateTimer = window.setTimeout(() => {
+      setIsEmailCopied(false);
+    }, 500);
+
+    return () => {
+      window.clearTimeout(resetCopyStateTimer);
+    };
+  }, [isEmailCopied]);
+
+  const handleEmailClick = async (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+
+    try {
+      await navigator.clipboard.writeText(emailAddress);
+      setIsEmailCopied(true);
+    } catch {
+      window.location.href = `mailto:${emailAddress}`;
+    }
+  };
 
   return (
     <section
@@ -206,23 +235,26 @@ export default function Hero() {
         className={`mt-9 flex items-end justify-between border-[var(--color-fg)] ${pageEdgeClass} pt-2 pb-3`}
       >
         <a
-          href="mailto:chilinh2708@gmail.com"
-          className="group relative inline-flex text-[var(--color-fg)]"
+          href={`mailto:${emailAddress}`}
+          className="group relative inline-flex items-center text-[var(--color-fg)]"
           aria-label="Email Chi-Linh Tran"
+          onClick={handleEmailClick}
         >
-          <svg
-            className="h-5 w-6 transition-opacity group-hover:opacity-70 group-focus-visible:opacity-70"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.25"
-            strokeLinejoin="round"
-            aria-hidden
-          >
-            <rect x="3" y="5" width="18" height="14" rx="1" />
-            <path d="M3 7l9 6 9-6" />
-          </svg>
-          <span className="pointer-events-none absolute top-full left-0 mt-2 hidden items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[16px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 md:inline-flex">
+          <span className="inline-flex group-hover:hidden group-focus-visible:hidden group-active:hidden">
+            <svg
+              className="h-5 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.25"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <rect x="3" y="5" width="18" height="14" rx="1" />
+              <path d="M3 7l9 6 9-6" />
+            </svg>
+          </span>
+          <span className="hidden items-center gap-1.5 bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white md:text-[16px] group-hover:inline-flex group-focus-visible:inline-flex group-active:inline-flex">
             <svg
               className="h-4 w-4"
               viewBox="0 0 24 24"
@@ -235,10 +267,7 @@ export default function Hero() {
               <rect x="3" y="5" width="18" height="14" rx="1" />
               <path d="M3 7l9 6 9-6" />
             </svg>
-            chilinh2708@gmail.com
-          </span>
-          <span className="pointer-events-none absolute top-full left-0 mt-2 inline-flex items-center gap-1.5 whitespace-nowrap bg-black px-2 py-1 font-sans text-[14px] font-normal leading-none tracking-normal text-white opacity-0 transition-opacity group-focus-visible:opacity-100 active:opacity-100 md:hidden">
-            chilinh2708@gmail.com
+            <span>{isEmailCopied ? "Copied to clipboard" : emailAddress}</span>
           </span>
         </a>
         <p

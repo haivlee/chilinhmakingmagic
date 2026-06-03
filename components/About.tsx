@@ -65,7 +65,7 @@ export default function About() {
             <p className="font-sans text-[36px] leading-[90%] font-[250] tracking-normal text-[var(--color-muted)] md:leading-[24px]">
               I&apos;m
             </p>
-            <h2 className="mt-1.5 font-display text-[42px] leading-[90%] tracking-normal text-[var(--color-fg)] md:mt-3 md:leading-[24px]">
+            <h2 className="mt-1 font-display text-[42px] tracking-normal text-[var(--color-fg)]">
               Chí-Linh
             </h2>
           </div>
@@ -80,8 +80,8 @@ export default function About() {
               {items.map((item) => (
                 <div
                   key={item.id}
-                  className={`grid gap-4 md:h-full md:grid-cols-[minmax(0,220px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-10 lg:gap-x-12 ${
-                    item.id === "background" ? "md:-translate-y-8  " : "md:translate-y-7Add"
+                  className={`grid gap-4 md:h-full md:grid-cols-[minmax(0,280px)_minmax(0,1fr)] md:grid-rows-[1fr_auto_1fr] md:gap-x-10 lg:gap-x-12 ${
+                    item.id === "background" ? "md:-translate-y-8" : "md:translate-y-7"
                   }`}
                 >
                   <h3 className="flex items-end gap-3 font-display text-2xl uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:row-start-2 md:self-end md:text-[28px]">
