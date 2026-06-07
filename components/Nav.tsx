@@ -33,16 +33,46 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
   const [stickyEnabled, setStickyEnabled] = useState(true);
   const [activeFromScroll, setActiveFromScroll] = useState<NavSelectedHref>();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [mobileEntered, setMobileEntered] = useState(false);
 
   const selectedHref = selectedHrefProp ?? activeFromScroll;
   const scrollSpyEnabled = selectedHrefProp === undefined;
 
   const closeMobile = () => setMobileOpen(false);
 
+  const handleMobileMenuTransitionEnd = (
+    e: React.TransitionEvent<HTMLDivElement>,
+  ) => {
+    if (e.propertyName !== "transform" || mobileOpen) return;
+    setShowMobileMenu(false);
+  };
+
+  useEffect(() => {
+    if (!mobileOpen) {
+      setMobileEntered(false);
+      const fallbackId = window.setTimeout(() => {
+        setShowMobileMenu(false);
+      }, 320);
+      return () => window.clearTimeout(fallbackId);
+    }
+
+    setShowMobileMenu(true);
+    setMobileEntered(false);
+    const id = requestAnimationFrame(() => {
+      requestAnimationFrame(() => setMobileEntered(true));
+    });
+    return () => cancelAnimationFrame(id);
+  }, [mobileOpen]);
+
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const onMq = () => {
-      if (mq.matches) setMobileOpen(false);
+      if (mq.matches) {
+        setMobileOpen(false);
+        setShowMobileMenu(false);
+        setMobileEntered(false);
+      }
     };
     mq.addEventListener("change", onMq);
     return () => mq.removeEventListener("change", onMq);
@@ -55,6 +85,14 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.removeProperty("overflow");
+    };
   }, [mobileOpen]);
 
   useEffect(() => {
@@ -170,7 +208,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
     <nav
       ref={navRef}
       aria-label="Primary navigation"
-      className={`${stickyEnabled ? "sticky top-0" : "relative"} z-50 w-full border-none bg-transparent`}
+      className={`z-50 w-full border-none bg-transparent ${stickyEnabled ? "md:sticky md:top-0" : "md:relative md:top-auto"}`}
     >
       <div
         className={`flex items-start justify-between gap-3 pb-4 pt-0 md:pb-4 ${pageEdgeClass}`}
@@ -183,7 +221,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
           CL
         </a>
 
-      <div className="relative pt-4 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)] md:pt-14">
+        <div className="relative min-h-14 min-w-14 shrink-0 pt-4 font-sans text-[16px] font-extralight uppercase leading-none tracking-normal text-[var(--color-fg)] md:min-h-0 md:min-w-0 md:pt-14">
         <div className="hidden gap-3 md:flex md:flex-col md:items-end md:gap-2">
           {links.map((link) => {
             const selected = link.href === selectedHref;
@@ -206,7 +244,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
 
         <button
           type="button"
-          className="flex min-h-14 min-w-14 items-center justify-center rounded-sm text-[#9a9a9a] md:hidden"
+          className="flex min-h-14 min-w-14 items-center justify-center rounded-sm text-[#9a9a9a] max-md:fixed max-md:right-4 max-md:top-4 max-md:z-[60] md:hidden"
           aria-expanded={mobileOpen}
           aria-controls="nav-mobile-menu"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -221,50 +259,72 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
             strokeLinecap="round"
             aria-hidden
           >
-            {mobileOpen ? (
-              <>
-                <path d="M6 18L18 6M6 6l12 12" />
-              </>
-            ) : (
-              <>
-                <path d="M4 7h16M4 12h16M4 17h16" />
-              </>
-            )}
+            <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
 
-        {mobileOpen ? (
-          <>
+        {showMobileMenu ? (
+          <div
+            id="nav-mobile-menu"
+            aria-label="Page sections"
+            aria-hidden={!mobileOpen}
+            onTransitionEnd={handleMobileMenuTransitionEnd}
+            className={`fixed inset-0 z-[100] flex flex-col bg-[var(--color-bg)] transition-transform duration-300 ease-out motion-reduce:transition-none md:hidden ${
+              mobileEntered ? "translate-x-0" : "translate-x-full"
+            }`}
+          >
             <div
-              className="fixed inset-0 z-[60] bg-[var(--color-fg)]/15 md:hidden"
-              aria-hidden
-              onClick={closeMobile}
-            />
-            <div
-              id="nav-mobile-menu"
-              aria-label="Page sections"
-              className="absolute right-0 top-full z-[70] mt-2 flex w-[min(calc(100vw-2.5rem),20rem)] flex-col gap-1 border border-[var(--color-border)] bg-[var(--color-bg)] py-2 shadow-md md:hidden"
+              className={`flex items-start justify-between pb-4 pt-0 ${pageEdgeClass}`}
             >
-              {links.map((link) => {
-                const selected = link.href === selectedHref;
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    aria-current={selected ? "true" : undefined}
-                    onClick={closeMobile}
-                    className={`px-4 py-3 text-right transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] ${
-                      selected
-                        ? "bg-[var(--color-fg)] font-extrabold text-[var(--color-bg)]"
-                        : ""
-                    }`}
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
+              <a
+                href="#top"
+                onClick={closeMobile}
+                className="font-display font-ultrabold font-[800] flex h-[93px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-1.5 pb-1.5 text-[28px] uppercase leading-none tracking-normal text-[var(--color-bg)]"
+                aria-label="Chi-Linh Tran home"
+              >
+                CL
+              </a>
+              <button
+                type="button"
+                className="flex min-h-14 min-w-14 items-center justify-center rounded-sm pt-4 text-[#9a9a9a]"
+                aria-label="Close menu"
+                onClick={closeMobile}
+              >
+                <svg
+                  className="h-8 w-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  aria-hidden
+                >
+                  <path d="M4 7h16M4 12h16M4 17h16" />
+                </svg>
+              </button>
             </div>
-          </>
+
+            <div className="flex flex-1 flex-col justify-center pb-[20vh]">
+              <div className="w-full border-t border-[#9a9a9a]">
+                {links.map((link) => {
+                  const selected = link.href === selectedHref;
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      aria-current={selected ? "true" : undefined}
+                      onClick={closeMobile}
+                      className={`block border-b border-[#9a9a9a] py-8 text-center font-sans font-thin text-[30px] font-[250] uppercase leading-[100%] tracking-normal text-black transition-colors hover:opacity-70 ${
+                        selected ? "font-normal" : ""
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         ) : null}
       </div>
       </div>

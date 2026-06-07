@@ -12,7 +12,7 @@ export default async function FeaturedProjects() {
       className={`overflow-hidden border-[var(--color-border)] ${sectionPaddingClass}`}
     >
       <div
-        className={`grid items-stretch gap-8 md:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] md:gap-x-12 lg:gap-x-16 ${contentShellClass}`}
+        className={`grid items-stretch gap-8 xl:grid-cols-[minmax(220px,280px)_minmax(0,1fr)] xl:gap-x-12 2xl:gap-x-16 ${contentShellClass}`}
       >
         <div className="min-h-0 md:pt-2">
           <div>

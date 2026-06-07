@@ -49,7 +49,7 @@ type WorkTileLayout = keyof typeof WORK_IMAGE_SIZES;
 /** Fixed strip height so full-row and half-row tiles match (aspect-ratio scales height with width). */
 const WORK_MAIN_TILE_HEIGHT = "h-[clamp(192px,24vw,304px)] w-full";
 const WORK_BOTTOM_TILE_WIDTH =
-  "w-full md:min-w-[260px] md:w-[min(92vw,440px)] lg:w-[440px]";
+  "w-full aspect-[2/1] md:min-w-[260px] md:w-[min(92vw,440px)] lg:w-[440px]";
 const WORK_BOTTOM_LOOP_COPIES = 3;
 
 function SideLabelDot() {
@@ -115,7 +115,7 @@ function WorkTile(props: {
   const frameClass = isMainStrip
     ? WORK_MAIN_TILE_HEIGHT
     : figureClassName
-      ? "aspect-[2/1] shrink-0"
+      ? "shrink-0"
       : "aspect-[2/1] w-full";
 
   return (
@@ -126,7 +126,7 @@ function WorkTile(props: {
         type="button"
         aria-label={`Open ${image.alt}`}
         onClick={() => onSelect?.(image)}
-        className="absolute inset-0 z-10 cursor-zoom-in touch-pan-x focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
+        className="absolute inset-0 z-10 cursor-zoom-in touch-manipulation focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-white"
       />
       <Image
         src={image.src}
@@ -450,7 +450,7 @@ function WorksBottomImageRow({
   if (images.length === 0) return null;
 
   return (
-    <div className="relative left-1/2 w-screen -translate-x-1/2 px-6 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden">
+    <div className="relative left-1/2 w-screen -translate-x-1/2 px-1 md:px-6 md:overflow-x-auto md:[scrollbar-width:none] md:[&::-webkit-scrollbar]:hidden">
       <div className="grid grid-cols-3 gap-1 md:flex md:w-max md:shrink-0 md:gap-2 lg:mx-auto">
         {images.map((image, i) => (
           <WorkTile
@@ -479,13 +479,11 @@ function WorksImageLightbox({
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
     };
-    const previousOverflow = document.body.style.overflow;
-
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      document.body.style.removeProperty("overflow");
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [image, onClose]);
@@ -508,7 +506,7 @@ function WorksImageLightbox({
       className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 px-4 py-10"
     >
       <div
-        className="relative h-[min(72vh,760px)] w-[min(calc(100vw-3rem),1450px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+        className="relative aspect-square w-[min(calc(100vw-3rem),1450px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)] md:aspect-auto md:h-[min(72vh,760px)]"
         onClick={(event) => event.stopPropagation()}
       >
         <Image
@@ -583,11 +581,11 @@ export default function WorksGrid({
 
   return (
     <section id="works" className={sectionPaddingClass}>
-      <div className="border-b border-[var(--color-border)] pb-4 text-center">
+      <div className="border-b border-[var(--color-fg)] pb-4 text-center">
         <h2 className="font-display text-center text-[clamp(2.3rem,12vw,6rem)] uppercase leading-[1.1] tracking-normal text-[var(--color-fg)] md:leading-[1.5]">
           My Works
         </h2>
-        <p className="mt-3 border-t border-[var(--color-border)] pt-3 text-center font-sans font-extralight text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-fg)] md:mt-5 md:pt-4">
+        <p className="mt-3 border-t border-[var(--color-fg)] pt-3 text-center font-sans font-extralight text-[18px] font-[275] leading-[100%] tracking-normal text-[var(--color-fg)] md:mt-5 md:pt-4">
           Frames that tell more than just a story.
         </p>
       </div>

@@ -43,6 +43,7 @@ export default function Hero() {
   const reduce = useReducedMotion();
   const [isEmailCopied, setIsEmailCopied] = useState(false);
   const [stickyEnabled, setStickyEnabled] = useState(true);
+  const [isDesktop, setIsDesktop] = useState(false);
   const heroNameShellRef = useRef<HTMLDivElement>(null);
   const heroNameMeasureRef = useRef<HTMLSpanElement>(null);
 
@@ -122,6 +123,14 @@ export default function Hero() {
   };
 
   useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
     let raf = 0;
 
     const updateStickyEnabled = () => {
@@ -162,6 +171,8 @@ export default function Hero() {
   const stickyFooterTransition = reduce
     ? { duration: 0 }
     : { duration: 0.24, ease: "easeOut" as const };
+
+  const showStickyFooter = stickyEnabled && isDesktop;
 
   const stickyFooterVariants = {
     hidden: { opacity: 0, y: reduce ? 0 : 8 },
@@ -336,15 +347,15 @@ export default function Hero() {
 
       <motion.div
         initial={false}
-        animate={{ opacity: stickyEnabled ? 0 : 1, y: stickyEnabled && !reduce ? 4 : 0 }}
+        animate={{ opacity: showStickyFooter ? 0 : 1, y: showStickyFooter && !reduce ? 4 : 0 }}
         transition={stickyFooterTransition}
-        className={`mt-9 flex items-end justify-between ${pageEdgeClass} pt-2 pb-3 ${stickyEnabled ? "pointer-events-none" : ""}`}
-        aria-hidden={stickyEnabled}
+        className={`mt-9 flex items-end justify-between ${pageEdgeClass} pt-2 pb-3 ${showStickyFooter ? "pointer-events-none" : ""}`}
+        aria-hidden={showStickyFooter}
       >
         {heroStickyFooterContent}
       </motion.div>
 
-      {stickyEnabled ? (
+      {showStickyFooter ? (
         <motion.div
           initial="hidden"
           animate="visible"
