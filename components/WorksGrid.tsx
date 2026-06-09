@@ -135,6 +135,7 @@ function WorkTile(props: {
         priority={priority}
         sizes={WORK_IMAGE_SIZES[layout]}
         quality={92}
+        style={{ objectPosition: image.tileObjectPosition ?? "center center" }}
         className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       />
     </figure>
@@ -515,6 +516,12 @@ function WorksImageLightbox({
           fill
           sizes="(min-width: 1450px) 1450px, calc(100vw - 3rem)"
           quality={92}
+          style={{
+            objectPosition:
+              image.lightboxObjectPosition ??
+              image.tileObjectPosition ??
+              "center center",
+          }}
           className="object-cover"
         />
 

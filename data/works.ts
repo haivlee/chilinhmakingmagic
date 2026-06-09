@@ -5,11 +5,18 @@ export type WorkImageLightboxText = {
   lightboxRightTextColor?: "white" | "black";
 };
 
+export type WorkImageDisplay = {
+  /** CSS object-position for grid tiles, e.g. "center 55%". */
+  tileObjectPosition?: string;
+  /** CSS object-position for lightbox image, e.g. "center 60%". */
+  lightboxObjectPosition?: string;
+};
+
 export type WorkImage = {
   src: string;
   alt: string;
   caption?: string;
-} & WorkImageLightboxText;
+} & WorkImageLightboxText & WorkImageDisplay;
 
 export type WorkRow =
   | { type: "full"; image: WorkImage }
@@ -21,7 +28,7 @@ export type WorkRow =
 export type WorkSlot = {
   slot: number;
   alt: string;
-} & WorkImageLightboxText;
+} & WorkImageLightboxText & WorkImageDisplay;
 
 export type WorkRowSpec =
   | { type: "full"; image: WorkSlot }
@@ -41,9 +48,9 @@ const DEFAULT_LIGHTBOX_TEXT: Required<WorkImageLightboxText> = {
 export function w(
   slot: number,
   alt: string,
-  lightboxText: WorkImageLightboxText = {},
+  imageOptions: WorkImageLightboxText & WorkImageDisplay = {},
 ): WorkSlot {
-  return { slot, alt, ...lightboxText };
+  return { slot, alt, ...imageOptions };
 }
 
 function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
@@ -58,6 +65,8 @@ function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
       s.lightboxLeftTextColor ?? DEFAULT_LIGHTBOX_TEXT.lightboxLeftTextColor,
     lightboxRightTextColor:
       s.lightboxRightTextColor ?? DEFAULT_LIGHTBOX_TEXT.lightboxRightTextColor,
+    tileObjectPosition: s.tileObjectPosition,
+    lightboxObjectPosition: s.lightboxObjectPosition,
   };
 }
 
@@ -169,6 +178,7 @@ export const workRows: WorkRowSpec[] = [
       w(19, "Vietnamese city block in daylight", {
         lightboxLeftText: "Em va Trinh 2022",
         lightboxRightText: "street matte painting",
+        lightboxObjectPosition: "center 70%",
       }),
       w(20, "Portrait close-up against a stormy mountain backdrop", {
         lightboxLeftText: "Silver and the book of dreams (2023)",
