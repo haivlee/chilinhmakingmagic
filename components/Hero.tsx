@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import {
   type CSSProperties,
   type MouseEvent,
@@ -320,17 +321,15 @@ export default function Hero() {
               Artstation
             </span>
           </a>
-          <a
+          <Link
             className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)]"
-            href="https://vimeo.com/899392906"
-            target="_blank"
-            rel="noreferrer"
+            href="/portfolio"
           >
             <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
               <LinkCaret className="transition-transform group-hover:translate-y-px" />
               Portfolio
             </span>
-          </a>
+          </Link>
           <a
             className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)]"
             href="https://www.imdb.com/name/nm14247434/"
