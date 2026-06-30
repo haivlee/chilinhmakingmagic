@@ -28,10 +28,12 @@ export default async function FeaturedProjects() {
               href="https://www.imdb.com/name/nm14247434/"
               target="_blank"
               rel="noreferrer"
-              className="group font-sans mt-1.5 flex items-center gap-2 self-start text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[var(--color-fg)] hover:underline md:mt-2"
+              className="group mt-1.5 flex items-center gap-2 self-start font-sans text-[20px] font-normal uppercase leading-[100%] tracking-normal text-[var(--color-fg)] md:mt-2"
             >
-              <LinkCaret className="text-[var(--color-fg)] transition-transform group-hover:translate-y-px" />
-              IMDb
+              <span className="inline-flex items-center gap-2 px-1.5 py-0.5 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
+                <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
+                IMDb
+              </span>
             </a>
           </div>
         </div>

@@ -317,7 +317,7 @@ export default function Hero() {
             rel="noreferrer"
           >
             <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="transition-transform group-hover:translate-y-px" />
+              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
               Artstation
             </span>
           </a>
@@ -326,7 +326,7 @@ export default function Hero() {
             href="/portfolio"
           >
             <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="transition-transform group-hover:translate-y-px" />
+              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
               Portfolio
             </span>
           </Link>
@@ -337,7 +337,7 @@ export default function Hero() {
             rel="noreferrer"
           >
             <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="transition-transform group-hover:translate-y-px" />
+              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
               IMDb
             </span>
           </a>
