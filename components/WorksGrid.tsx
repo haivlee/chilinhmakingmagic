@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import type { WorkImage, WorkRow } from "@/data/works";
 import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
 
@@ -623,26 +624,46 @@ export default function WorksGrid({
 
       <div id="works-sticky-stop" className="h-px w-full" aria-hidden />
 
-      <div className="mt-10 hidden md:block md:mt-16">
-        <WorksBottomImageRow
-          images={bottomRowWorks}
-          onSelectImage={setSelectedImage}
-        />
-      </div>
+      <section aria-labelledby="portfolio-breakdown-heading">
+        <div className="mt-16 text-center md:mt-20">
+          <h2
+            id="portfolio-breakdown-heading"
+            className="font-display text-[42px] uppercase leading-none tracking-normal text-[var(--color-fg)] md:text-[26px]"
+          >
+            Case Studies Not Enough?
+          </h2>
+          <p className="mt-1.5 font-sans text-[16px] font-light leading-none text-[var(--color-fg)]">
+            Then I have some breakdown for you.
+          </p>
+          <Link
+            href="/portfolio"
+            className="mt-6 inline-flex h-[50px] min-w-[132px] items-center justify-center border border-[var(--color-fg)] px-3 font-sans text-[16px] font-semibold uppercase leading-none transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
+          >
+            Portfolio Breakdown
+          </Link>
+        </div>
 
-      <div className="mt-3 hidden md:block">
-        <WorksBottomDragStrip
-          bottomWorks={bottomSliderWorks}
-          onSelectImage={setSelectedImage}
-        />
-      </div>
+        <div className="mt-14 hidden md:block md:mt-20">
+          <WorksBottomImageRow
+            images={bottomRowWorks}
+            onSelectImage={setSelectedImage}
+          />
+        </div>
 
-      <div className="mt-8 md:hidden">
-        <WorksBottomImageRow
-          images={mobileBottomWorks}
-          onSelectImage={setSelectedImage}
-        />
-      </div>
+        <div className="mt-3 hidden md:block">
+          <WorksBottomDragStrip
+            bottomWorks={bottomSliderWorks}
+            onSelectImage={setSelectedImage}
+          />
+        </div>
+
+        <div className="mt-8 md:hidden">
+          <WorksBottomImageRow
+            images={mobileBottomWorks}
+            onSelectImage={setSelectedImage}
+          />
+        </div>
+      </section>
 
       <WorksImageLightbox image={selectedImage} onClose={closeLightbox} />
     </section>

@@ -5,7 +5,7 @@ import Link from "next/link";
 const contactEmail = "chilinh2708@gmail.com";
 const contactPhone = "(+84) 904 905 047";
 const phoneHref = "+84904905047";
-const portfolioShellClass = "mx-auto w-full max-w-[940px] px-5 md:px-0";
+const portfolioShellClass = "mx-auto w-full max-w-[1320px] px-5 md:px-0";
 
 const socials = [
   { label: "Facebook", href: "https://www.facebook.com/CL.of.yesterday/" },
@@ -147,38 +147,38 @@ function ReelSection() {
 
 function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
   return (
-    <article className="border-b border-[#2f2f2f] py-14 first:pt-0 md:py-[66px]">
-      <div className="grid gap-4 md:grid-cols-[380px_minmax(0,1fr)] md:gap-5">
-        <div className="relative aspect-[2.04/1] overflow-hidden rounded-md bg-[#111]">
+    <article className="border-b border-[#2f2f2f] py-14 first:pt-0 md:py-[74px]">
+      <div className="grid gap-5 md:grid-cols-[532px_minmax(0,1fr)] md:gap-6">
+        <div className="relative aspect-[1.97/1] overflow-hidden rounded-[15px] bg-[#111]">
           <Image
             src={breakdown.images[0].src}
             alt={breakdown.images[0].alt}
             fill
-            sizes="(min-width: 768px) 380px, 100vw"
+            sizes="(min-width: 1280px) 532px, (min-width: 768px) 42vw, 100vw"
             className="object-cover"
             style={{ objectPosition: breakdown.images[0].objectPosition }}
           />
         </div>
 
         <div className="min-w-0">
-          <h2 className="font-display text-[15px] uppercase leading-none tracking-normal md:text-[16px]">
+          <h2 className="font-display text-[22px] uppercase leading-none tracking-normal md:text-[26px]">
             {breakdown.title}
           </h2>
-          <p className="mt-1 font-sans text-[8px] font-light leading-[1.25] text-[#2f2f2f] md:text-[9px]">
+          <p className="mt-1.5 font-sans text-[13px] font-light leading-[1.25] text-[#2f2f2f] md:text-[16px]">
             {breakdown.credit}
           </p>
 
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-5 grid grid-cols-2 gap-5">
             {breakdown.images.slice(1).map((image) => (
               <div
                 key={image.src}
-                className="relative aspect-[1.88/1] overflow-hidden rounded-md bg-[#111]"
+                className="relative aspect-[1.96/1] overflow-hidden rounded-[15px] bg-[#111]"
               >
                 <Image
                   src={image.src}
                   alt={image.alt}
                   fill
-                  sizes="(min-width: 768px) 270px, 50vw"
+                  sizes="(min-width: 1280px) 372px, (min-width: 768px) 29vw, 50vw"
                   className="object-cover"
                   style={{ objectPosition: image.objectPosition }}
                 />
@@ -188,23 +188,23 @@ function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
         </div>
       </div>
 
-      <div className="mt-4 grid gap-5 font-sans text-[8px] font-light leading-[1.45] text-black sm:grid-cols-2 md:grid-cols-[380px_minmax(0,1fr)] md:gap-5 md:text-[9px]">
+      <div className="mt-6 grid gap-6 font-sans text-[14px] font-light leading-[1.45] text-black sm:grid-cols-2 md:grid-cols-[532px_minmax(0,1fr)] md:gap-6 md:text-[16px]">
         <section>
-          <h3 className="font-sans text-[9px] font-bold leading-none">
+          <h3 className="font-sans text-[14px] font-bold leading-none md:text-[16px]">
             Features:
           </h3>
-          <ul className="mt-1 list-disc space-y-1 pl-3.5">
+          <ul className="mt-1 list-disc space-y-1 pl-5">
             {breakdown.features.map((feature) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
         </section>
 
-        <section className="md:pl-[90px]">
-          <h3 className="font-sans text-[9px] font-bold leading-none">
+        <section className="md:pl-[156px]">
+          <h3 className="font-sans text-[14px] font-bold leading-none md:text-[16px]">
             Challenges:
           </h3>
-          <ul className="mt-1 list-disc space-y-1 pl-3.5">
+          <ul className="mt-1 list-disc space-y-1 pl-5">
             {breakdown.challenges.map((challenge) => (
               <li key={challenge}>{challenge}</li>
             ))}

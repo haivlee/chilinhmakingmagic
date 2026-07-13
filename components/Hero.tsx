@@ -309,35 +309,35 @@ export default function Hero() {
           concept art, digital matte painting, compositing and photoreal CG for
           films, commercials, and game cinematics.
         </p>
-        <div className="flex flex-col items-start gap-4 md:items-end md:gap-2.5">
+        <div className="flex flex-col items-center gap-2 md:items-end md:gap-2.5">
           <a
-            className="group font-sans flex w-full items-center justify-start gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)] md:justify-end"
+            className="group flex h-[50px] w-[210px] items-center justify-center border border-[var(--color-fg)] font-sans text-[16px] font-semibold leading-none tracking-normal text-[var(--color-fg)] md:h-auto md:w-full md:justify-end md:border-0 md:text-[20px] md:font-normal"
             href="https://chilinhtran.artstation.com/"
             target="_blank"
             rel="noreferrer"
           >
-            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
+            <span className="inline-flex items-center gap-1 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)] md:px-2">
+              <LinkCaret className="hidden origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none md:block" />
               Artstation
             </span>
           </a>
           <Link
-            className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)]"
+            className="group flex h-[50px] w-[210px] items-center justify-center border border-[var(--color-fg)] font-sans text-[16px] font-semibold leading-none tracking-normal text-[var(--color-fg)] md:h-auto md:w-auto md:border-0 md:text-[20px] md:font-normal"
             href="/portfolio"
           >
-            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
+            <span className="inline-flex items-center gap-1 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)] md:px-2">
+              <LinkCaret className="hidden origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none md:block" />
               Portfolio
             </span>
           </Link>
           <a
-            className="group font-sans flex items-center gap-2 text-[20px] font-normal leading-[100%] tracking-normal text-[var(--color-fg)]"
+            className="group flex h-[50px] w-[210px] items-center justify-center border border-[var(--color-fg)] font-sans text-[16px] font-semibold leading-none tracking-normal text-[var(--color-fg)] md:h-auto md:w-auto md:border-0 md:text-[20px] md:font-normal"
             href="https://www.imdb.com/name/nm14247434/"
             target="_blank"
             rel="noreferrer"
           >
-            <span className="inline-flex items-center gap-1 md:px-2 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)]">
-              <LinkCaret className="origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none" />
+            <span className="inline-flex items-center gap-1 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)] md:px-2">
+              <LinkCaret className="hidden origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none md:block" />
               IMDb
             </span>
           </a>
