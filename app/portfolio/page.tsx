@@ -2,20 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import Contact from "@/components/Contact";
+import { contentShellClass } from "@/lib/contentShell";
+
 const contactEmail = "chilinh2708@gmail.com";
 const contactPhone = "(+84) 904 905 047";
 const phoneHref = "+84904905047";
-const portfolioShellClass = "mx-auto w-full max-w-[1320px] px-5 md:px-0";
-
-const socials = [
-  { label: "Facebook", href: "https://www.facebook.com/CL.of.yesterday/" },
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/chi-linh-tran-364621139/",
-  },
-  { label: "Artstation", href: "https://chilinhtran.artstation.com/" },
-  { label: "IMDb", href: "https://www.imdb.com/name/nm14247434/" },
-];
+const portfolioShellClass = contentShellClass;
 
 type Breakdown = {
   title: string;
@@ -36,16 +29,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Toy City Sequence",
     images: [
       {
-        src: "/data/img/artworks/12.jpg",
+        src: "/data/img/portfolio/1a.jpg",
         alt: "Toy city matte painting for Silver and the Book of Dreams.",
       },
       {
-        src: "/data/img/artworks/WatchTower_CAM1_v01.jpg",
+        src: "/data/img/portfolio/1b.jpg",
         alt: "Clockwork tower concept keyframe with warm mechanical lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/artworks/21.jpg",
+        src: "/data/img/portfolio/1c.jpg",
         alt: "Portrait close-up against a stormy mountain backdrop.",
       },
     ],
@@ -60,21 +53,198 @@ const breakdowns: Breakdown[] = [
     ],
   },
   {
+    title: "Silver and the book of dreams (2023)",
+    credit:
+      "Cyclo VFX - Concept Artist - Digital Matte Painter - Bending Sea Sequence",
+    images: [
+      {
+        src: "/data/img/portfolio/2a.jpg",
+        alt: "Toy city matte painting for Silver and the Book of Dreams.",
+      },
+      {
+        src: "/data/img/portfolio/2b.jpg",
+        alt: "Clockwork tower concept keyframe with warm mechanical lighting.",
+        objectPosition: "center 52%",
+      },
+      {
+        src: "/data/img/portfolio/2c.jpg",
+        alt: "Portrait close-up against a stormy mountain backdrop.",
+      },
+    ],
+    features: [
+      "Designed an horizon-bending sea to emphasize scale and visual immersion.",
+      "Created beach extension to seamlessly expand the environment.",
+      "Developed sky matte painting to define the sky’s bending cloud.",
+    ],
+    challenges: [
+      "Defining depth and scale was challenging due to the lack of environmental reference objects.",
+      "Blending the curved horizon seamlessly into the sky across multiple camera angles required significant shot-by-shot refinement.",
+      "The curved cloud formations further complicated the creation of a convincing horizon line.",
+    ],
+  },
+  {
+    title: "Goodbye Earth (2024)",
+    credit:
+      "Cyclo VFX - Concept Artist - Digital Matte Painter - Meteor Sequence",
+    images: [
+      {
+        src: "/data/img/portfolio/3a.jpg",
+        alt: "Goodbye Earth key art with meteor impact.",
+      },
+      {
+        src: "/data/img/portfolio/3b.jpg",
+        alt: "Meteor sequence concept keyframe with dramatic lighting.",
+        objectPosition: "center 52%",
+      },
+      {
+        src: "/data/img/portfolio/3c.jpg",
+        alt: "Wide shot of the meteor impact on the city.",
+      },
+    ],
+    features: [
+      "Created matte paintings for the distant landscape, mountain ranges, and sky.",
+      "Produced composited key visuals to define the final look, mood, and atmosphere of the sequence.",
+    ],
+    challenges: [
+      "Seamlessly integrating matte-painted environments with CG elements.",
+      "Integrated meteor light interactions across the sky and cloud layers to create realistic atmospheric illumination and reinforce the sequence's visual storytelling.",
+    ],
+  },
+  {
+    title: "Helgoland 513 (2024)",
+    credit:
+      "Cyclo VFX - Digital Matte Painter - Post-apocalyptic Hamburg",
+    images: [
+      {
+        src: "/data/img/portfolio/4a.jpg",
+        alt: "Helgoland 513 key art with meteor impact.",
+      },
+      {
+        src: "/data/img/portfolio/4b.jpg",
+        alt: "Meteor sequence concept keyframe with dramatic lighting.",
+        objectPosition: "center 52%",
+      },
+      {
+        src: "/data/img/portfolio/4c.jpg",
+        alt: "Wide shot of the meteor impact on the city.",
+      },
+    ],
+    features: [
+      "Created matte-painted environments featuring damaged buildings, overgrown vegetation, and abandoned streets to convey a sense of decay, abandonment, and post-apocalyptic storytelling.",
+    ],
+    challenges: [
+      "Creating believable environmental storytelling through architecture, decay, and vegetation.",
+      "Maintaining consistency of destruction and aging across the environment.",
+      "Creating parallaxed vines with convincing depth while ensuring they conformed naturally to the building's surfaces, edges, and architectural corners.",
+    ],
+  },
+  {
+    title: "Turbulence (2025)",
+    credit:
+      "Cyclo VFX - Concept Artist - Digital Matte Painter - Cloudscape",
+    images: [
+      {
+        src: "/data/img/portfolio/5a.jpg",
+        alt: "Turbulence key art with dramatic cloudscape.",
+      },
+      {
+        src: "/data/img/portfolio/5b.jpg",
+        alt: "Concept keyframe of turbulent clouds with dynamic lighting.",
+        objectPosition: "center 52%",
+      },
+      {
+        src: "/data/img/portfolio/5c.jpg",
+        alt: "Wide shot of the turbulent cloudscape.",
+      },
+    ],
+    features: [
+      "Created aerial cloud matte paintings to establish the large-scale atmosphere and visual mood of the sequence.",
+      "Developed parallax cloud layers that could be reused across multiple shots, improving shot continuity and production efficiency.",
+      "Produced multiple cloud formations and weather stages to support different compositions, camera angles, and storytelling requirements throughout the sequence.",
+    ],
+    challenges: [
+      "Achieving convincing depth and scale in vast cloud environments with limited spatial reference points.",
+      "Creating reusable parallax cloud systems that remained flexible across multiple shots while maintaining realism and continuity.",
+      "Preserving detail and image quality in both wide aerial shots and closer camera views.",
+    ],
+  },
+  {
+    title: "Em va trinh (2022)",
+    credit:
+      "Freelance Digital Matte Painter - Historic Scenes",
+    images: [
+      {
+        src: "/data/img/portfolio/6a.jpg",
+        alt: "Em va trinh key art with historic Vietnamese setting.",
+        objectPosition: "center 58%",
+      },
+      {
+        src: "/data/img/portfolio/6b.jpg",
+        alt: "Above-cloud environment shot with a red balloon.",
+      },
+      {
+        src: "/data/img/portfolio/6c.jpg",
+        alt: "Large wave matte painting with a boat on the shore.",
+      },
+    ],
+    features: [
+      "Recreated historic Vietnamese locations through a combination of 3D environment work and digital matte painting.",
+      "Integrated 3D matte painting techniques with 2D matte painting to achieve a seamless and photorealistic final environment.",
+      "Produced set extensions to expand the practical set and enhance the scale, scope, and historical authenticity of the scene.",
+    ],
+    challenges: [
+      "Researching and accurately recreating historical Vietnamese architecture, materials, and environmental details with limited visual references.",
+      "Maintaining historical authenticity while adapting environments to meet cinematic composition and storytelling requirements.",
+      "Matching weathering, aging, and architectural details across multiple sources and techniques.",
+    ],
+  },
+  {
+    title: "Day Dreamers (2023)",
+    credit:
+      "Cyclo VFX - Concept Artist - Digital Matte Painter - Night City",
+    images: [
+      {
+        src: "/data/img/portfolio/7a.jpg",
+        alt: "Day Dreamers key art with night cityscape.",
+        objectPosition: "center 58%",
+      },
+      {
+        src: "/data/img/portfolio/7b.jpg",
+        alt: "Above-cloud environment shot with a red balloon.",
+      },
+        {
+          src: "/data/img/portfolio/7c.jpg",
+          alt: "Large wave matte painting with a boat on the shore.",
+        },
+    ],
+    features: [
+      "Built a full 3D night city for matte painting and set extension work.",
+      "Created matte paintings for the distant skyline, atmospheric city layers, and fantasy moon.",
+      "Produced DMP enhancements across multiple sequences throughout the film.",
+      "Developed key visuals for various set extension shots.",
+    ],
+    challenges: [
+      "Matching 3D environments with matte-painted extensions.",
+      "Created designs that supported and reinforced the project's storytelling.",
+      "Keeping visual consistency across multiple sequences and camera angles.",
+    ],
+  },
+  {
     title: "No Way Up (2023)",
     credit:
       "Cyclo VFX - Digital Matte Painter - Above Cloud, CG Enhancement",
     images: [
       {
-        src: "/data/img/posters/NWU.jpg",
+        src: "/data/img/portfolio/8a.jpg",
         alt: "No Way Up key art with submerged airplane and shark.",
         objectPosition: "center 58%",
       },
       {
-        src: "/data/img/artworks/16.jpg",
+        src: "/data/img/portfolio/8b.jpg",
         alt: "Above-cloud environment shot with a red balloon.",
       },
       {
-        src: "/data/img/artworks/14.jpg",
+        src: "/data/img/portfolio/8c.jpg",
         alt: "Large wave matte painting with a boat on the shore.",
       },
     ],
@@ -98,26 +268,26 @@ export const metadata: Metadata = {
 
 function PageHeader() {
   return (
-    <header className="relative bg-white text-black">
+    <header className="relative border-t-2 border-black bg-white text-black">
       <Link
         href="/"
-        className="absolute left-4 top-0 flex h-[58px] w-[30px] shrink-0 items-end justify-center bg-black px-1 pb-1.5 font-display text-[14px] font-[800] uppercase leading-none text-white md:left-14 md:h-[65px]"
+        className="absolute left-4 top-0 flex h-[58px] w-[30px] shrink-0 items-end justify-center bg-black px-1 pb-1.5 font-display text-[16px] font-ultrabold font-[800] uppercase leading-none tracking-normal text-white md:left-[clamp(24px,5vw,100px)] md:h-[93px] md:w-fit md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
         aria-label="Back to Chi-Linh Tran home"
       >
         CL
       </Link>
 
-      <div className={`${portfolioShellClass} flex min-h-[70px] items-center justify-between gap-6 pl-16 md:min-h-[83px] md:pl-0`}>
+      <div className={`${portfolioShellClass} flex min-h-[86px] items-center justify-between gap-6 pl-[51px] md:min-h-[118px] md:pl-0`}>
         <div className="min-w-0">
-          <p className="font-display text-[clamp(1.25rem,4vw,2.05rem)] uppercase leading-[0.9] tracking-normal">
+          <p className="font-display text-[24px] uppercase leading-[0.9] tracking-normal md:text-[clamp(2rem,7vw,2.75rem)]">
             Chi-Linh Tran
           </p>
-          <p className="mt-1 font-sans text-[9px] font-light uppercase leading-none tracking-normal text-[#575757] sm:text-[10px]">
+          <p className="mt-0.5 font-sans text-[9px] font-normal uppercase leading-none tracking-normal text-[#777777] md:mt-1 md:text-[20px]">
             VFX Generalist - Digital Matte Painter
           </p>
         </div>
 
-        <address className="hidden shrink-0 text-right font-sans text-[9px] font-light not-italic leading-[1.6] text-[#333333] sm:block">
+        <address className="hidden shrink-0 text-right font-sans text-[16px] font-normal not-italic leading-[1.8] text-[#333333] sm:block">
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
           <br />
           <a href={`tel:${phoneHref}`}>{contactPhone}</a>
@@ -129,8 +299,8 @@ function PageHeader() {
 
 function ReelSection() {
   return (
-    <section className="bg-white">
-      <div className={`${portfolioShellClass} bg-[#fbfbfb] pt-9 pb-28 md:pt-11 md:pb-[126px]`}>
+    <section className="bg-white md:pt-14">
+      <div className={`${portfolioShellClass} bg-[#fbfbfb] pt-9 pb-28 md:pt-[50px] md:pb-[126px]`}>
         <div className="relative aspect-video overflow-hidden rounded-md bg-black shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
           <iframe
             className="absolute inset-0 h-full w-full"
@@ -147,69 +317,133 @@ function ReelSection() {
 
 function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
   return (
-    <article className="border-b border-[#2f2f2f] py-14 first:pt-0 md:py-[74px]">
-      <div className="grid gap-5 md:grid-cols-[532px_minmax(0,1fr)] md:gap-6">
-        <div className="relative aspect-[1.97/1] overflow-hidden rounded-[15px] bg-[#111]">
-          <Image
-            src={breakdown.images[0].src}
-            alt={breakdown.images[0].alt}
-            fill
-            sizes="(min-width: 1280px) 532px, (min-width: 768px) 42vw, 100vw"
-            className="object-cover"
-            style={{ objectPosition: breakdown.images[0].objectPosition }}
-          />
+    <article className="border-b border-[#2f2f2f] py-14 first:pt-0 last:border-b-0 md:py-[74px]">
+      <div className="md:hidden">
+        <h2 className="font-display text-[22px] leading-none tracking-normal">
+          {breakdown.title}
+        </h2>
+        <p className="mt-1.5 font-sans text-[13px] font-light leading-[1.25] text-[#2f2f2f]">
+          {breakdown.credit}
+        </p>
+
+        <div className="mt-5 space-y-3">
+          {breakdown.images.slice(0, 2).map((image) => (
+            <div
+              key={image.src}
+              className="relative aspect-[1.96/1] overflow-hidden rounded-[15px] bg-[#111]"
+            >
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="100vw"
+                className="object-cover"
+                style={{ objectPosition: image.objectPosition }}
+              />
+            </div>
+          ))}
         </div>
 
-        <div className="min-w-0">
-          <h2 className="font-display text-[22px] uppercase leading-none tracking-normal md:text-[26px]">
-            {breakdown.title}
-          </h2>
-          <p className="mt-1.5 font-sans text-[13px] font-light leading-[1.25] text-[#2f2f2f] md:text-[16px]">
-            {breakdown.credit}
-          </p>
-
-          <div className="mt-5 grid grid-cols-2 gap-5">
-            {breakdown.images.slice(1).map((image) => (
-              <div
-                key={image.src}
-                className="relative aspect-[1.96/1] overflow-hidden rounded-[15px] bg-[#111]"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 1280px) 372px, (min-width: 768px) 29vw, 50vw"
-                  className="object-cover"
-                  style={{ objectPosition: image.objectPosition }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-6 grid gap-6 font-sans text-[14px] font-light leading-[1.45] text-black sm:grid-cols-2 md:grid-cols-[532px_minmax(0,1fr)] md:gap-6 md:text-[16px]">
-        <section>
-          <h3 className="font-sans text-[14px] font-bold leading-none md:text-[16px]">
+        <section className="mt-5 font-sans text-[14px] font-normal leading-[1.5] text-black">
+          <h3 className="pl-4 font-sans text-[14px] font-bold leading-none">
             Features:
           </h3>
-          <ul className="mt-1 list-disc space-y-1 pl-5">
+          <ul className="mt-1 list-disc space-y-1 pl-4">
             {breakdown.features.map((feature) => (
               <li key={feature}>{feature}</li>
             ))}
           </ul>
         </section>
 
-        <section className="md:pl-[156px]">
-          <h3 className="font-sans text-[14px] font-bold leading-none md:text-[16px]">
+        {breakdown.images[2] && (
+          <div className="relative mt-5 aspect-[1.96/1] overflow-hidden rounded-[15px] bg-[#111]">
+            <Image
+              src={breakdown.images[2].src}
+              alt={breakdown.images[2].alt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+              style={{ objectPosition: breakdown.images[2].objectPosition }}
+            />
+          </div>
+        )}
+
+        <section className="mt-5 font-sans text-[14px] font-normal leading-[1.5] text-black">
+          <h3 className="pl-4 font-sans text-[14px] font-bold leading-none">
             Challenges:
           </h3>
-          <ul className="mt-1 list-disc space-y-1 pl-5">
+          <ul className="mt-1 list-disc space-y-1 pl-4">
             {breakdown.challenges.map((challenge) => (
               <li key={challenge}>{challenge}</li>
             ))}
           </ul>
         </section>
+      </div>
+
+      <div className="hidden md:block">
+        <div className="grid gap-5 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] xl:gap-6 xl:grid-cols-[532px_minmax(0,1fr)]">
+          <div className="relative aspect-[1.97/1] overflow-hidden rounded-[15px] bg-[#111]">
+            <Image
+              src={breakdown.images[0].src}
+              alt={breakdown.images[0].alt}
+              fill
+              sizes="(min-width: 1280px) 532px, (min-width: 768px) 46vw, 100vw"
+              className="object-cover"
+              style={{ objectPosition: breakdown.images[0].objectPosition }}
+            />
+          </div>
+
+          <div className="flex h-full min-w-0 flex-col">
+            <h2 className="font-display text-[22px] leading-none tracking-normal md:text-[26px]">
+              {breakdown.title}
+            </h2>
+            <p className="mt-1.5 font-sans text-[13px] font-light leading-[1.25] text-[#2f2f2f] md:text-[16px]">
+              {breakdown.credit}
+            </p>
+
+            <div className="mt-auto grid grid-cols-2 gap-5">
+              {breakdown.images.slice(1).map((image) => (
+                <div
+                  key={image.src}
+                  className="relative aspect-[1.96/1] overflow-hidden rounded-[15px] bg-[#111]"
+                >
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 1280px) 372px, (min-width: 768px) 26vw, 50vw"
+                    className="object-cover"
+                    style={{ objectPosition: image.objectPosition }}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid gap-5 font-sans text-[16px] font-normal leading-[1.5] text-black md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] xl:gap-6 xl:grid-cols-[532px_minmax(0,1fr)]">
+          <section>
+            <h3 className="pl-4 font-sans text-[16px] font-bold leading-none">
+              Features:
+            </h3>
+            <ul className="mt-1 list-disc space-y-1 pl-4">
+              {breakdown.features.map((feature) => (
+                <li key={feature}>{feature}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="pl-[10vw] xl:pl-[132px]">
+            <h3 className="pl-4 font-sans text-[16px] font-bold leading-none">
+              Challenges:
+            </h3>
+            <ul className="mt-1 list-disc space-y-1 pl-4">
+              {breakdown.challenges.map((challenge) => (
+                <li key={challenge}>{challenge}</li>
+              ))}
+            </ul>
+          </section>
+        </div>
       </div>
     </article>
   );
@@ -229,24 +463,24 @@ function BreakdownLoop() {
 
 function InterestSection() {
   return (
-    <section className="bg-white pt-4 pb-28 text-center md:pt-9 md:pb-[120px]">
+    <section className="bg-white pt-16 pb-16 text-center md:pt-20 md:pb-[70px]">
       <div className={portfolioShellClass}>
-        <h2 className="font-display text-[clamp(1.7rem,5vw,2.15rem)] uppercase leading-none tracking-normal">
+        <h2 className="font-display text-[clamp(2rem,4vw,2.5rem)] uppercase leading-none tracking-normal">
           Interested In My Works ?
         </h2>
-        <p className="mt-1 font-sans text-[11px] font-light leading-none text-[#333333]">
+        <p className="mt-1 font-sans text-[16px] font-normal leading-none text-[#333333]">
           Save my information for further conversation !
         </p>
-        <div className="mt-5 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-center gap-6 sm:flex-row">
           <button
             type="button"
-            className="h-10 w-[200px] border border-[#696969] bg-white font-sans text-[11px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
+            className="h-[57px] w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
           >
             Download CV
           </button>
           <button
             type="button"
-            className="h-10 w-[200px] border border-[#696969] bg-white font-sans text-[11px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
+            className="h-[57px] w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
           >
             Download Breakdown
           </button>
@@ -256,83 +490,14 @@ function InterestSection() {
   );
 }
 
-function PortfolioFooter() {
-  return (
-    <footer id="contact" className="bg-white text-black">
-      <div className="mx-auto w-full max-w-[1120px] px-5 md:px-0">
-        <h2 className="font-display text-[clamp(3rem,8vw,4.6rem)] uppercase leading-none tracking-normal">
-          Let&apos;s Chat !
-        </h2>
-
-        <div className="relative mt-4 h-[28px]">
-          <div className="h-1 w-full bg-black" />
-          <div
-            className="absolute right-0 top-[12px] h-0 w-0 -rotate-90 border-b-[14px] border-l-[14px] border-b-black border-l-transparent"
-            aria-hidden
-          />
-        </div>
-
-        <div className="grid gap-8 pt-4 md:grid-cols-[150px_minmax(0,1fr)_300px] md:gap-8">
-          <p className="font-display text-[20px] uppercase leading-none tracking-normal">
-            Connect
-          </p>
-
-          <ul className="space-y-3">
-            {socials.map((social) => (
-              <li key={social.label}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-start gap-2 font-sans text-[20px] font-bold leading-none text-[#777777] transition-colors hover:text-black"
-                >
-                  <span className="mt-1.5 h-0 w-0 shrink-0 border-l-[6px] border-t-[6px] border-l-transparent border-t-[#777777] transition-colors group-hover:border-t-black" />
-                  {social.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <address className="font-sans text-[10px] font-light not-italic leading-[1.7] md:justify-self-end">
-            <a
-              href={`mailto:${contactEmail}`}
-              className="flex items-baseline gap-2 hover:underline"
-            >
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#bfbfbf]" />
-              <span>
-                <strong className="font-bold text-[#777777]">Email:</strong>{" "}
-                {contactEmail}
-              </span>
-            </a>
-            <a
-              href={`tel:${phoneHref}`}
-              className="mt-1 flex items-baseline gap-2 hover:underline"
-            >
-              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#bfbfbf]" />
-              <span>
-                <strong className="font-bold text-[#777777]">Phone:</strong>{" "}
-                {contactPhone}
-              </span>
-            </a>
-          </address>
-        </div>
-      </div>
-
-      <p className="mt-10 border-y border-black py-1 text-center font-sans text-[11px] font-extralight leading-none text-[#555555]">
-        Chi-Linh@202x
-      </p>
-    </footer>
-  );
-}
-
 export default function PortfolioPage() {
   return (
     <main className="min-h-screen bg-white text-black">
       <PageHeader />
 
-      <section className="bg-black py-3 text-white md:py-4">
+      <section className="bg-black py-2 text-white md:py-3">
         <div className={portfolioShellClass}>
-          <h1 className="font-display text-[clamp(2.55rem,7vw,4.75rem)] uppercase leading-none tracking-normal">
+          <h1 className="text-center font-display text-[32px] uppercase leading-none tracking-normal md:text-left md:text-[clamp(2.5rem,6vw,5.9rem)] md:whitespace-nowrap">
             Portfolio Breakdown
           </h1>
         </div>
@@ -341,7 +506,7 @@ export default function PortfolioPage() {
       <ReelSection />
       <BreakdownLoop />
       <InterestSection />
-      <PortfolioFooter />
+      <Contact />
     </main>
   );
 }

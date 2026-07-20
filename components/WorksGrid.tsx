@@ -628,16 +628,16 @@ export default function WorksGrid({
         <div className="mt-16 text-center md:mt-20">
           <h2
             id="portfolio-breakdown-heading"
-            className="font-display text-[42px] uppercase leading-none tracking-normal text-[var(--color-fg)] md:text-[26px]"
+            className="font-display text-[42px] uppercase leading-none tracking-normal text-[var(--color-fg)]"
           >
             Case Studies Not Enough?
           </h2>
-          <p className="mt-1.5 font-sans text-[16px] font-light leading-none text-[var(--color-fg)]">
+          <p className="mt-1.5 font-sans text-[18px] font-light leading-none text-[var(--color-fg)]">
             Then I have some breakdown for you.
           </p>
           <Link
             href="/portfolio"
-            className="mt-6 inline-flex h-[50px] min-w-[132px] items-center justify-center border border-[var(--color-fg)] px-3 font-sans text-[16px] font-semibold uppercase leading-none transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
+            className="mt-10 inline-flex h-[50px] w-[236px] items-center justify-center border border-[var(--color-fg)] px-3 font-sans text-[16px] font-semibold uppercase leading-none transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
           >
             Portfolio Breakdown
           </Link>
