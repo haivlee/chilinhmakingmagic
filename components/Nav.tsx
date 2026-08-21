@@ -18,6 +18,7 @@ const NAV_FALLBACK = 100 ;
 const STICKY_STOP_MARKER_ID = "works-sticky-stop";
 const STICKY_STOP_VIEWPORT_OFFSET_PX = 48;
 const STICKY_STOP_HYSTERESIS_PX = 12;
+const NAV_HIDE_SCROLL_PX = 32;
 
 type NavProps = {
   /**
@@ -128,7 +129,10 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
     };
 
     const update = () => {
-      setScrolled(scrollY() > 50);
+      setScrolled(
+        window.matchMedia("(min-width: 768px) and (max-width: 1799px)")
+          .matches && scrollY() > NAV_HIDE_SCROLL_PX,
+      );
       setActiveFromScroll(computeActive());
     };
 
@@ -160,10 +164,20 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
   useEffect(() => {
     if (scrollSpyEnabled) return;
 
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () =>
+      setScrolled(
+        window.matchMedia("(min-width: 768px) and (max-width: 1799px)")
+          .matches && window.scrollY > NAV_HIDE_SCROLL_PX,
+      );
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, [scrollSpyEnabled]);
 
   useEffect(() => {
@@ -204,17 +218,25 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
     };
   }, []);
 
+  const chromeHidden = scrolled && stickyEnabled;
+
   return (
     <nav
       ref={navRef}
       aria-label="Primary navigation"
-      className={`z-50 w-full border-none bg-transparent ${stickyEnabled ? "md:sticky md:top-0" : "md:relative md:top-auto"}`}
+      className={`z-50 w-full border-none bg-transparent ${
+        chromeHidden ? "md:pointer-events-none" : ""
+      } ${stickyEnabled ? "md:sticky md:top-0" : "md:relative md:top-auto"}`}
     >
       <div
-        className={`flex items-start justify-between gap-3 pb-4 pt-0 md:pb-4 ${pageEdgeClass}`}
+        aria-hidden={chromeHidden || undefined}
+        className={`flex items-start justify-between gap-3 pb-4 pt-0 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none md:pb-4 ${
+          chromeHidden ? "md:-translate-y-full md:opacity-0" : "md:translate-y-0 md:opacity-100"
+        } ${pageEdgeClass}`}
       >
         <a
           href="#top"
+          tabIndex={chromeHidden ? -1 : undefined}
           className="font-display font-ultrabold font-[800] flex h-[93px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-[var(--color-fg)] px-1.5 pb-1.5 text-[28px] uppercase leading-none tracking-normal text-[var(--color-bg)] selection:bg-[var(--color-bg)] selection:text-[var(--color-fg)] md:h-[93px] md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
           aria-label="Chi-Linh Tran home"
         >
@@ -229,6 +251,7 @@ export default function Nav({ selectedHref: selectedHrefProp }: NavProps = {}) {
               <a
                 key={link.href}
                 href={link.href}
+                tabIndex={chromeHidden ? -1 : undefined}
                 aria-current={selected ? "true" : undefined}
                 className={`px-1.5 py-0.5 font-extralight transition-colors selection:bg-[var(--color-bg)] selection:font-extrabold selection:text-[var(--color-fg)] hover:bg-[var(--color-fg)] hover:font-extrabold hover:text-[var(--color-bg)] ${
                   selected
