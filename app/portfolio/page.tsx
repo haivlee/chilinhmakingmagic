@@ -271,23 +271,23 @@ function PageHeader() {
     <header className="relative border-t-2 border-black bg-white text-black">
       <Link
         href="/"
-        className="absolute left-4 top-0 flex h-[58px] w-[30px] shrink-0 items-end justify-center bg-black px-1 pb-1.5 font-display text-[16px] font-ultrabold font-[800] uppercase leading-none tracking-normal text-white md:left-[clamp(24px,5vw,100px)] md:h-[93px] md:w-fit md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
+        className="absolute left-4 top-0 flex h-[93px] w-fit min-w-[40px] shrink-0 items-end justify-center bg-black px-1.5 pb-1.5 font-display text-[28px] font-ultrabold font-[800] uppercase leading-none tracking-normal text-white md:left-[clamp(24px,5vw,100px)] md:min-w-[33px] md:px-2 md:pb-2 md:text-[24px]"
         aria-label="Back to Chi-Linh Tran home"
       >
         CL
       </Link>
 
-      <div className={`${portfolioShellClass} flex min-h-[86px] items-center justify-between gap-6 pl-[51px] md:min-h-[118px] md:pl-0`}>
-        <div className="min-w-0">
-          <p className="font-display text-[24px] uppercase leading-[0.9] tracking-normal md:text-[clamp(2rem,7vw,2.75rem)]">
+      <div className={`${portfolioShellClass} flex min-h-[96px] items-start justify-between gap-6 md:min-h-[118px] md:items-center`}>
+        <div className="min-w-0 flex-1 pl-[41px] pt-[21px] text-center md:flex-none md:pl-[56px] md:pt-0 md:text-left min-[1560px]:!pl-0">
+          <p className="whitespace-nowrap font-display text-[clamp(26px,8vw,32px)] uppercase leading-[0.9] tracking-normal md:text-[clamp(2rem,7vw,2.75rem)]">
             Chi-Linh Tran
           </p>
-          <p className="mt-0.5 font-sans text-[9px] font-normal uppercase leading-none tracking-normal text-[#777777] md:mt-1 md:text-[20px]">
+          <p className="mt-0.5 whitespace-nowrap font-sans text-[clamp(10px,2.8vw,12px)] font-normal uppercase leading-none tracking-normal text-[#777777] md:mt-1 md:text-[20px]">
             VFX Generalist - Digital Matte Painter
           </p>
         </div>
 
-        <address className="hidden shrink-0 text-right font-sans text-[16px] font-normal not-italic leading-[1.8] text-[#333333] sm:block">
+        <address className="ml-auto hidden shrink-0 text-right font-sans text-[16px] font-normal not-italic leading-[1.8] text-[#333333] md:block">
           <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
           <br />
           <a href={`tel:${phoneHref}`}>{contactPhone}</a>
@@ -300,7 +300,7 @@ function PageHeader() {
 function ReelSection() {
   return (
     <section className="bg-white md:pt-14">
-      <div className={`${portfolioShellClass} bg-[#fbfbfb] pt-9 pb-28 md:pt-[50px] md:pb-[126px]`}>
+      <div className={`${portfolioShellClass} pt-9 pb-28 md:pt-[50px] md:pb-[126px]`}>
         <div className="relative aspect-video overflow-hidden rounded-md bg-black shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
           <iframe
             className="absolute inset-0 h-full w-full"
@@ -422,7 +422,7 @@ function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
         </div>
 
         <div className="mt-6 grid gap-5 font-sans text-[16px] font-normal leading-[1.5] text-black md:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)] xl:gap-6 xl:grid-cols-[532px_minmax(0,1fr)]">
-          <section>
+          <section className="xl:w-[664px]">
             <h3 className="pl-4 font-sans text-[16px] font-bold leading-none">
               Features:
             </h3>
@@ -496,8 +496,8 @@ export default function PortfolioPage() {
       <PageHeader />
 
       <section className="bg-black py-2 text-white md:py-3">
-        <div className={portfolioShellClass}>
-          <h1 className="text-center font-display text-[32px] uppercase leading-none tracking-normal md:text-left md:text-[clamp(2.5rem,6vw,5.9rem)] md:whitespace-nowrap">
+        <div className={`${portfolioShellClass} [container-type:inline-size]`}>
+          <h1 className="w-full whitespace-nowrap font-display text-[7.54cqw] uppercase leading-none tracking-normal">
             Portfolio Breakdown
           </h1>
         </div>
