@@ -3,12 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Contact from "@/components/Contact";
-import { contentShellClass } from "@/lib/contentShell";
-
 const contactEmail = "chilinh2708@gmail.com";
 const contactPhone = "(+84) 904 905 047";
 const phoneHref = "+84904905047";
-const portfolioShellClass = contentShellClass;
+const portfolioShellClass =
+  "mx-auto w-full max-w-[1500px] px-3 min-[360px]:px-4 md:px-[clamp(64px,8vw,100px)]";
 
 type Breakdown = {
   title: string;
@@ -278,11 +277,11 @@ function PageHeader() {
       </Link>
 
       <div className={`${portfolioShellClass} flex min-h-[96px] items-start justify-between gap-6 md:min-h-[118px] md:items-center`}>
-        <div className="min-w-0 flex-1 pl-[41px] pt-[21px] text-center md:flex-none md:pl-[56px] md:pt-0 md:text-left min-[1560px]:!pl-0">
-          <p className="whitespace-nowrap font-display text-[clamp(26px,8vw,32px)] uppercase leading-[0.9] tracking-normal md:text-[clamp(2rem,7vw,2.75rem)]">
+        <div className="min-w-0 flex-1 pl-[42px] pt-[21px] text-center md:flex-none md:pl-[56px] md:pt-0 md:text-left min-[1560px]:!pl-0">
+          <p className="max-w-full whitespace-normal font-display text-[clamp(1.25rem,8vw,2rem)] uppercase leading-[0.9] tracking-normal min-[360px]:whitespace-nowrap min-[360px]:text-[clamp(26px,8vw,32px)] md:text-[clamp(2rem,7vw,2.75rem)]">
             Chi-Linh Tran
           </p>
-          <p className="mt-0.5 whitespace-nowrap font-sans text-[clamp(10px,2.8vw,12px)] font-normal uppercase leading-none tracking-normal text-[#777777] md:mt-1 md:text-[20px]">
+          <p className="mt-0.5 max-w-full whitespace-normal font-sans text-[clamp(0.5rem,3.35vw,0.75rem)] font-normal uppercase leading-none tracking-normal text-[#777777] min-[360px]:whitespace-nowrap min-[360px]:text-[clamp(10px,2.8vw,12px)] md:mt-1 md:text-[20px]">
             VFX Generalist - Digital Matte Painter
           </p>
         </div>
@@ -300,7 +299,7 @@ function PageHeader() {
 function ReelSection() {
   return (
     <section className="bg-white md:pt-14">
-      <div className={`${portfolioShellClass} pt-9 pb-28 md:pt-[50px] md:pb-[126px]`}>
+      <div className={`${portfolioShellClass} pt-7 pb-16 min-[360px]:pt-9 min-[360px]:pb-28 md:pt-[50px] md:pb-[126px]`}>
         <div className="relative aspect-video overflow-hidden rounded-md bg-black shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
           <iframe
             className="absolute inset-0 h-full w-full"
@@ -319,10 +318,10 @@ function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
   return (
     <article className="border-b border-[#2f2f2f] py-14 first:pt-0 last:border-b-0 md:py-[74px]">
       <div className="md:hidden">
-        <h2 className="font-display text-[22px] leading-none tracking-normal">
+        <h2 className="font-display text-[20px] leading-none tracking-normal min-[360px]:text-[22px]">
           {breakdown.title}
         </h2>
-        <p className="mt-1.5 font-sans text-[13px] font-light leading-[1.25] text-[#2f2f2f]">
+        <p className="mt-1.5 font-sans text-[12px] font-light leading-[1.25] text-[#2f2f2f] min-[360px]:text-[13px]">
           {breakdown.credit}
         </p>
 
@@ -463,24 +462,24 @@ function BreakdownLoop() {
 
 function InterestSection() {
   return (
-    <section className="bg-white pt-16 pb-16 text-center md:pt-20 md:pb-[70px]">
+    <section className="bg-white pt-12 pb-12 text-center min-[360px]:pt-16 min-[360px]:pb-16 md:pt-20 md:pb-[70px]">
       <div className={portfolioShellClass}>
-        <h2 className="font-display text-[clamp(2rem,4vw,2.5rem)] uppercase leading-none tracking-normal">
+        <h2 className="font-display text-[clamp(1.65rem,9vw,2.5rem)] uppercase leading-none tracking-normal">
           Interested In My Works ?
         </h2>
-        <p className="mt-1 font-sans text-[16px] font-normal leading-none text-[#333333]">
+        <p className="mt-1 font-sans text-[15px] font-normal leading-none text-[#333333] min-[360px]:text-[16px]">
           Save my information for further conversation !
         </p>
-        <div className="mt-6 flex flex-col items-center justify-center gap-6 sm:flex-row">
+        <div className="mt-6 flex flex-col items-center justify-center gap-4 min-[360px]:gap-6 sm:flex-row">
           <button
             type="button"
-            className="h-[57px] w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
+            className="h-[52px] w-full max-w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
           >
             Download CV
           </button>
           <button
             type="button"
-            className="h-[57px] w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white"
+            className="h-[52px] w-full max-w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
           >
             Download Breakdown
           </button>

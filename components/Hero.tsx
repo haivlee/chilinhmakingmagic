@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
 import {
   type CSSProperties,
   type MouseEvent,
@@ -12,6 +11,7 @@ import {
 } from "react";
 
 import LinkCaret from "@/components/LinkCaret";
+import PortfolioTransitionLink from "@/components/PortfolioTransitionLink";
 import { contentShellClass, pageEdgeClass } from "@/lib/contentShell";
 
 const roles = ["VFX Artist", "Digital Matte Painter", "Environment Generalist"];
@@ -321,15 +321,14 @@ export default function Hero() {
               Artstation
             </span>
           </a>
-          <Link
+          <PortfolioTransitionLink
             className="group flex h-[50px] w-[210px] items-center justify-center border border-[var(--color-fg)] font-sans text-[16px] font-semibold leading-none tracking-normal text-[var(--color-fg)] md:h-auto md:w-auto md:border-0 md:text-[20px] md:font-normal"
-            href="/portfolio"
           >
             <span className="inline-flex items-center gap-1 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)] md:px-2">
               <LinkCaret className="hidden origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none md:block" />
               Portfolio
             </span>
-          </Link>
+          </PortfolioTransitionLink>
           <a
             className="group flex h-[50px] w-[210px] items-center justify-center border border-[var(--color-fg)] font-sans text-[16px] font-semibold leading-none tracking-normal text-[var(--color-fg)] md:h-auto md:w-auto md:border-0 md:text-[20px] md:font-normal"
             href="https://www.imdb.com/name/nm14247434/"

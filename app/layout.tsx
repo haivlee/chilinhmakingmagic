@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+
+import { PortfolioTransitionProvider } from "@/components/PortfolioTransitionProvider";
+
 import "./globals.css";
 
 const neueMachina = localFont({
@@ -105,7 +108,7 @@ export default function RootLayout({
         className="min-h-full bg-[var(--color-bg)] text-[var(--color-fg)]"
         suppressHydrationWarning
       >
-        {children}
+        <PortfolioTransitionProvider>{children}</PortfolioTransitionProvider>
       </body>
     </html>
   );

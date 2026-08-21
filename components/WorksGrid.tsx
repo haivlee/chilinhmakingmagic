@@ -10,8 +10,8 @@ import {
   useState,
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
 import type { WorkImage, WorkRow } from "@/data/works";
+import PortfolioTransitionLink from "@/components/PortfolioTransitionLink";
 import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
 
 const sideLabelParts = [
@@ -635,12 +635,11 @@ export default function WorksGrid({
           <p className="mt-1.5 font-sans text-[18px] font-light leading-none text-[var(--color-fg)]">
             Then I have some breakdown for you.
           </p>
-          <Link
-            href="/portfolio"
+          <PortfolioTransitionLink
             className="mt-10 inline-flex h-[50px] w-[236px] items-center justify-center border border-[var(--color-fg)] px-3 font-sans text-[16px] font-semibold uppercase leading-none transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)]"
           >
             Portfolio Breakdown
-          </Link>
+          </PortfolioTransitionLink>
         </div>
 
         <div className="mt-14 hidden md:block md:mt-20">

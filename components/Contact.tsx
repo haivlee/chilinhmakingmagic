@@ -62,11 +62,11 @@ export default function Contact() {
   return (
     <footer id="contact" className="bg-[var(--color-bg)]">
       <div className={`${contentShellClass} ${sectionPaddingClass}`}>
-        <h4 className="whitespace-nowrap font-display text-[clamp(2.35rem,12vw,6rem)] font-extrabold uppercase leading-none tracking-normal">
+        <h4 className="whitespace-nowrap font-display text-[clamp(2rem,12vw,6rem)] font-extrabold uppercase leading-none tracking-normal">
           Let&apos;s Chat !
         </h4>
 
-        <div className="relative mt-4 max-md:h-[6px] max-md:left-1/2 max-md:w-screen max-md:-translate-x-1/2 md:mt-7 md:h-[34px]">
+        <div className="relative mt-4 h-[6px] w-full md:mt-7 md:h-[34px]">
           <div className="h-1.5 w-full bg-[var(--color-fg)]" />
           <div
             className={`absolute right-0 top-[18px] hidden md:block ${lineEndTriangleClass}`}
@@ -74,12 +74,12 @@ export default function Contact() {
           />
         </div>
 
-        <div className="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-10 gap-y-10 pt-3 md:grid-cols-[auto_minmax(0,1fr)] md:gap-x-10 md:pt-8 xl:grid-cols-[180px_1fr_360px] xl:gap-x-16">
+        <div className="grid grid-cols-1 items-start gap-y-7 pt-3 min-[360px]:grid-cols-[auto_minmax(0,1fr)] min-[360px]:gap-x-10 min-[360px]:gap-y-10 md:grid-cols-[auto_minmax(0,1fr)] md:gap-x-10 md:pt-8 xl:grid-cols-[180px_1fr_360px] xl:gap-x-16">
           <p className="shrink-0 font-display text-[28px] font-extrabold uppercase leading-none tracking-normal md:text-[20px] lg:text-[22px] xl:text-[32px]">
             Connect
           </p>
 
-          <ul className="min-w-0 space-y-4 pl-4 md:space-y-6 md:pl-0">
+          <ul className="min-w-0 space-y-4 pl-0 min-[360px]:pl-4 md:space-y-6 md:pl-0">
             {socials.map((social) => (
               <li key={social.label}>
                 <a
@@ -95,25 +95,25 @@ export default function Contact() {
             ))}
           </ul>
 
-          <div className="relative col-span-2 mt-2 pt-2 font-sans text-[16px] leading-[1.45] tracking-normal md:mt-0 md:pt-6 xl:col-span-1 xl:col-start-3 xl:row-start-1 xl:mt-0 xl:pt-1 xl:justify-self-end">
+          <div className="relative mt-0 pt-0 font-sans text-[16px] leading-[1.45] tracking-normal min-[360px]:col-span-2 min-[360px]:mt-2 min-[360px]:pt-2 md:mt-0 md:pt-6 xl:col-span-1 xl:col-start-3 xl:row-start-1 xl:mt-0 xl:pt-1 xl:justify-self-end">
             <div
               className={`absolute right-0 top-1 md:hidden ${lineEndTriangleClass}`}
               aria-hidden
             />
             <a
               href={`mailto:${emailAddress}`}
-              className="flex items-baseline gap-2 pr-3 hover:underline md:pr-0"
+              className="flex flex-wrap items-baseline gap-x-2 gap-y-1 pr-3 hover:underline md:pr-0"
               onClick={(event) =>
                 handleCopyClick(event, emailAddress, `mailto:${emailAddress}`, "email")
               }
             >
               <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8]" />
-              <span>
+              <span className="min-w-0 break-words">
                 <strong className="font-bold text-[#777777]">Email:</strong>{" "}
                 {emailAddress}
               </span>
               <span
-                className={`rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
+                className={`shrink-0 rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
                   copiedField === "email" ? "opacity-100" : "opacity-0"
                 }`}
                 aria-live="polite"
@@ -123,18 +123,18 @@ export default function Contact() {
             </a>
             <a
               href={`tel:${phoneHref}`}
-              className="mt-3 flex items-baseline gap-2 hover:underline"
+              className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1 hover:underline"
               onClick={(event) =>
                 handleCopyClick(event, phoneHref, `tel:${phoneHref}`, "phone")
               }
             >
               <span className="h-2 w-2 shrink-0 rounded-full bg-[#c8c8c8] rotate-0" />
-              <span>
+              <span className="min-w-0 break-words">
                 <strong className="font-bold text-[#777777]">Phone:</strong>{" "}
                 (+84) 904 905 047
               </span>
               <span
-                className={`rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
+                className={`shrink-0 rounded bg-black px-1.5 py-0.5 text-[12px] leading-none text-white transition-opacity ${
                   copiedField === "phone" ? "opacity-100" : "opacity-0"
                 }`}
                 aria-live="polite"
