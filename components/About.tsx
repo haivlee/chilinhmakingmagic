@@ -52,12 +52,13 @@ export default function About() {
                 <b className="font-extrabold">Compositing</b>.
               </p>
             </div>
-            <button
-              type="button"
-              className="mx-auto mt-6 h-[50px] w-[210px] border border-[#313131] bg-transparent font-sans text-[15px] font-bold uppercase leading-none text-[var(--color-fg)] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] md:mx-0 md:h-[46px] md:w-[190px]"
+            <a
+              href="/Chi-Linh_Portfolio_2025.pdf"
+              download
+              className="mx-auto mt-6 flex h-[50px] w-[210px] items-center justify-center border border-[#313131] bg-transparent font-sans text-[15px] font-bold uppercase leading-none text-[var(--color-fg)] transition-colors hover:bg-[var(--color-fg)] hover:text-[var(--color-bg)] md:mx-0 md:h-[46px] md:w-[190px]"
             >
               Download CV
-            </button>
+            </a>
           </div>
         </div>
       </div>

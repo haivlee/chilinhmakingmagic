@@ -432,7 +432,7 @@ function BreakdownCard({ breakdown }: { breakdown: Breakdown }) {
             </ul>
           </section>
 
-          <section className="pl-[10vw] xl:pl-[132px]">
+          <section className="xl:pl-[132px]">
             <h3 className="pl-4 font-sans text-[16px] font-bold leading-none">
               Challenges:
             </h3>
@@ -471,12 +471,13 @@ function InterestSection() {
           Save my information for further conversation !
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-4 min-[360px]:gap-6 sm:flex-row">
-          <button
-            type="button"
-            className="h-[52px] w-full max-w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
+          <a
+            href="/Chi-Linh_Portfolio_2025.pdf"
+            download
+            className="flex h-[52px] w-full max-w-[280px] items-center justify-center border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
           >
             Download CV
-          </button>
+          </a>
           <button
             type="button"
             className="h-[52px] w-full max-w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
