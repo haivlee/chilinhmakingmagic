@@ -478,12 +478,13 @@ function InterestSection() {
           >
             Download CV
           </a>
-          <button
-            type="button"
-            className="h-[52px] w-full max-w-[280px] border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
+          <a
+            href="/Chi-Linh_Portfolio_2025.pdf"
+            download
+            className="flex h-[52px] w-full max-w-[280px] items-center justify-center border border-[#111] bg-white font-sans text-[16px] font-bold uppercase leading-none text-black transition-colors hover:bg-black hover:text-white min-[360px]:h-[57px]"
           >
             Download Breakdown
-          </button>
+          </a>
         </div>
       </div>
     </section>
