@@ -113,7 +113,10 @@ export const workRows: WorkRowSpec[] = [
     type: "half",
     images: [
       w(9, "Retro futuristic skyline in warm sunset haze"),
-      w(10, "Pastel science fiction metropolis with flying craft"),
+      w(10, "Pastel science fiction metropolis with flying craft", {
+        lightboxLeftText: "Together - Suboi x Gavin.D x AOV MV",
+        lightboxRightText: "modelling & scene assembly",
+      }),
     ],
   },
   {
@@ -189,8 +192,8 @@ export const workRows: WorkRowSpec[] = [
   {
     type: "full",
     image: w(21, "Two figures overlooking an amber city sunset", {
-      lightboxLeftText: "Mat Troi Khoc MV",
-      lightboxRightText: "city matte painting",
+      lightboxLeftText: "Personal Project",
+      lightboxRightText: "all aspect, except houses kitbash",
     }),
   },
 ];
