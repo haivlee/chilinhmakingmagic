@@ -28,16 +28,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Toy City Sequence",
     images: [
       {
-        src: "/data/img/portfolio/1a.jpg",
+        src: "/data/img/portfolio/1a.webp",
         alt: "Toy city matte painting for Silver and the Book of Dreams.",
       },
       {
-        src: "/data/img/portfolio/1b.jpg",
+        src: "/data/img/portfolio/1b.webp",
         alt: "Clockwork tower concept keyframe with warm mechanical lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/portfolio/1c.jpg",
+        src: "/data/img/portfolio/1c.webp",
         alt: "Portrait close-up against a stormy mountain backdrop.",
       },
     ],
@@ -57,16 +57,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Bending Sea Sequence",
     images: [
       {
-        src: "/data/img/portfolio/2a.jpg",
+        src: "/data/img/portfolio/2a.webp",
         alt: "Toy city matte painting for Silver and the Book of Dreams.",
       },
       {
-        src: "/data/img/portfolio/2b.jpg",
+        src: "/data/img/portfolio/2b.webp",
         alt: "Clockwork tower concept keyframe with warm mechanical lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/portfolio/2c.jpg",
+        src: "/data/img/portfolio/2c.webp",
         alt: "Portrait close-up against a stormy mountain backdrop.",
       },
     ],
@@ -87,16 +87,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Meteor Sequence",
     images: [
       {
-        src: "/data/img/portfolio/3a.jpg",
+        src: "/data/img/portfolio/3a.webp",
         alt: "Goodbye Earth key art with meteor impact.",
       },
       {
-        src: "/data/img/portfolio/3b.jpg",
+        src: "/data/img/portfolio/3b.webp",
         alt: "Meteor sequence concept keyframe with dramatic lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/portfolio/3c.jpg",
+        src: "/data/img/portfolio/3c.webp",
         alt: "Wide shot of the meteor impact on the city.",
       },
     ],
@@ -115,16 +115,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Digital Matte Painter - Post-apocalyptic Hamburg",
     images: [
       {
-        src: "/data/img/portfolio/4a.jpg",
+        src: "/data/img/portfolio/4a.webp",
         alt: "Helgoland 513 key art with meteor impact.",
       },
       {
-        src: "/data/img/portfolio/4b.jpg",
+        src: "/data/img/portfolio/4b.webp",
         alt: "Meteor sequence concept keyframe with dramatic lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/portfolio/4c.jpg",
+        src: "/data/img/portfolio/4c.webp",
         alt: "Wide shot of the meteor impact on the city.",
       },
     ],
@@ -143,16 +143,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Cloudscape",
     images: [
       {
-        src: "/data/img/portfolio/5a.jpg",
+        src: "/data/img/portfolio/5a.webp",
         alt: "Turbulence key art with dramatic cloudscape.",
       },
       {
-        src: "/data/img/portfolio/5b.jpg",
+        src: "/data/img/portfolio/5b.webp",
         alt: "Concept keyframe of turbulent clouds with dynamic lighting.",
         objectPosition: "center 52%",
       },
       {
-        src: "/data/img/portfolio/5c.jpg",
+        src: "/data/img/portfolio/5c.webp",
         alt: "Wide shot of the turbulent cloudscape.",
       },
     ],
@@ -173,16 +173,16 @@ const breakdowns: Breakdown[] = [
       "Freelance Digital Matte Painter - Historic Scenes",
     images: [
       {
-        src: "/data/img/portfolio/6a.jpg",
+        src: "/data/img/portfolio/6a.webp",
         alt: "Em va trinh key art with historic Vietnamese setting.",
         objectPosition: "center 58%",
       },
       {
-        src: "/data/img/portfolio/6b.jpg",
+        src: "/data/img/portfolio/6b.webp",
         alt: "Above-cloud environment shot with a red balloon.",
       },
       {
-        src: "/data/img/portfolio/6c.jpg",
+        src: "/data/img/portfolio/6c.webp",
         alt: "Large wave matte painting with a boat on the shore.",
       },
     ],
@@ -203,16 +203,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Concept Artist - Digital Matte Painter - Night City",
     images: [
       {
-        src: "/data/img/portfolio/7a.jpg",
+        src: "/data/img/portfolio/7a.webp",
         alt: "Day Dreamers key art with night cityscape.",
         objectPosition: "center 58%",
       },
       {
-        src: "/data/img/portfolio/7b.jpg",
+        src: "/data/img/portfolio/7b.webp",
         alt: "Above-cloud environment shot with a red balloon.",
       },
         {
-          src: "/data/img/portfolio/7c.jpg",
+          src: "/data/img/portfolio/7c.webp",
           alt: "Large wave matte painting with a boat on the shore.",
         },
     ],
@@ -234,16 +234,16 @@ const breakdowns: Breakdown[] = [
       "Cyclo VFX - Digital Matte Painter - Above Cloud, CG Enhancement",
     images: [
       {
-        src: "/data/img/portfolio/8a.jpg",
+        src: "/data/img/portfolio/8a.webp",
         alt: "No Way Up key art with submerged airplane and shark.",
         objectPosition: "center 58%",
       },
       {
-        src: "/data/img/portfolio/8b.jpg",
+        src: "/data/img/portfolio/8b.webp",
         alt: "Above-cloud environment shot with a red balloon.",
       },
       {
-        src: "/data/img/portfolio/8c.jpg",
+        src: "/data/img/portfolio/8c.webp",
         alt: "Large wave matte painting with a boat on the shore.",
       },
     ],
