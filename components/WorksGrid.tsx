@@ -52,6 +52,69 @@ const WORK_MAIN_TILE_HEIGHT = "h-[clamp(192px,24vw,304px)] w-full";
 const WORK_BOTTOM_TILE_WIDTH =
   "w-full aspect-[2/1] md:min-w-[260px] md:w-[min(92vw,440px)] lg:w-[440px]";
 const WORK_BOTTOM_LOOP_COPIES = 3;
+const GRID_VIDEO_OVERSCAN = 1.2;
+
+/**
+ * Some supplied clips have black letterbox bands encoded into their frames.
+ * Detect those bands after the first frame loads and zoom only the affected
+ * clip, preserving the framing of clips that already fill their canvas.
+ */
+function getLetterboxCropScale(video: HTMLVideoElement): number {
+  if (!video.videoWidth || !video.videoHeight) return 1;
+
+  const sampleWidth = Math.min(video.videoWidth, 160);
+  const sampleHeight = Math.round(
+    (video.videoHeight / video.videoWidth) * sampleWidth,
+  );
+  const canvas = document.createElement("canvas");
+  canvas.width = sampleWidth;
+  canvas.height = sampleHeight;
+
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) return 1;
+
+  try {
+    context.drawImage(video, 0, 0, sampleWidth, sampleHeight);
+    const pixels = context.getImageData(0, 0, sampleWidth, sampleHeight).data;
+    const rowIsBlack = (row: number) => {
+      let blackPixels = 0;
+
+      for (let column = 0; column < sampleWidth; column += 1) {
+        const pixelOffset = (row * sampleWidth + column) * 4;
+        if (
+          pixels[pixelOffset] < 16 &&
+          pixels[pixelOffset + 1] < 16 &&
+          pixels[pixelOffset + 2] < 16
+        ) {
+          blackPixels += 1;
+        }
+      }
+
+      return blackPixels / sampleWidth >= 0.98;
+    };
+    const countEdgeRows = (from: number, direction: 1 | -1) => {
+      let count = 0;
+      for (let row = from; row >= 0 && row < sampleHeight; row += direction) {
+        if (!rowIsBlack(row)) break;
+        count += 1;
+      }
+      return count;
+    };
+
+    const topBar = countEdgeRows(0, 1);
+    const bottomBar = countEdgeRows(sampleHeight - 1, -1);
+    const minimumBarHeight = Math.ceil(sampleHeight * 0.04);
+
+    if (topBar < minimumBarHeight || bottomBar < minimumBarHeight) return 1;
+
+    return Math.min(
+      sampleHeight / (sampleHeight - topBar - bottomBar),
+      1.35,
+    );
+  } catch {
+    return 1;
+  }
+}
 
 function SideLabelDot() {
   return (
@@ -111,16 +174,65 @@ function WorkTile(props: {
   figureClassName?: string;
 }) {
   const { image, layout, priority = false, onSelect, figureClassName } = props;
+  const tileRef = useRef<HTMLElement>(null);
+  const previewVideoRef = useRef<HTMLVideoElement>(null);
+  const [isPreviewPlaying, setIsPreviewPlaying] = useState(false);
+  const [previewCropScale, setPreviewCropScale] = useState(GRID_VIDEO_OVERSCAN);
 
   const isMainStrip = layout === "full" || layout === "half";
   const frameClass = isMainStrip
     ? WORK_MAIN_TILE_HEIGHT
-    : figureClassName
+      : figureClassName
       ? "shrink-0"
       : "aspect-[2/1] w-full";
 
+  useEffect(() => {
+    const tile = tileRef.current;
+    if (!tile || !image.videoSrc) return;
+
+    let startTimer: ReturnType<typeof setTimeout> | undefined;
+    const stopPreview = () => {
+      if (startTimer) clearTimeout(startTimer);
+      startTimer = undefined;
+
+      const video = previewVideoRef.current;
+      if (video) {
+        video.pause();
+        video.currentTime = 0;
+      }
+      setIsPreviewPlaying(false);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          stopPreview();
+          return;
+        }
+
+        startTimer = setTimeout(() => {
+          const video = previewVideoRef.current;
+          if (!video) return;
+
+          setIsPreviewPlaying(true);
+          void video.play().catch(() => setIsPreviewPlaying(false));
+        }, 1000);
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(tile);
+    return () => {
+      observer.disconnect();
+      stopPreview();
+    };
+  }, [image.videoSrc]);
+
+  useEffect(() => setPreviewCropScale(GRID_VIDEO_OVERSCAN), [image.videoSrc]);
+
   return (
     <figure
+      ref={tileRef}
       className={`group relative overflow-hidden rounded-[16px] border border-black/10 bg-black/5 ${frameClass} ${figureClassName ?? ""}`}
     >
       <button
@@ -139,6 +251,31 @@ function WorkTile(props: {
         style={{ objectPosition: image.tileObjectPosition ?? "center center" }}
         className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       />
+      {image.videoSrc && (
+        <video
+          ref={previewVideoRef}
+          src={image.videoSrc}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+          onError={() => setIsPreviewPlaying(false)}
+          onLoadedData={(event) =>
+            setPreviewCropScale(
+              Math.max(
+                GRID_VIDEO_OVERSCAN,
+                getLetterboxCropScale(event.currentTarget),
+              ),
+            )
+          }
+          style={{
+            objectPosition: image.tileObjectPosition ?? "center center",
+            transform: `scale(${previewCropScale})`,
+          }}
+          className={`pointer-events-none absolute inset-0 h-full w-full object-cover transition-opacity duration-300 ${isPreviewPlaying ? "opacity-100" : "opacity-0"}`}
+        />
+      )}
     </figure>
   );
 }
@@ -475,6 +612,8 @@ function WorksImageLightbox({
   image: WorkImage | null;
   onClose: () => void;
 }) {
+  const [videoCropScale, setVideoCropScale] = useState(1);
+
   useEffect(() => {
     if (!image) return;
 
@@ -489,6 +628,8 @@ function WorksImageLightbox({
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [image, onClose]);
+
+  useEffect(() => setVideoCropScale(1), [image?.videoSrc]);
 
   if (!image) return null;
 
@@ -511,20 +652,42 @@ function WorksImageLightbox({
         className="relative aspect-square w-[min(calc(100vw-3rem),1450px)] overflow-hidden rounded-[8px] bg-black shadow-[0_24px_80px_rgba(0,0,0,0.35)] md:aspect-auto md:h-[min(72vh,760px)]"
         onClick={(event) => event.stopPropagation()}
       >
-        <Image
-          src={image.src}
-          alt={image.alt}
-          fill
-          sizes="(min-width: 1450px) 1450px, calc(100vw - 3rem)"
-          quality={92}
-          style={{
-            objectPosition:
-              image.lightboxObjectPosition ??
-              image.tileObjectPosition ??
-              "center center",
-          }}
-          className="object-cover"
-        />
+        {image.videoSrc ? (
+          <video
+            src={image.videoSrc}
+            autoPlay
+            controls
+            playsInline
+            preload="metadata"
+            aria-label={`${image.alt} video`}
+            onLoadedData={(event) =>
+              setVideoCropScale(getLetterboxCropScale(event.currentTarget))
+            }
+            style={{
+              objectPosition:
+                image.lightboxObjectPosition ??
+                image.tileObjectPosition ??
+                "center center",
+              transform: `scale(${videoCropScale})`,
+            }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 1450px) 1450px, calc(100vw - 3rem)"
+            quality={92}
+            style={{
+              objectPosition:
+                image.lightboxObjectPosition ??
+                image.tileObjectPosition ??
+                "center center",
+            }}
+            className="object-cover"
+          />
+        )}
 
         <button
           type="button"

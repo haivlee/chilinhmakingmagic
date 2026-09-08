@@ -16,6 +16,8 @@ export type WorkImage = {
   src: string;
   alt: string;
   caption?: string;
+  /** Optional video with the same filename as this artwork, from `public/videos`. */
+  videoSrc?: string;
 } & WorkImageLightboxText & WorkImageDisplay;
 
 export type WorkRow =
@@ -53,10 +55,29 @@ export function w(
   return { slot, alt, ...imageOptions };
 }
 
-function resolveSlot(artworkSrcs: readonly string[], s: WorkSlot): WorkImage {
+function filenameWithoutExtension(src: string): string {
+  return src.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
+}
+
+function getMatchingVideoSrc(
+  artworkSrc: string,
+  videoSrcs: readonly string[],
+): string | undefined {
+  const artworkName = filenameWithoutExtension(artworkSrc);
+  return videoSrcs.find((videoSrc) => filenameWithoutExtension(videoSrc) === artworkName);
+}
+
+function resolveSlot(
+  artworkSrcs: readonly string[],
+  s: WorkSlot,
+  videoSrcs: readonly string[],
+): WorkImage {
+  const src = artworkSrcs[s.slot] ?? PLACEHOLDER_SRC;
+
   return {
-    src: artworkSrcs[s.slot] ?? PLACEHOLDER_SRC,
+    src,
     alt: s.alt,
+    videoSrc: getMatchingVideoSrc(src, videoSrcs),
     lightboxLeftText:
       s.lightboxLeftText ?? DEFAULT_LIGHTBOX_TEXT.lightboxLeftText,
     lightboxRightText:
@@ -232,27 +253,33 @@ function getArtworkAltFromSrc(src: string, slot: number): string {
   return label ? `Artwork ${slot + 1}: ${label}` : `Artwork ${slot + 1}`;
 }
 
-export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
+export function resolveWorkRows(
+  artworkSrcs: readonly string[],
+  videoSrcs: readonly string[] = [],
+): WorkRow[] {
   return workRows.map((row) => {
     if (row.type === "caption") return row;
     if (row.type === "full") {
-      return { type: "full", image: resolveSlot(artworkSrcs, row.image) };
+      return {
+        type: "full",
+        image: resolveSlot(artworkSrcs, row.image, videoSrcs),
+      };
     }
     if (row.type === "half") {
       return {
         type: "half",
         images: [
-          resolveSlot(artworkSrcs, row.images[0]),
-          resolveSlot(artworkSrcs, row.images[1]),
+          resolveSlot(artworkSrcs, row.images[0], videoSrcs),
+          resolveSlot(artworkSrcs, row.images[1], videoSrcs),
         ],
       };
     }
     return {
       type: "third",
       images: [
-        resolveSlot(artworkSrcs, row.images[0]),
-        resolveSlot(artworkSrcs, row.images[1]),
-        resolveSlot(artworkSrcs, row.images[2]),
+        resolveSlot(artworkSrcs, row.images[0], videoSrcs),
+        resolveSlot(artworkSrcs, row.images[1], videoSrcs),
+        resolveSlot(artworkSrcs, row.images[2], videoSrcs),
       ],
     };
   });
@@ -260,21 +287,24 @@ export function resolveWorkRows(artworkSrcs: readonly string[]): WorkRow[] {
 
 export function resolveBottomWorks(
   artworkSrcs: readonly string[],
+  videoSrcs: readonly string[] = [],
 ): WorkImage[] {
   return [
-    ...resolveBottomRowWorks(artworkSrcs),
-    ...resolveBottomSliderWorks(artworkSrcs),
+    ...resolveBottomRowWorks(artworkSrcs, videoSrcs),
+    ...resolveBottomSliderWorks(artworkSrcs, videoSrcs),
   ];
 }
 
 export function resolveBottomRowWorks(
   artworkSrcs: readonly string[],
+  videoSrcs: readonly string[] = [],
 ): WorkImage[] {
-  return bottomRowWorkSlots.map((s) => resolveSlot(artworkSrcs, s));
+  return bottomRowWorkSlots.map((s) => resolveSlot(artworkSrcs, s, videoSrcs));
 }
 
 export function resolveBottomSliderWorks(
   artworkSrcs: readonly string[],
+  videoSrcs: readonly string[] = [],
 ): WorkImage[] {
   const usedSlots = getUsedArtworkSlots();
 
@@ -283,6 +313,7 @@ export function resolveBottomSliderWorks(
       works.push({
         src,
         alt: getArtworkAltFromSrc(src, slot),
+        videoSrc: getMatchingVideoSrc(src, videoSrcs),
         ...DEFAULT_LIGHTBOX_TEXT,
       });
     }

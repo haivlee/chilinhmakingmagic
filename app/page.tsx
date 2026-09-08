@@ -9,10 +9,11 @@ import {
   resolveBottomSliderWorks,
   resolveWorkRows,
 } from "@/data/works";
-import { getArtworkSrcs } from "@/lib/artworks";
+import { getArtworkSrcs, getArtworkVideoSrcs } from "@/lib/artworks";
 
 export default function Home() {
   const artworkSrcs = getArtworkSrcs();
+  const artworkVideoSrcs = getArtworkVideoSrcs();
 
   return (
     <>
@@ -22,9 +23,12 @@ export default function Home() {
         <FeaturedProjects />
         <About />
         <WorksGrid
-          workRows={resolveWorkRows(artworkSrcs)}
-          bottomRowWorks={resolveBottomRowWorks(artworkSrcs)}
-          bottomSliderWorks={resolveBottomSliderWorks(artworkSrcs)}
+          workRows={resolveWorkRows(artworkSrcs, artworkVideoSrcs)}
+          bottomRowWorks={resolveBottomRowWorks(artworkSrcs, artworkVideoSrcs)}
+          bottomSliderWorks={resolveBottomSliderWorks(
+            artworkSrcs,
+            artworkVideoSrcs,
+          )}
         />
         <Contact />
       </main>
