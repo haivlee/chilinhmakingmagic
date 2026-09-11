@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 
 import { PortfolioTransitionProvider } from "@/components/PortfolioTransitionProvider";
 
@@ -109,6 +110,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <PortfolioTransitionProvider>{children}</PortfolioTransitionProvider>
+        <Analytics />
       </body>
     </html>
   );
