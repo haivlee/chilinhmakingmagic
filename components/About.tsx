@@ -40,16 +40,14 @@ export default function About() {
             </h2>
             <div className="mt-6 space-y-5 font-sans text-[16px] font-light leading-[1.45] tracking-normal text-[var(--color-fg)]">
               <p>
-                I was born and raised in Hanoi, Vietnam. Young as I am, I have
-                great aspirations with arts which have motivated me to make
-                strenuous efforts everyday.
+                I’m an Environment Generalist from Hanoi, Vietnam, 
+                with 8 years in the film and commercial industry. 
+                I began as a Compositor and Digital Matte Painter, 
+                and that foundation still shapes how I work: 
+                I build environments with the final frame in mind.
               </p>
               <p>
-                I am capable of working across multiple stages of the VFX
-                pipeline, including all aspects of <b className="font-extrabold">3D Environment</b>{" "}
-                creation, <b className="font-extrabold">Concept Art</b>,{" "}
-                <b className="font-extrabold">Digital Matte Painting</b>, and{" "}
-                <b className="font-extrabold">Compositing</b>.
+                Today I cover the full environment pipeline: concept art, 3D environment creation, digital matte painting and compositing. I care about clear storytelling, believable detail and clean, efficient handoffs to the team.
               </p>
             </div>
             <a

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import Contact from "@/components/Contact";
+import ReelSection from "@/components/ReelSection";
 const contactEmail = "chilinh2708@gmail.com";
 const contactPhone = "(+84) 904 905 047";
 const phoneHref = "+84904905047";
@@ -260,9 +261,9 @@ const breakdowns: Breakdown[] = [
 ];
 
 export const metadata: Metadata = {
-  title: "Portfolio Breakdown | Chi-Linh Tran",
+  title: "Showreel Breakdown | Chi-Linh Tran",
   description:
-    "Show reel and portfolio breakdowns for Chi-Linh Tran, VFX Artist and Digital Matte Painter.",
+    "Showreel and project breakdowns for Chi-Linh Tran, VFX Artist and Digital Matte Painter.",
 };
 
 function PageHeader() {
@@ -293,24 +294,6 @@ function PageHeader() {
         </address>
       </div>
     </header>
-  );
-}
-
-function ReelSection() {
-  return (
-    <section className="bg-white md:pt-14">
-      <div className={`${portfolioShellClass} pt-7 pb-16 min-[360px]:pt-9 min-[360px]:pb-28 md:pt-[50px] md:pb-[126px]`}>
-        <div className="relative aspect-video overflow-hidden rounded-md bg-black shadow-[0_0_0_1px_rgba(0,0,0,0.08)]">
-          <iframe
-            className="absolute inset-0 h-full w-full"
-            src="https://player.vimeo.com/video/899392906?title=0&byline=0&portrait=0"
-            title="Chi-Linh Tran show reel 2024"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -504,7 +487,11 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <ReelSection />
+      <section className="bg-white md:pt-14">
+        <div className={`${portfolioShellClass} pt-7 pb-16 min-[360px]:pt-9 min-[360px]:pb-28 md:pt-[50px] md:pb-[126px]`}>
+          <ReelSection />
+        </div>
+      </section>
       <BreakdownLoop />
       <InterestSection />
       <Contact />

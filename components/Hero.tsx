@@ -16,7 +16,6 @@ import { contentShellClass, pageEdgeClass } from "@/lib/contentShell";
 
 const roles = ["VFX Artist", "Digital Matte Painter", "Environment Generalist"];
 const emailAddress = "chilinh2708@gmail.com";
-const heroNameLabel = "CHI-LINH (KRIST) TRAN";
 const heroNameMeasureSize = 100;
 const STICKY_STOP_MARKER_ID = "works-sticky-stop";
 const STICKY_STOP_VIEWPORT_OFFSET_PX = 48;
@@ -283,7 +282,6 @@ export default function Hero() {
             </span>
             <h1
               className="mx-auto block w-full min-w-0 whitespace-normal text-center font-display uppercase leading-[0.98] tracking-normal md:inline-block md:w-auto md:max-w-none md:whitespace-nowrap md:text-[length:var(--hero-name-size)] md:leading-[1.25]"
-              aria-label={heroNameLabel}
             >
               <span className="md:hidden">
                 <span className="block whitespace-nowrap text-[min(18cqw,6rem)] leading-[1.25]">
@@ -304,10 +302,15 @@ export default function Hero() {
       <div
         className={`mt-6 flex w-full flex-col gap-5 text-[var(--color-fg)] md:flex-row md:justify-between md:gap-y-6 ${contentShellClass}`}
       >
-        <p className="min-w-0 w-full max-w-[62ch] self-start font-sans text-[16px] font-[300] leading-[150%] tracking-normal text-[#444444]">
-          3D Artist &amp; VFX Artist specializing in cinematic environments,
-          concept art, digital matte painting, compositing and photoreal CG for
-          films, commercials, and game cinematics.
+        <p className="min-w-0 w-full max-w-[62ch] self-start font-sans text-[16px] font-[300] leading-[150%] tracking-normal text-[#444444] md:max-w-[78ch]">
+          Environment Generalist building cinematic worlds for film,
+          commercials and game cinematics.
+          <br />
+          From concept and 3D environments to digital matte painting and final
+          compositing.
+          <br />
+          Available for freelance/remote work · HoChiMinh City, Vietnam
+          (GMT+7)
         </p>
         <div className="flex flex-col items-center gap-2 md:items-end md:gap-2.5">
           <a
@@ -326,7 +329,7 @@ export default function Hero() {
           >
             <span className="inline-flex items-center gap-1 py-1 transition-colors group-hover:bg-[var(--color-fg)] group-hover:text-[var(--color-bg)] group-focus-visible:bg-[var(--color-fg)] group-focus-visible:text-[var(--color-bg)] md:px-2">
               <LinkCaret className="hidden origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-px group-hover:rotate-45 group-focus-visible:translate-y-px group-focus-visible:rotate-45 motion-reduce:transition-none md:block" />
-              Portfolio
+              Showreel
             </span>
           </PortfolioTransitionLink>
           <a

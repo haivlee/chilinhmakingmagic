@@ -148,7 +148,7 @@ export default function Contact() {
       <p
         className={`border-t border-[var(--color-fg)] py-1.5 text-center font-sans text-[18px] font-extralight leading-none tracking-normal md:py-2 md:text-[20px] ${pageEdgeClass}`}
       >
-        Chi-Linh@202x
+        © 2025 Chi-Linh Tran
       </p>
     </footer>
   );

@@ -35,6 +35,19 @@ export default async function FeaturedProjects() {
                 IMDb
               </span>
             </a>
+
+            <div className="mt-20 hidden space-y-7 font-sans text-[16px] font-light leading-[1.3] tracking-normal text-[#444] xl:block">
+              <div>
+                <p className="font-medium text-black">CG Generalist | Sparta VFX</p>
+                <p>Compositing, 3D Modeling and Lookdev, Environment</p>
+                <p>Vietnam, Apr 2018 - May 2021</p>
+              </div>
+              <div>
+                <p className="font-medium text-black">CG Generalist | Cyclo VFX</p>
+                <p>Digital Matte Painting, 3D Environment</p>
+                <p>Vietnam, June 2021 - now</p>
+              </div>
+            </div>
           </div>
         </div>
 

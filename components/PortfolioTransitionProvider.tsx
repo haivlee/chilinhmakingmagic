@@ -124,7 +124,7 @@ export function PortfolioTransitionProvider({
               Chi-Linh (Krist) Tran
             </p>
             <h2 className="font-display text-[clamp(3.5rem,15vw,13rem)] uppercase leading-[0.78] tracking-[-0.055em]">
-              Portfolio
+              Showreel
             </h2>
           </motion.div>
 

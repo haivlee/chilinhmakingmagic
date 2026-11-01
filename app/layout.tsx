@@ -5,6 +5,32 @@ import { PortfolioTransitionProvider } from "@/components/PortfolioTransitionPro
 
 import "./globals.css";
 
+const siteUrl = "https://chilinhmakingmagic.vercel.app";
+const siteName = "Chi-Linh (Krist) Tran";
+const siteDescription =
+  "Environment Generalist and Digital Matte Painter from Hanoi, Vietnam. Cinematic environments, matte painting and photoreal CG for film, commercials and game cinematics.";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Chi-Linh (Krist) Tran",
+  jobTitle: "VFX Artist & Environment Generalist",
+  description: siteDescription,
+  url: siteUrl,
+  email: "chilinh2708@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Hanoi",
+    addressCountry: "VN",
+  },
+  sameAs: [
+    "https://www.facebook.com/CL.of.yesterday/",
+    "https://www.linkedin.com/in/chi-linh-tran-364621139/",
+    "https://chilinhtran.artstation.com/",
+    "https://www.imdb.com/name/nm14247434/",
+  ],
+};
+
 const neueMachina = localFont({
   src: [
     {
@@ -70,27 +96,54 @@ const poppins = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chilinhmakingmagic.com"),
-  title: "Chi-Linh (Krist) Tran | VFX Artist & Digital Matte Painter",
-  description:
-    "Portfolio of Chi-Linh Tran, a VFX Artist, Digital Matte Painter, and Environment Concept Artist working in film and television.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Chi-Linh (Krist) Tran | VFX Artist & Environment Generalist",
+    template: "%s | Chi-Linh (Krist) Tran",
+  },
+  description: siteDescription,
+  applicationName: siteName,
+  authors: [{ name: siteName, url: siteUrl }],
+  creator: siteName,
+  publisher: siteName,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   keywords: [
-    "VFX",
-    "matte painting",
-    "environment concept art",
-    "digital art",
-    "film",
+    "VFX artist",
+    "environment generalist",
+    "digital matte painter",
+    "cinematic environments",
+    "photoreal CG",
+    "Hanoi VFX artist",
+    "Vietnam digital matte painter",
+    "film visual effects",
+    "commercial VFX",
+    "game cinematics",
   ],
   openGraph: {
-    title: "Chi-Linh (Krist) Tran | VFX Artist",
-    description: "Digital matte paintings and VFX work for film and television.",
-    url: "https://chilinhmakingmagic.com",
-    siteName: "Chi-Linh Making Magic",
-    images: [{ url: "/og.jpg", width: 1200, height: 630 }],
+    title: "Chi-Linh (Krist) Tran | VFX Artist & Environment Generalist",
+    description: siteDescription,
+    url: siteUrl,
+    siteName,
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
+    title: "Chi-Linh (Krist) Tran | VFX Artist & Environment Generalist",
+    description: siteDescription,
   },
 };
 
@@ -108,6 +161,10 @@ export default function RootLayout({
         className="min-h-full bg-[var(--color-bg)] text-[var(--color-fg)]"
         suppressHydrationWarning
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
         <PortfolioTransitionProvider>{children}</PortfolioTransitionProvider>
       </body>
     </html>

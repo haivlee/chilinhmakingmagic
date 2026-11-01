@@ -12,6 +12,7 @@ import {
 import { motion, useReducedMotion } from "framer-motion";
 import type { WorkImage, WorkRow } from "@/data/works";
 import PortfolioTransitionLink from "@/components/PortfolioTransitionLink";
+import ReelSection from "@/components/ReelSection";
 import { contentShellClass, sectionPaddingClass } from "@/lib/contentShell";
 
 const sideLabelParts = [
@@ -760,11 +761,11 @@ export default function WorksGrid({
           Frames that tell more than just a story.
         </p>
       </div>
-
       <div className={`mt-10 md:mt-16 ${contentShellClass}`}>
         <div className="grid items-stretch gap-3 md:grid-cols-[auto_minmax(0,1fr)_auto] md:gap-6 lg:gap-8">
           <SideLabelMarquee flip />
           <div className="min-w-0 space-y-2">
+            <ReelSection />
             {workRows.map((row, index) => (
               <motion.div
                 key={`${row.type}-${index}`}
@@ -787,10 +788,10 @@ export default function WorksGrid({
 
       <div id="works-sticky-stop" className="h-px w-full" aria-hidden />
 
-      <section aria-labelledby="portfolio-breakdown-heading">
+      <section aria-labelledby="showreel-breakdown-heading">
         <div className="mt-16 text-center md:mt-20">
           <h2
-            id="portfolio-breakdown-heading"
+            id="showreel-breakdown-heading"
             className="font-display text-[42px] uppercase leading-none tracking-normal text-[var(--color-fg)]"
           >
             Case Studies Not Enough?
