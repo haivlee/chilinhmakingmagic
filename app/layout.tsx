@@ -8,7 +8,7 @@ import "./globals.css";
 const siteUrl = "https://chilinhmakingmagic.vercel.app";
 const siteName = "Chi-Linh (Krist) Tran";
 const siteDescription =
-  "Environment Generalist and Digital Matte Painter from Hanoi, Vietnam. Cinematic environments, matte painting and photoreal CG for film, commercials and game cinematics.";
+  "Environment Generalist and Digital Matte Painter from HoChiMinh City, Vietnam. Cinematic environments, matte painting and photoreal CG for film, commercials and game cinematics.";
 
 const personJsonLd = {
   "@context": "https://schema.org",
@@ -20,7 +20,7 @@ const personJsonLd = {
   email: "chilinh2708@gmail.com",
   address: {
     "@type": "PostalAddress",
-    addressLocality: "Hanoi",
+    addressLocality: "HoChiMinh City",
     addressCountry: "VN",
   },
   sameAs: [
@@ -126,7 +126,7 @@ export const metadata: Metadata = {
     "digital matte painter",
     "cinematic environments",
     "photoreal CG",
-    "Hanoi VFX artist",
+    "HoChiMinh City VFX artist",
     "Vietnam digital matte painter",
     "film visual effects",
     "commercial VFX",

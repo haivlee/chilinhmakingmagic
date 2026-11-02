@@ -283,16 +283,19 @@ export default function Hero() {
             <h1
               className="mx-auto block w-full min-w-0 whitespace-normal text-center font-display uppercase leading-[0.98] tracking-normal md:inline-block md:w-auto md:max-w-none md:whitespace-nowrap md:text-[length:var(--hero-name-size)] md:leading-[1.25]"
             >
-              <span className="md:hidden">
-                <span className="block whitespace-nowrap text-[min(18cqw,6rem)] leading-[1.25]">
-                  CHI-LINH
+              <span className="sr-only">Chi-Linh (Krist) Tran</span>
+              <span aria-hidden="true">
+                <span className="md:hidden">
+                  <span className="block whitespace-nowrap text-[min(18cqw,6rem)] leading-[1.25]">
+                    CHI-LINH
+                  </span>
+                  <span className="block whitespace-nowrap text-[min(13.5cqw,4rem)] leading-[1.25]">
+                    (KRIST) TRAN
+                  </span>
                 </span>
-                <span className="block whitespace-nowrap text-[min(13.5cqw,4rem)] leading-[1.25]">
-                  (KRIST) TRAN
+                <span className="hidden md:inline">
+                  <HeroNameText />
                 </span>
-              </span>
-              <span className="hidden md:inline">
-                <HeroNameText />
               </span>
             </h1>
           </div>

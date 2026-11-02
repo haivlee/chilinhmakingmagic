@@ -40,7 +40,7 @@ export default function About() {
             </h2>
             <div className="mt-6 space-y-5 font-sans text-[16px] font-light leading-[1.45] tracking-normal text-[var(--color-fg)]">
               <p>
-                I’m an Environment Generalist from Hanoi, Vietnam, 
+                I’m an Environment Generalist from HoChiMinh City, Vietnam,
                 with 8 years in the film and commercial industry. 
                 I began as a Compositor and Digital Matte Painter, 
                 and that foundation still shapes how I work: 
